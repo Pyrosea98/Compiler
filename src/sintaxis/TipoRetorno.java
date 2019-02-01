@@ -1,13 +1,22 @@
 package sintaxis;
 
 import lexico.Token;
-
+/**
+ * Clase que representa el tipo de retorno
+ * 
+ * @author Daniel Beltran Gomez
+ * @author Tatiana Salazar
+ * @author Juan Jose alvarez
+ *
+ */
 public class TipoRetorno {
-
+ 
+    //variables
 	private Token sinRetorno;
 	private TipoDato tipoDato;
 
 	/**
+	 * constructor sinRetorno
 	 * @param sinRetorno
 	 */
 	public TipoRetorno(Token sinRetorno) {
@@ -16,6 +25,7 @@ public class TipoRetorno {
 	}
 
 	/**
+	 * Constructor con Retorno
 	 * @param tipoDato
 	 */
 	public TipoRetorno(TipoDato tipoDato) {
