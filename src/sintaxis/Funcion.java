@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import lexico.Token;
 
 /**
- * Clase que representa la unidad de compilacion, (Raiz del arbol de analisis
- * lexico)
+ * Clase que representa una función
  * 
  * @author Daniel Beltran Gomez
  * @author Tatiana Salazar
