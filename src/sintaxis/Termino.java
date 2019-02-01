@@ -4,12 +4,10 @@ import lexico.Token;
 
 public class Termino {
 	private Token termino;
-	
+
 	public Termino(Token termino) {
 		this.setTermino(termino);
 	}
-	
-	
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -19,8 +17,6 @@ public class Termino {
 		return "Termino [termino=" + termino + "]";
 	}
 
-
-
 	public Token getTermino() {
 		return termino;
 	}
@@ -28,5 +24,4 @@ public class Termino {
 	public void setTermino(Token termino) {
 		this.termino = termino;
 	}
-
 }
