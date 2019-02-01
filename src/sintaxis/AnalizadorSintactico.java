@@ -4,9 +4,18 @@ import java.util.ArrayList;
 
 import lexico.Categoria;
 import lexico.Token;
-import sun.awt.image.ImageWatched.Link;
 
 public class AnalizadorSintactico {
+	
+	/**
+	 * Clase que representa el analizador sintactico
+	 * 
+	 * @author Daniel Beltran Gomez
+	 * @author Tatiana Salazar
+	 * @author Juan Jose alvarez
+	 *
+	 */
+	
 	private ArrayList<Token> tablaSimbolos;
 	private ArrayList<ErrorSintactico> tablaErrores;
 	private int posActual;
@@ -135,10 +144,10 @@ public class AnalizadorSintactico {
 	/**
 	 * Metodo que verifica si es un condicional
 	 * 
-	 * <"List"{@link Condicional}>::= pregunta parentesisIzquierdo
+	 * <{@link Condicional}>::= pregunta parentesisIzquierdo
 	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <"Lista"
-	 * {@lin Sentencia}> agrupadorDerecho [contrario agrupadorIzquierdo <"Lista"
-	 * {@lin Sentencia}> agrupadorDerecho]
+	 * {@link Sentencia}> agrupadorDerecho [contrario agrupadorIzquierdo <"Lista"
+	 * {@link Sentencia}> agrupadorDerecho]
 	 * 
 	 * @return condicional{@link Condicional}
 	 */
