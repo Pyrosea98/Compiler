@@ -3,8 +3,8 @@ package lexico;
 /**
  * Enumerador que permite la clasificación de categorías
  * 
- * @author Juan JosÃ© Ã�lvarez Orozco
- * @Author Daniel BeltrÃ¡n Gomez
+ * @author Juan Jose Alvarez Orozco
+ * @Author Daniel Beltran Gomez
  * @author Tatiana Salazar
  */
 public enum Categoria {
@@ -26,6 +26,8 @@ public enum Categoria {
 	OPERADOR_ARITMETICO,
 	AGRUPADOR_IZQUIERDO,
 	AGRUPADOR_DERECHO,
+	PARENTESIS_IZQUIERDO,
+	PARENTESIS_DERECHO,
 	IDENTIFICADOR,
 	PUNTO, 
 	SEPARADOR, 

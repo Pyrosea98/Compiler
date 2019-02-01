@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import lexico.Token;
 
 /**
- * Clase que representa la unidad de compilación, (Raíz del arbol de analisis
- * léxico)
+ * Clase que representa la unidad de compilacion, (Raiz del arbol de analisis
+ * lexico)
  * 
- * @author Daniel Beltrán Gómez
+ * @author Daniel Beltran Gomez
  * @author Tatiana Salazar
- * @author Juan José Álvarez
+ * @author Juan Jose alvarez
  *
  */
 public class Funcion {

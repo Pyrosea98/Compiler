@@ -22,19 +22,19 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que analiza el código sintácticamente
+	 * Metodo que analiza el codigo sintacticamente
 	 */
 	public void analizar() {
 		unidadCompilacion = esUnidadDeCompilacion();
 	}
 
 	/**
-	 * Método que verifica si es unidad de compilación
+	 * Metodo que verifica si es unidad de compilacion
 	 * 
 	 * <{@link UnidadCompilacion}>::= clase identificadorClase agrupadorDerecho
 	 * <{@link CuerpoClase}> agrupadorIzquierdo
 	 * 
-	 * @return unidadDeCompilación{@link UnidadCompilacion}
+	 * @return unidadDeCompilacion{@link UnidadCompilacion}
 	 */
 	private UnidadCompilacion esUnidadDeCompilacion() {
 
@@ -42,7 +42,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es cuerpo de clase
+	 * Metodo que verifica si es cuerpo de clase
 	 * 
 	 * <{@link CuerpoClase}>::= <{@link Funcion}> [<{@link CuerpoClase}>] |
 	 * <{@link DeclaracionVariable}> [<{@link CuerpoClase}>]
@@ -54,7 +54,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es una función
+	 * Metodo que verifica si es una funcion
 	 * 
 	 * <{@link Funcion}>::= [<{@link Visibilidad}>] <{@link TipoRetorno}> funapp
 	 * identificadorVariable parentesisIzquierdo <"Lista"{@link Parametro}>
@@ -68,7 +68,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es visibilidad
+	 * Metodo que verifica si es visibilidad
 	 * 
 	 * <{@link Visibilidad}>::= visible | oculto
 	 * 
@@ -82,7 +82,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un tipo de retorno
+	 * Metodo que verifica si es un tipo de retorno
 	 * 
 	 * <{@link TipoRetorno}>::= sr | [<{@link TipoDato}>]
 	 * 
@@ -93,7 +93,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un tipo de dato
+	 * Metodo que verifica si es un tipo de dato
 	 * 
 	 * <{@link TipoDato}>::= ntr | ltr | ltrarr | binary | pntdec
 	 * 
@@ -104,7 +104,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un parametro
+	 * Metodo que verifica si es un parametro
 	 * 
 	 * <"Lista"{@link Parametro}>::= <{@link Parametro}> ["|"
 	 * <"Lista"{@link Parametro}>] <{@link Parametro}>::= <{@link TipoDato}>
@@ -117,7 +117,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es una sentencia
+	 * Metodo que verifica si es una sentencia
 	 * 
 	 * <"List"{@link Sentencia}>::= <{@link Sentencia}>[<"List"{@link Sentencia}>]
 	 * <{@link Sentencia}>::= <{@link Condicional}> | <{@link Ciclo}> |
@@ -133,7 +133,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un condicional
+	 * Metodo que verifica si es un condicional
 	 * 
 	 * <"List"{@link Condicional}>::= pregunta parentesisIzquierdo
 	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <"Lista"
@@ -147,7 +147,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es una expresión lógica
+	 * Metodo que verifica si es una expresion logica
 	 * 
 	 * <{@link ExpresionLogica}>::= <{@link ExpresionRelacional}> [operadorLogico
 	 * <{@link ExpresionLogica}>] | parentesisIzquierdo <{@link ExpresionLogica}>
@@ -160,7 +160,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es una expresión relacional
+	 * Metodo que verifica si es una expresion relacional
 	 * 
 	 * <{@link ExpresionRelacional}>::= <{@link ExpresionAritmetica}>
 	 * [operadorRelacional <{@link ExpresionRelacional}>] | parentesisIzquierdo
@@ -173,7 +173,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es una expresión aritmetica
+	 * Metodo que verifica si es una expresion aritmetica
 	 * 
 	 * <{@link ExpresionAritmetica}>::= <{@link Termino}> [operadorAritmetico
 	 * <{@link ExpresionAritmetica}>] | parentesisIzquierdo
@@ -198,7 +198,7 @@ public class AnalizadorSintactico {
 				if (ex != null) {
 					return new ExpresionAritmetica(termino, operadorAritmetico, ex);
 				} else {
-					reportarError("Falta expresión aritmetica", tokenActual.getFila(), tokenActual.getColumna());
+					reportarError("Falta expresion aritmetica", tokenActual.getFila(), tokenActual.getColumna());
 				}
 
 			} else {
@@ -223,7 +223,7 @@ public class AnalizadorSintactico {
 						if (ex != null) {
 							return new ExpresionAritmetica(ex1, operadorAritmetico, ex);
 						} else {
-							reportarError("Falta expresión aritmetica", tokenActual.getFila(),
+							reportarError("Falta expresion aritmetica", tokenActual.getFila(),
 									tokenActual.getColumna());
 						}
 
@@ -234,7 +234,7 @@ public class AnalizadorSintactico {
 					reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna());
 				}
 			} else {
-				reportarError("Falta expresión aritmetica", tokenActual.getFila(), tokenActual.getColumna());
+				reportarError("Falta expresion aritmetica", tokenActual.getFila(), tokenActual.getColumna());
 			}
 		}
 
@@ -242,7 +242,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un término
+	 * Metodo que verifica si es un termino
 	 * 
 	 * <"Lista" {@link Termino}>::= <{@link Termino}> ["|" <"Lista"
 	 * {@link Termino}>] <{@link Termino}>::= identificadorVariable |
@@ -263,7 +263,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un valor de asignación
+	 * Metodo que verifica si es un valor de asignacion
 	 * 
 	 * <{@link ValorAsignacion}>::= entero | real | caracter | cadena | booleano
 	 * 
@@ -274,7 +274,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un llamado a una función
+	 * Metodo que verifica si es un llamado a una funcion
 	 * 
 	 * <{@link LlamadoFuncion}>::= identificadorFuncion parentesisIzquierdo <"Lista"
 	 * {@link Termino}> parentesisDerecho fin
@@ -286,7 +286,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que verifica si es un ciclo
+	 * Metodo que verifica si es un ciclo
 	 * 
 	 * <{@link Ciclo}>::= ciclo mientras parentesisIzquierdo
 	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <>
@@ -321,7 +321,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Metodo que verifica si es una comcatenación de cadena
+	 * Metodo que verifica si es una comcatenacion de cadena
 	 * 
 	 * <{@link ExpresionCadena}>::= <{@link} Termino}> [ (+)
 	 * <{@link ExpresionCadena}> ] fin
@@ -345,7 +345,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que identifica si es una declaración de campo
+	 * Metodo que identifica si es una declaracion de campo
 	 * 
 	 * <{@link DeclaracionVariable}>::= [<{@link Visibilidad}>] <{@link TipoDato}>
 	 * [arreglo] identificadorVariable fin
@@ -386,7 +386,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que identifica si es una asignación de variable
+	 * Metodo que identifica si es una asignacion de variable
 	 * 
 	 * <{@link AsignacionVariable}>::= identificadorVariable operadorAsignacion
 	 * <{@link ValorAsignacion}> fin
@@ -428,7 +428,7 @@ public class AnalizadorSintactico {
 								reportarError("Falta fin de setencia", tokenActual.getFila(), tokenActual.getColumna());
 							}
 						} else {
-							reportarError("Falta expresión aritmetica", tokenActual.getFila(),
+							reportarError("Falta expresion aritmetica", tokenActual.getFila(),
 									tokenActual.getColumna());
 						}
 					}
@@ -465,7 +465,7 @@ public class AnalizadorSintactico {
 							reportarError("Falta fin de setencia", tokenActual.getFila(), tokenActual.getColumna());
 						}
 					} else {
-						reportarError("Falta expresión aritmetica", tokenActual.getFila(), tokenActual.getColumna());
+						reportarError("Falta expresion aritmetica", tokenActual.getFila(), tokenActual.getColumna());
 					}
 				}
 			} else {
@@ -478,7 +478,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que identifica si es una sentencia de incremento
+	 * Metodo que identifica si es una sentencia de incremento
 	 * 
 	 * <{@link SentenciaIncremento}>::= identificadorVariable INC fin
 	 * 
@@ -489,7 +489,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método que identifica si es una sentencia de decremento
+	 * Metodo que identifica si es una sentencia de decremento
 	 * 
 	 * <{@link SentenciaDecremento}>::= identificadorVariable DEC fin
 	 * 
@@ -500,7 +500,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método para lista de identificadores
+	 * Metodo para lista de identificadores
 	 * 
 	 * @return
 	 */
@@ -537,10 +537,10 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método para volver a una instancia anterior del código
+	 * Metodo para volver a una instancia anterior del codigo
 	 * 
 	 * @param posInicial:
-	 *            posición donde se inició el análisis
+	 *            posicion donde se inicio el analisis
 	 */
 	public void hacerBactracking(int posInicial) {
 		posActual = posInicial;
@@ -548,7 +548,7 @@ public class AnalizadorSintactico {
 	}
 
 	/**
-	 * Método para reportar un error sintáctico
+	 * Metodo para reportar un error sintactico
 	 * 
 	 * @param mensaje:
 	 *            El mensaje con el error

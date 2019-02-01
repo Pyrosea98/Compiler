@@ -1,7 +1,7 @@
 package lexico;
 
 /**
- * Clase que pemite la abstracción de un token de lenguaje de programación
+ * Clase que pemite la abstraccion de un token de lenguaje de programacion
  * 
  * @author Juan JosÃ© Ã�lvarez Orozco
  * @Author Daniel BeltrÃ¡n Gomez

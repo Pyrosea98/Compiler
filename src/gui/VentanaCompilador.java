@@ -27,10 +27,10 @@ import controlador.ControladorVentana;
 import lexico.AnalizadorLexico;
 
 /**
- * Esta clase contiene la interfaz gráfica del compilador
+ * Esta clase contiene la interfaz grafica del compilador
  * 
- * @author Juan José Álvarez Orozco
- * @author Daniel Beltrán Gómez
+ * @author Juan Jose alvarez Orozco
+ * @author Daniel Beltran Gomez
  * @author Tatiana Salazar
  *
  */
@@ -54,7 +54,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 	private static final long serialVersionUID = 3622765441129668108L;
 
 	/**
-	 * Método constructor, acá se define el molde gráfico del compilador
+	 * Metodo constructor, aca se define el molde grafico del compilador
 	 */
 	public VentanaCompilador() {
 		setResizable(false);
@@ -68,7 +68,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 	}
 
 	/**
-	 * Inicializa los componentes gráficos de la interfaz y los organiza dentro de
+	 * Inicializa los componentes graficos de la interfaz y los organiza dentro de
 	 * llea
 	 */
 	private void init() {
@@ -96,7 +96,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		panelEditor.setBorder(new TitledBorder(null, "Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		tabbedPane.addTab("Compilador", null, panelEditor, null);
-		tabbedPane.addTab("Símbolos", null, panelSimbolos, null);
+		tabbedPane.addTab("Simbolos", null, panelSimbolos, null);
 		tabbedPane.addTab("Errores", null, panelErrores, null);
 
 		// Panel editor

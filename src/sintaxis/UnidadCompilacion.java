@@ -3,12 +3,12 @@ package sintaxis;
 import lexico.Token;
 
 /**
- * Clase que representa la unidad de compilación, (Raíz del arbol de analisis
- * léxico)
+ * Clase que representa la unidad de compilacion, (Raiz del arbol de analisis
+ * lexico)
  * 
- * @author Daniel Beltrán Gómez
+ * @author Daniel Beltran Gomez
  * @author Tatiana Salazar
- * @author Juan José Álvarez
+ * @author Juan Jose alvarez
  *
  */
 public class UnidadCompilacion {
@@ -21,7 +21,7 @@ public class UnidadCompilacion {
 	private Token agrupadorIzquierda;
 
 	/**
-	 * Constructor de la unidad de compilación
+	 * Constructor de la unidad de compilacion
 	 * 
 	 * @param palabraReservadaClase:
 	 *            Palabra reservada del lexico {Clase}

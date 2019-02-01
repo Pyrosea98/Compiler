@@ -3,9 +3,9 @@ package sintaxis;
 /**
  * Clase que representa el cuerpo de la clase, (Funciones y variables)
  * 
- * @author Daniel Beltrán Gómez
+ * @author Daniel Beltran Gomez
  * @author Tatiana Salazar
- * @author Juan José Álvarez
+ * @author Juan Jose alvarez
  *
  */
 public class CuerpoClase {
@@ -16,7 +16,7 @@ public class CuerpoClase {
 	private CuerpoClase cuerpoClase;
 
 	/**
-	 * Constructor con una función y posibilidad de agregar más cuerpos de clase
+	 * Constructor con una funcion y posibilidad de agregar mas cuerpos de clase
 	 * 
 	 * @param funcion
 	 * @param cuerpoClase
@@ -28,7 +28,7 @@ public class CuerpoClase {
 	}
 
 	/**
-	 * Constructor con una función y posibilidad de agregar más cuerpos de clase
+	 * Constructor con una funcion y posibilidad de agregar mas cuerpos de clase
 	 * 
 	 * @param declaracionVariable
 	 * @param cuerpoClase
@@ -40,7 +40,7 @@ public class CuerpoClase {
 	}
 
 	/**
-	 * Constructor con solo una función
+	 * Constructor con solo una funcion
 	 * 
 	 * @param funcion
 	 */
@@ -50,7 +50,7 @@ public class CuerpoClase {
 	}
 
 	/**
-	 * Constructor con solo una declaración de variable
+	 * Constructor con solo una declaracion de variable
 	 * 
 	 * @param declaracionVariable
 	 */

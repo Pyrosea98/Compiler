@@ -22,10 +22,10 @@ import lexico.AnalizadorLexico;
 import lexico.Token;
 
 /**
- * Esta clase se encarga de controlar la interfaz gráfica y sus eventos
+ * Esta clase se encarga de controlar la interfaz grafica y sus eventos
  * 
- * @author Juan José Álvarez Orozco
- * @author Daniel Beltrán Gómez
+ * @author Juan Jose alvarez Orozco
+ * @author Daniel Beltran Gomez
  * @author Tatiana Salazar
  *
  */
@@ -45,7 +45,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Método para poner números en el editor
+	 * Metodo para poner numeros en el editor
 	 */
 	private void organizar() {
 		ventanaCompilador.getLinea().setText("");
@@ -57,7 +57,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Método para vargar un archivo
+	 * Metodo para vargar un archivo
 	 */
 	public void cargar() {
 		String aux = "";
@@ -90,7 +90,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Método para guardar un archivo
+	 * Metodo para guardar un archivo
 	 */
 	public void guardar() {
 		FileWriter archivos;
@@ -137,7 +137,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Método para crear un nuevo archivo
+	 * Metodo para crear un nuevo archivo
 	 */
 	public void crear() {
 		ventanaCompilador.getEditor().setText("");
@@ -149,7 +149,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Método para la ejecución del compilador
+	 * Metodo para la ejecucion del compilador
 	 */
 	public void compilar() {
 		ventanaCompilador.setAnalizadorLexico(new AnalizadorLexico(ventanaCompilador.getEditor().getText()));
@@ -174,10 +174,10 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Método para agregar símbolos a la tabla de la interfaz
+	 * Metodo para agregar simbolos a la tabla de la interfaz
 	 */
 	private void agregarSimbolos() {
-		String[] fila_simbolo = { "Lexema", "Columna", "Fila", "Categoría" };
+		String[] fila_simbolo = { "Lexema", "Columna", "Fila", "Categoria" };
 		DefaultTableModel modelo_simbolo = new DefaultTableModel(fila_simbolo, 0);
 		for (Token token : ventanaCompilador.getAnalizadorLexico().getTablaSimbolos()) {
 
@@ -194,10 +194,10 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Método para agregar errores a la tabla de la interfaz
+	 * Metodo para agregar errores a la tabla de la interfaz
 	 */
 	private void agregarErrores() {
-		String[] fila_error = { "Lexema", "Columna", "Fila", "Categoría" };
+		String[] fila_error = { "Lexema", "Columna", "Fila", "Categoria" };
 		DefaultTableModel modelo_simbolo = new DefaultTableModel(fila_error, 0);
 		for (Token token : ventanaCompilador.getAnalizadorLexico().getTablaErrores()) {
 			Object[] columnas = { token.getLexema(), token.getColumna(), token.getFila(),
@@ -213,7 +213,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Cambiar tema de la aplicación
+	 * Cambiar tema de la aplicacion
 	 */
 	public void ponerClaro() {
 		ventanaCompilador.getEditor().setBackground(Color.WHITE);
@@ -227,7 +227,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Cambiar tema de la aplicación
+	 * Cambiar tema de la aplicacion
 	 */
 	public void ponerOscuro() {
 		ventanaCompilador.getEditor().setBackground(Color.BLACK);

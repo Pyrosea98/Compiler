@@ -1,12 +1,11 @@
-import gui.VentanaCompilador;
 import lexico.AnalizadorLexico;
 import sintaxis.AnalizadorSintactico;
 
 /**
  * Clase que permite la ejecución del programa de compilador
  * 
- * @author Juan JosÃ© Ã�lvarez Orozco
- * @Author Daniel BeltrÃ¡n Gomez
+ * @author Juan Jose Alvarez Orozco
+ * @Author Daniel Beltran Gomez
  * @author Tatiana Salazar
  */
 public class Aplicacion {

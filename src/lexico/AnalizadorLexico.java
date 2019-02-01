@@ -3,10 +3,10 @@ package lexico;
 import java.util.ArrayList;
 
 /**
- * Clase que permite realizar un anÃ¡lisis lÃ©xico en el codigo fuente
+ * Clase que permite realizar un analisis lexico en el codigo fuente
  * 
- * @author Juan JosÃ© Ã�lvarez Orozco
- * @Author Daniel BeltrÃ¡n Gomez
+ * @author Juan Jose Alvarez Orozco
+ * @Author Daniel Beltran Gomez
  * @author Tatiana Salazar
  */
 public class AnalizadorLexico {
@@ -33,7 +33,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que almacena las palabras reservadas
+	 * Metodo que almacena las palabras reservadas
 	 */
 	private void llenarPalabras() {
 		// palabra reservada para indicar una clase
@@ -41,7 +41,7 @@ public class AnalizadorLexico {
 		// palabras reservadas para visibilidad
 		reservedWords.add("visible");
 		reservedWords.add("oculto");
-		// palabra reservada para indicar un método
+		// palabra reservada para indicar un metodo
 		reservedWords.add("funaapp");
 		// palabras reservadas de tipos de dato o retorno
 		reservedWords.add("ltr");
@@ -74,7 +74,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo general para analizar con mÃ©todos de predicado
+	 * Metodo general para analizar con metodos de predicado
 	 */
 	public void analizar() {
 
@@ -132,10 +132,10 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para devolver el proceso de mÃ©todos de predicado
+	 * Metodo para devolver el proceso de metodos de predicado
 	 * 
 	 * @param posInicial
-	 *            posiciÃ³n hasta donde devolverse
+	 *            posicion hasta donde devolverse
 	 */
 	private void hacerBacktracking(int posInicial) {
 
@@ -144,7 +144,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que continÃºa con el siguiente caracter del cÃ³digo fuente
+	 * Metodo que continÃºa con el siguiente caracter del codigo fuente
 	 */
 	private void obtenerSiguienteCaracter() {
 
@@ -167,14 +167,14 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que almacena un simbolo del sistema
+	 * Metodo que almacena un simbolo del sistema
 	 * 
 	 * @param lexema
 	 *            el lexema que se almacenarÃ¡
 	 * @param fila
-	 *            fila donde iniciÃ³ el simbolo
+	 *            fila donde inicio el simbolo
 	 * @param columna
-	 *            columna donde se iniciÃ³ el simbolo
+	 *            columna donde se inicio el simbolo
 	 * @param categoria
 	 *            categorÃ­a del sÃ­mbolo
 	 */
@@ -185,14 +185,14 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que almacena un cÃ³digo desconocido del sistema
+	 * Metodo que almacena un codigo desconocido del sistema
 	 * 
 	 * @param lexema
 	 *            el lexema de error
 	 * @param fila
-	 *            la fila donde originÃ³ el error
+	 *            la fila donde origino el error
 	 * @param columna
-	 *            la columna donde se origiÃ³ el error
+	 *            la columna donde se origio el error
 	 */
 	private void reportarError(String lexema, int fila, int columna, int posInicial) {
 
@@ -203,7 +203,7 @@ public class AnalizadorLexico {
 	// METODOS PREDICADO
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado en cÃ³digo es un nÃºmero real
+	 * Metodo para determinar si lo ingresado en codigo es un nÃºmero real
 	 * 
 	 * @return
 	 */
@@ -242,7 +242,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado en cÃ³digo es una cadena de
+	 * Metodo para determinar si lo ingresado en codigo es una cadena de
 	 * caracteres
 	 * 
 	 * @return
@@ -292,7 +292,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado en cÃ³digo es un caracter
+	 * Metodo para determinar si lo ingresado en codigo es un caracter
 	 * 
 	 * @return
 	 */
@@ -346,7 +346,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado en cÃ³digo es un operador relacional
+	 * Metodo para determinar si lo ingresado en codigo es un operador relacional
 	 * 
 	 * @return
 	 */
@@ -460,7 +460,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado en cÃ³digo es un nÃºmero real
+	 * Metodo para determinar si lo ingresado en codigo es un nÃºmero real
 	 * 
 	 * @return
 	 */
@@ -497,7 +497,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Analiza si la parte de cÃ³digo analizado es un comentario de linea
+	 * Analiza si la parte de codigo analizado es un comentario de linea
 	 * 
 	 * @return
 	 */
@@ -531,7 +531,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Identifica si la parte de cÃ³digo analizado es comentario de bloque
+	 * Identifica si la parte de codigo analizado es comentario de bloque
 	 * 
 	 * @return
 	 */
@@ -579,7 +579,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado por cÃ³digo es un identificador de
+	 * Metodo para determinar si lo ingresado por codigo es un identificador de
 	 * variable
 	 * 
 	 * @return
@@ -625,7 +625,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado por cÃ³digo es un identificador de
+	 * Metodo para determinar si lo ingresado por codigo es un identificador de
 	 * metodo
 	 * 
 	 * @return
@@ -679,7 +679,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado por cÃ³digo es un identificador de
+	 * Metodo para determinar si lo ingresado por codigo es un identificador de
 	 * metodo
 	 * 
 	 * @return
@@ -711,7 +711,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Método para hallar identificador
+	 * Metodo para hallar identificador
 	 */
 	private boolean esIdentificador() {
 		String lexema = "";
@@ -742,7 +742,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si un identificador es palabra reservada
+	 * Metodo para determinar si un identificador es palabra reservada
 	 * 
 	 * @param lexema
 	 *            el identificador encontrado
@@ -785,8 +785,8 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo para determinar si lo ingresado en cÃ³digo es un operador de
-	 * asignaciÃ³n
+	 * Metodo para determinar si lo ingresado en codigo es un operador de
+	 * asignacion
 	 * 
 	 * @return
 	 */
@@ -839,12 +839,12 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que permite determinar si una fracciÃ³n del codigo es un agrupador
+	 * Metodo que permite determinar si una fraccion del codigo es un agrupador
 	 * derecho
 	 * 
 	 * @return
 	 */
-	private boolean esAgrupadorDerecho() {
+	private boolean esAgrupadorIzquierdo() {
 
 		String lexema = "";
 		int filaInicial = filaActual;
@@ -868,12 +868,12 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que permite determinar si una fracciÃ³n del codigo es un agrupador
+	 * Metodo que permite determinar si una fraccion del codigo es un agrupador
 	 * izquierdo
 	 * 
 	 * @return
 	 */
-	private boolean esAgrupadorIzquierdo() {
+	private boolean esAgrupadorDerecho() {
 
 		String lexema = "";
 		int filaInicial = filaActual;
@@ -896,7 +896,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que permite determinar si una fracciÃ³n del codigo es un parentesis
+	 * Metodo que permite determinar si una fraccion del codigo es un parentesis
 	 * izquierdoG
 	 * 
 	 * @return
@@ -913,7 +913,7 @@ public class AnalizadorLexico {
 			if (charActual == '{') {
 				lexema += charActual;
 				obtenerSiguienteCaracter();
-				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.AGRUPADOR_IZQUIERDO);
+				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.PARENTESIS_IZQUIERDO);
 				return true;
 			}
 		}
@@ -922,7 +922,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que permite determinar si una fracciÃ³n del codigo es un parentesis
+	 * Metodo que permite determinar si una fraccion del codigo es un parentesis
 	 * derecho
 	 * 
 	 * @return
@@ -939,7 +939,7 @@ public class AnalizadorLexico {
 			if (charActual == '}') {
 				lexema += charActual;
 				obtenerSiguienteCaracter();
-				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.AGRUPADOR_DERECHO);
+				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.PARENTESIS_DERECHO);
 				return true;
 			}
 		}
@@ -947,8 +947,8 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * MÃ©todo que permite determinar si una fracciÃ³n del codigo es un operador
-	 * lÃ³gico
+	 * Metodo que permite determinar si una fraccion del codigo es un operador
+	 * logico
 	 * 
 	 * @return
 	 */
@@ -1015,7 +1015,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Método para identificar si se está asignando un arreglo
+	 * Metodo para identificar si se esta asignando un arreglo
 	 * 
 	 * @return
 	 */
@@ -1075,7 +1075,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Método que identifica si el símbolo ingresado es un separador
+	 * Metodo que identifica si el simbolo ingresado es un separador
 	 * 
 	 * @return
 	 */
@@ -1090,7 +1090,7 @@ public class AnalizadorLexico {
 	}
 
 	/**
-	 * Método paara identificar si es un invocador a elementos de objetos
+	 * Metodo paara identificar si es un invocador a elementos de objetos
 	 * 
 	 * @return
 	 */
