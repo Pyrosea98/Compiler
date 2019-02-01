@@ -1,0 +1,34 @@
+package lexico;
+
+/**
+ * Enumerador que permite la clasificación de categorías
+ * 
+ * @author Juan JosÃ© Ã�lvarez Orozco
+ * @Author Daniel BeltrÃ¡n Gomez
+ * @author Tatiana Salazar
+ */
+public enum Categoria {
+
+	ENTERO,
+	DESCONOCIDO,
+    REAL,
+	CADENA_CARACTERES,
+	OPERADOR_RELACIONAL,
+    COMENTARIO_LINEA,
+    COMENTARIO_BLOQUE,
+	IDENTIFICADOR_VARIABLE,
+	IDENTIFICADOR_METODO,
+	IDENTIFICADOR_CLASE,
+	PALABRA_RESERVADA,
+	OPERADOR_ASIGNACION,
+	OPERADOR_LOGICO, 
+	CARACTER,
+	OPERADOR_ARITMETICO,
+	AGRUPADOR_IZQUIERDO,
+	AGRUPADOR_DERECHO,
+	IDENTIFICADOR,
+	PUNTO, 
+	SEPARADOR, 
+	ARREGLO,
+	FIN_CODIGO
+}
