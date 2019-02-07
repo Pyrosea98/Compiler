@@ -1,5 +1,7 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 /**
  * Clase que representa el cuerpo de la clase, (Funciones y variables)
  * 
@@ -126,6 +128,25 @@ public class CuerpoClase {
 		} else {
 			return "";
 		}
+	}
+
+	public DefaultMutableTreeNode getArbolVisual() {
+		
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
+		
+		if (funcion != null) {
+			nodo.add(funcion.getArbolVisual());
+			if (cuerpoClase != null) {
+				nodo.add(cuerpoClase.getArbolVisual());
+			}
+		} else if (declaracionVariable != null) {
+			nodo.add(declaracionVariable.getArbolVisual());
+			if (cuerpoClase != null) {
+				nodo.add(cuerpoClase.getArbolVisual());
+			}
+		}
+		
+		return null;
 	}
 
 }

@@ -2,6 +2,9 @@ package sintaxis;
 
 import java.util.ArrayList;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 import lexico.Token;
 
 public class DeclaracionVariable {
@@ -87,6 +90,10 @@ public class DeclaracionVariable {
 	 */
 	public void setListaId(ArrayList<Token> listaId) {
 		this.listaId = listaId;
+	}
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

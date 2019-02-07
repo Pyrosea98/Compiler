@@ -2,6 +2,9 @@ package sintaxis;
 
 import java.util.ArrayList;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 import lexico.Token;
 
 /**
@@ -159,7 +162,7 @@ public class Funcion {
 						+ agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho + ", palabraReservadaFuncion="
 						+ palabraReservadaFuncion + ", listaSentencias=" + listaSentencias + "]";
 			}
-		} else if (listaParametros == null) {
+		} else if (listaSentencias!= null) {
 			return "Funcion [tipoRetorno=" + tipoRetorno + ", identificadorFuncion=" + identificadorFuncion
 					+ ", parentesisIzquierdo=" + parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho
 					+ ", agrupadorIzquierdo=" + agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho
@@ -172,5 +175,51 @@ public class Funcion {
 					+ ", palabraReservadaFuncion=" + palabraReservadaFuncion + ", listaParametros=" + listaParametros
 					+ ", listaSentencias=" + listaSentencias + "]";
 		}
+	}
+
+//	private Visibilidad visibilidad;
+//	private TipoRetorno tipoRetorno;
+//	private Token identificadorFuncion;
+//	private Token parentesisIzquierdo;
+//	private Token parentesisDerecho;
+//	private Token agrupadorIzquierdo;
+//	private Token agrupadorDerecho;
+//	private Token palabraReservadaFuncion;
+//	private ArrayList<Parametro> listaParametros;
+//	private ArrayList<Sentencia> listaSentencias;
+	public DefaultMutableTreeNode getArbolVisual() {
+		
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Funcion");
+		
+		if (visibilidad != null) {
+			nodo.add(visibilidad.getArbolVisual());
+			nodo.add(tipoRetorno.getArbolVisual());
+			nodo.add(new DefaultMutableTreeNode(palabraReservadaFuncion.getLexema()));
+			nodo.add(new DefaultMutableTreeNode(identificadorFuncion.getLexema()));
+			nodo.add(new DefaultMutableTreeNode(parentesisIzquierdo.getLexema()));
+			if (listaParametros != null) {
+				for (Parametro parametro : listaParametros) {
+					nodo.add(parametro.getArbolVisual());
+				}
+				nodo.add(new DefaultMutableTreeNode(parentesisDerecho.getLexema()));
+				nodo.add(new DefaultMutableTreeNode(agrupadorIzquierdo.getLexema()));
+				for (Sentencia sentencia : listaSentencias) {
+					nodo.add(sentencia.getArbolVisual());
+				}
+				nodo.add(new DefaultMutableTreeNode(agrupadorDerecho.getLexema()));
+			} else {
+				nodo.add(new DefaultMutableTreeNode(parentesisDerecho.getLexema()));
+				nodo.add(new DefaultMutableTreeNode(agrupadorIzquierdo.getLexema()));
+				for (Sentencia sentencia : listaSentencias) {
+					nodo.add(sentencia.getArbolVisual());
+				}
+				nodo.add(new DefaultMutableTreeNode(agrupadorDerecho.getLexema()));
+			}
+		} else if (listaSentencias != null) {
+			
+		} else {
+			
+		}
+		return null;
 	}
 }

@@ -36,7 +36,7 @@ import lexico.AnalizadorLexico;
  */
 public class VentanaCompilador extends JFrame implements ActionListener, KeyListener {
 
-	private JPanel panelEditor, panelErrores, panelSimbolos, panel;
+	private JPanel panelEditor, panelErrores, panelSimbolos, panel,panelArbol;
 	private JTable errores, simbolos;
 	private JScrollPane scroll;
 	private JMenu mnEjecutar, mnArchivo, mnTema;
@@ -79,7 +79,6 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		tabbedPane.setBounds(0, 0, 1280, 720);
 		tabbedPane.setBorder(new TitledBorder(null, "Compilador", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(tabbedPane);
-		getContentPane().add(tabbedPane);
 
 		panelSimbolos = new JPanel(null);
 		panelSimbolos.setBounds(0, 0, 1280, 720);
@@ -94,10 +93,16 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		panelEditor = new JPanel(null);
 		panelEditor.setBounds(0, 0, 1280, 720);
 		panelEditor.setBorder(new TitledBorder(null, "Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-
+		
+		panelArbol = new JPanel(null);
+		panelSimbolos.setBounds(0, 0, 1280, 720);
+		panelSimbolos.setBorder(new TitledBorder(null, "Arbol", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		getContentPane().add(tabbedPane);
+		
 		tabbedPane.addTab("Compilador", null, panelEditor, null);
 		tabbedPane.addTab("Simbolos", null, panelSimbolos, null);
 		tabbedPane.addTab("Errores", null, panelErrores, null);
+		tabbedPane.addTab("Arbol", null, panelArbol, null);
 
 		// Panel editor
 		linea = new JEditorPane();
