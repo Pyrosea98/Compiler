@@ -155,42 +155,56 @@ public class Funcion {
 						+ agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho + ", palabraReservadaFuncion="
 						+ palabraReservadaFuncion + ", listaParametros=" + listaParametros + ", listaSentencias="
 						+ listaSentencias + "]";
-			} else {
+			} else if (listaSentencias != null) {
 				return "Funcion [visibilidad=" + visibilidad + ", tipoRetorno=" + tipoRetorno
 						+ ", identificadorFuncion=" + identificadorFuncion + ", parentesisIzquierdo="
 						+ parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho + ", agrupadorIzquierdo="
 						+ agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho + ", palabraReservadaFuncion="
 						+ palabraReservadaFuncion + ", listaSentencias=" + listaSentencias + "]";
+			} else {
+				return "Funcion [visibilidad=" + visibilidad + ", tipoRetorno=" + tipoRetorno
+						+ ", identificadorFuncion=" + identificadorFuncion + ", parentesisIzquierdo="
+						+ parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho + ", agrupadorIzquierdo="
+						+ agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho + ", palabraReservadaFuncion="
+						+ palabraReservadaFuncion + ", listaParametros=" + listaParametros + "]";
 			}
-		} else if (listaSentencias!= null) {
-			return "Funcion [tipoRetorno=" + tipoRetorno + ", identificadorFuncion=" + identificadorFuncion
-					+ ", parentesisIzquierdo=" + parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho
-					+ ", agrupadorIzquierdo=" + agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho
-					+ ", palabraReservadaFuncion=" + palabraReservadaFuncion + ", listaSentencias=" + listaSentencias
-					+ "]";
 		} else {
-			return "Funcion [tipoRetorno=" + tipoRetorno + ", identificadorFuncion=" + identificadorFuncion
-					+ ", parentesisIzquierdo=" + parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho
-					+ ", agrupadorIzquierdo=" + agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho
-					+ ", palabraReservadaFuncion=" + palabraReservadaFuncion + ", listaParametros=" + listaParametros
-					+ ", listaSentencias=" + listaSentencias + "]";
+			if (listaSentencias != null) {
+
+				return "Funcion [tipoRetorno=" + tipoRetorno + ", identificadorFuncion=" + identificadorFuncion
+						+ ", parentesisIzquierdo=" + parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho
+						+ ", agrupadorIzquierdo=" + agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho
+						+ ", palabraReservadaFuncion=" + palabraReservadaFuncion + ", listaSentencias="
+						+ listaSentencias + "]";
+			} else if (listaParametros != null) {
+				return "Funcion [tipoRetorno=" + tipoRetorno + ", identificadorFuncion=" + identificadorFuncion
+						+ ", parentesisIzquierdo=" + parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho
+						+ ", agrupadorIzquierdo=" + agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho
+						+ ", palabraReservadaFuncion=" + palabraReservadaFuncion + ", listaParametros="
+						+ listaParametros + "]";
+			} else {
+				return "Funcion [tipoRetorno=" + tipoRetorno + ", identificadorFuncion=" + identificadorFuncion
+						+ ", parentesisIzquierdo=" + parentesisIzquierdo + ", parentesisDerecho=" + parentesisDerecho
+						+ ", agrupadorIzquierdo=" + agrupadorIzquierdo + ", agrupadorDerecho=" + agrupadorDerecho
+						+ ", palabraReservadaFuncion=" + palabraReservadaFuncion + "]";
+			}
 		}
 	}
 
-//	private Visibilidad visibilidad;
-//	private TipoRetorno tipoRetorno;
-//	private Token identificadorFuncion;
-//	private Token parentesisIzquierdo;
-//	private Token parentesisDerecho;
-//	private Token agrupadorIzquierdo;
-//	private Token agrupadorDerecho;
-//	private Token palabraReservadaFuncion;
-//	private ArrayList<Parametro> listaParametros;
-//	private ArrayList<Sentencia> listaSentencias;
+	// private Visibilidad visibilidad;
+	// private TipoRetorno tipoRetorno;
+	// private Token identificadorFuncion;
+	// private Token parentesisIzquierdo;
+	// private Token parentesisDerecho;
+	// private Token agrupadorIzquierdo;
+	// private Token agrupadorDerecho;
+	// private Token palabraReservadaFuncion;
+	// private ArrayList<Parametro> listaParametros;
+	// private ArrayList<Sentencia> listaSentencias;
 	public DefaultMutableTreeNode getArbolVisual() {
-		
+
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Funcion");
-		
+
 		if (visibilidad != null) {
 			nodo.add(visibilidad.getArbolVisual());
 			nodo.add(tipoRetorno.getArbolVisual());
@@ -207,7 +221,7 @@ public class Funcion {
 					nodo.add(sentencia.getArbolVisual());
 				}
 				nodo.add(new DefaultMutableTreeNode(agrupadorDerecho.getLexema()));
-			} else {
+			} else if (listaSentencias != null) {
 				nodo.add(new DefaultMutableTreeNode(parentesisDerecho.getLexema()));
 				nodo.add(new DefaultMutableTreeNode(agrupadorIzquierdo.getLexema()));
 				for (Sentencia sentencia : listaSentencias) {
@@ -215,11 +229,15 @@ public class Funcion {
 				}
 				nodo.add(new DefaultMutableTreeNode(agrupadorDerecho.getLexema()));
 			}
-		} else if (listaSentencias != null) {
-			
 		} else {
-			
+			if (listaSentencias != null) {
+				
+			} else if (listaParametros != null) {
+
+			} else {
+
+			}
+			return null;
 		}
-		return null;
 	}
 }
