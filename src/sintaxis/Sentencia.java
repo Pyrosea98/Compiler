@@ -1,5 +1,8 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 /**
  * Clase que representa la sentencia
  * 
@@ -302,6 +305,11 @@ public class Sentencia {
 		} else {
 			return null;
 		}
+	}
+
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

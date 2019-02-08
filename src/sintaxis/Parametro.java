@@ -1,5 +1,8 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 import lexico.Token;
 
 /**
@@ -101,6 +104,11 @@ public class Parametro {
 			return "Parametro [tipoDato=" + tipoDato + ", idenVariable=" + idenVariable + "]";
 		}
 
+	}
+
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

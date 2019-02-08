@@ -1,5 +1,8 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 import lexico.Token;
 
 
@@ -32,5 +35,10 @@ public class Visibilidad {
 	@Override
 	public String toString() {
 		return "Visibilidad [visibilidad=" + visibilidad + "]";
+	}
+
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,5 +1,8 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 import lexico.Token;
 /**
  * Clase que representa el tipo de retorno
@@ -46,6 +49,11 @@ public class TipoRetorno {
 			return "TipoRetorno[tipoDato=" + tipoDato + "]";
 		}
 
+	}
+
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
