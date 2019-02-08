@@ -20,8 +20,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import controlador.ControladorVentana;
 import lexico.AnalizadorLexico;
@@ -186,6 +189,9 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		// Panel simbolos
 		simbolos = new JTable();
 		panelSimbolos.setLayout(new BorderLayout());
+		
+		//Panel Árbol
+		JTree arbol = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode("Árbol Visual")));
 	}
 
 	@Override

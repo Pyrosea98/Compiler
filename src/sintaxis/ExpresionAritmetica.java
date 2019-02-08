@@ -1,8 +1,10 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import lexico.Token;
 
-public class ExpresionAritmetica {
+public class ExpresionAritmetica extends Expresion{
 	
 	private Termino termino;
 	private Token operadorAritmetico;
@@ -94,6 +96,12 @@ public class ExpresionAritmetica {
 	 */
 	public void setEx2(ExpresionAritmetica ex2) {
 		this.ex2 = ex2;
+	}
+
+	@Override
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

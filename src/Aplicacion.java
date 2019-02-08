@@ -26,7 +26,6 @@ public class Aplicacion {
     	System.out.println(as.getTablaSimbolos());
     	System.out.println(as.getTablaErrores());
     	
-
     }
 
 }
