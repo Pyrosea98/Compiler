@@ -3,7 +3,6 @@ package sintaxis;
 import java.util.ArrayList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 
 import lexico.Token;
 
