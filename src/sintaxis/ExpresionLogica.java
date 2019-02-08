@@ -1,5 +1,8 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 import lexico.Token;
 
 public class ExpresionLogica {
@@ -75,6 +78,11 @@ public class ExpresionLogica {
 			return "ExpresionLogica [expresionRelacional=" + expresionRelacional + ", operadorLogico=" + operadorLogico
 					+ ", expresionLogica=" + expresionLogica;
 		}
+		return null;
+	}
+
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
