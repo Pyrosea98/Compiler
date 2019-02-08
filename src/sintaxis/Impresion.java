@@ -1,5 +1,13 @@
 package sintaxis;
 
-public class Impresion {
+import javax.swing.tree.DefaultMutableTreeNode;
+
+public class Impresion extends Sentencia{
+
+	@Override
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

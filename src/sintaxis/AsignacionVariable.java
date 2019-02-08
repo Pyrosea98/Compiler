@@ -1,8 +1,10 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import lexico.Token;
 
-public class AsignacionVariable {
+public class AsignacionVariable extends Sentencia {
 
 	private Token tipo, identificadorVariable, asignador, identificador, finSentencia;
 	private ExpresionAritmetica ex;
@@ -163,6 +165,12 @@ public class AsignacionVariable {
 	 */
 	public void setEx(ExpresionAritmetica ex) {
 		this.ex = ex;
+	}
+
+	@Override
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

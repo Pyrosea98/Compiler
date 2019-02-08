@@ -2,9 +2,11 @@ package sintaxis;
 
 import java.util.ArrayList;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import lexico.Token;
 
-public class LlamadoFuncion {
+public class LlamadoFuncion extends Sentencia{
 	
 	/**
 	 * Clase que representa el llamado a una funcion
@@ -41,5 +43,11 @@ public class LlamadoFuncion {
 		return "LlamadoFuncion [identificadorFuncion=" + identificadorFuncion + ", parentesisIzquierdo="
 				+ parentesisIzquierdo + ", listaArgumentos=" + listaArgumentos + ", parentesisDerecho="
 				+ parentesisDerecho + "]";
+	}
+
+	@Override
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
