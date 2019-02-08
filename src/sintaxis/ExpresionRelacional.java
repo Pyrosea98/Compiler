@@ -1,5 +1,7 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import lexico.Token;
 
 /**
@@ -10,7 +12,7 @@ import lexico.Token;
  * @author Juan Jose alvarez
  *
  */
-public class ExpresionRelacional {
+public class ExpresionRelacional extends Expresion{
 
 	private ExpresionAritmetica expAritmetica;
 	private Token opRelacional;
@@ -152,6 +154,12 @@ public class ExpresionRelacional {
 			return null;
 		}
 
+	}
+
+	@Override
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

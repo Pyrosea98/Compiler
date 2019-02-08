@@ -7,7 +7,7 @@ import lexico.Token;
 public class AsignacionVariable extends Sentencia {
 
 	private Token tipo, identificadorVariable, asignador, identificador, finSentencia;
-	private ExpresionAritmetica ex;
+	private Expresion ex;
 
 	/**
 	 * @param tipo
@@ -32,7 +32,7 @@ public class AsignacionVariable extends Sentencia {
 	 * @param ex
 	 * @param finSentencia
 	 */
-	public AsignacionVariable(Token tipo, Token identificadorVariable, Token asignador, ExpresionAritmetica ex, Token finSentencia) {
+	public AsignacionVariable(Token tipo, Token identificadorVariable, Token asignador, Expresion ex, Token finSentencia) {
 		super();
 		this.tipo = tipo;
 		this.identificadorVariable = identificadorVariable;
@@ -78,6 +78,7 @@ public class AsignacionVariable extends Sentencia {
 	 */
 	@Override
 	public String toString() {
+		
 		return "Asignacion [tipo=" + tipo + ", identificadorVariable=" + identificadorVariable + ", asignador="
 				+ asignador + ", identificador=" + identificador + ", finSentencia=" + finSentencia + ", ex=" + ex
 				+ "]";
@@ -156,14 +157,14 @@ public class AsignacionVariable extends Sentencia {
 	/**
 	 * @return the ex
 	 */
-	public ExpresionAritmetica getEx() {
+	public Expresion getEx() {
 		return ex;
 	}
 
 	/**
 	 * @param ex the ex to set
 	 */
-	public void setEx(ExpresionAritmetica ex) {
+	public void setEx(Expresion ex) {
 		this.ex = ex;
 	}
 
