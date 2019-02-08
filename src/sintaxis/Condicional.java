@@ -2,9 +2,11 @@ package sintaxis;
 
 import java.util.ArrayList;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import lexico.Token;
 
-public class Condicional {
+public class Condicional extends Sentencia{
 	
 	private Token pregunta;
 	private Token parentesisIzquierdo;
@@ -88,5 +90,11 @@ public class Condicional {
 					+ ", agrupadorIzquierdo=" + agrupadorIzquierdo + ", listaSentencia=" + listaSentencia
 					+ ", agrupadorDerecho=" + agrupadorDerecho;
 		}
+	}
+
+	@Override
+	public DefaultMutableTreeNode getArbolVisual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -130,22 +130,53 @@ public class CuerpoClase {
 		}
 	}
 
-	public DefaultMutableTreeNode getArbolVisual() {
-		
+	/**
+	 * Método para un nodo proviniente de otro cuerpo de clase
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode node) {
+
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
-		
+
 		if (funcion != null) {
 			nodo.add(funcion.getArbolVisual());
 			if (cuerpoClase != null) {
-				nodo.add(cuerpoClase.getArbolVisual());
+				nodo.add(cuerpoClase.getArbolVisual(nodo));
 			}
 		} else if (declaracionVariable != null) {
 			nodo.add(declaracionVariable.getArbolVisual());
 			if (cuerpoClase != null) {
-				nodo.add(cuerpoClase.getArbolVisual());
+				nodo.add(cuerpoClase.getArbolVisual(nodo));
 			}
 		}
-		
+
+		return null;
+	}
+
+	/**
+	 * Método para retornar de otro cuerpo de clase
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public DefaultMutableTreeNode getArbolVisual() {
+
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
+
+		if (funcion != null) {
+			nodo.add(funcion.getArbolVisual());
+			if (cuerpoClase != null) {
+				nodo.add(cuerpoClase.getArbolVisual(nodo));
+			}
+		} else if (declaracionVariable != null) {
+			nodo.add(declaracionVariable.getArbolVisual());
+			if (cuerpoClase != null) {
+				nodo.add(cuerpoClase.getArbolVisual(nodo));
+			}
+		}
+
 		return null;
 	}
 

@@ -1,5 +1,13 @@
 package sintaxis;
 
-public class Ciclo {
+import javax.swing.tree.DefaultMutableTreeNode;
+
+public class Ciclo extends Sentencia {
+
+	@Override
+	public DefaultMutableTreeNode getArbolVisual() {
+		
+		return null;
+	}
 
 }

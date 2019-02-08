@@ -130,6 +130,10 @@ public class UnidadCompilacion {
 	}
 
 	
+	/**
+	 * Método para retornar el nodo de un arbol visual
+	 * @return
+	 */
 	public DefaultMutableTreeNode getArbolVisual() {
 		
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
