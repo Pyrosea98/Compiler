@@ -1,10 +1,10 @@
 package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import javax.swing.tree.MutableTreeNode;
-=======
->>>>>>> 4c99e2be335f55547cc5cc8451f756a791ecfa5d
+//=======
+//>>>>>>> 4c99e2be335f55547cc5cc8451f756a791ecfa5d
 
 import lexico.Token;
 
@@ -84,10 +84,6 @@ public class ExpresionLogica extends Expresion{
 		return null;
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
->>>>>>> 4c99e2be335f55547cc5cc8451f756a791ecfa5d
 	public DefaultMutableTreeNode getArbolVisual() {
 		// TODO Auto-generated method stub
 		return null;
