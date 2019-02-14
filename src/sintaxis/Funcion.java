@@ -15,7 +15,7 @@ import lexico.Token;
  */
 public class Funcion {
 
-	private Visibilidad visibilidad;
+	private Token visibilidad;
 	private TipoRetorno tipoRetorno;
 	private Token identificadorFuncion;
 	private Token palabraReservadaFuncion;
@@ -32,7 +32,7 @@ public class Funcion {
 	 * @param listaParametros
 	 * @param listaSentencias
 	 */
-	public Funcion(Visibilidad visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
+	public Funcion(Token visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
 			Token palabraReservadaFuncion, ArrayList<Parametro> listaParametros, ArrayList<Sentencia> listaSentencias) {
 		super();
 		this.visibilidad = visibilidad;
@@ -79,6 +79,30 @@ public class Funcion {
 		this.listaSentencias = listaSentencias;
 	}
 
+	/**
+	 * @param visibilidad
+	 * @param tipoRetorno
+	 * @param identificadorFuncion
+	 * @param palabraReservadaFuncion
+	 * @param listaParametros
+	 */
+	public Funcion(Token visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
+			ArrayList<Parametro> listaParametros,Token palabraReservadaFuncion) {
+		super();
+		this.visibilidad = visibilidad;
+		this.tipoRetorno = tipoRetorno;
+		this.identificadorFuncion = identificadorFuncion;
+		this.palabraReservadaFuncion = palabraReservadaFuncion;
+		this.listaParametros = listaParametros;
+	}
+
+	/**
+	 * 
+	 * @param tipoRetorno
+	 * @param identificadorFuncion
+	 * @param listaParametros
+	 * @param palabraReservadaFuncion
+	 */
 	public Funcion(TipoRetorno tipoRetorno, Token identificadorFuncion, ArrayList<Parametro> listaParametros,
 			Token palabraReservadaFuncion) {
 		super();
@@ -97,7 +121,7 @@ public class Funcion {
 	 * @param palabraReservadaFuncion
 	 * @param listaSentencias
 	 */
-	public Funcion(Visibilidad visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
+	public Funcion(Token visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
 			Token palabraReservadaFuncion, ArrayList<Sentencia> listaSentencias) {
 		super();
 		this.visibilidad = visibilidad;
@@ -115,7 +139,7 @@ public class Funcion {
 	 * @param identificadorFuncion
 	 * @param palabraReservadaFuncion
 	 */
-	public Funcion(Visibilidad visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
+	public Funcion(Token visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
 			Token palabraReservadaFuncion) {
 		super();
 		this.visibilidad = visibilidad;
@@ -201,7 +225,7 @@ public class Funcion {
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Funcion");
 
 		if (visibilidad != null) {
-			nodo.add(visibilidad.getArbolVisual());
+			nodo.add(new DefaultMutableTreeNode(visibilidad.getLexema()));
 		}
 		nodo.add(tipoRetorno.getArbolVisual());
 		nodo.add(new DefaultMutableTreeNode(palabraReservadaFuncion.getLexema()));

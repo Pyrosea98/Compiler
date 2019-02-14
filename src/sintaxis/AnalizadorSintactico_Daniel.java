@@ -6,7 +6,7 @@ import lexico.Categoria;
 import lexico.Token;
 
 public class AnalizadorSintactico_Daniel {
-	
+
 	/**
 	 * Clase que representa el analizador sintactico
 	 * 
@@ -15,7 +15,7 @@ public class AnalizadorSintactico_Daniel {
 	 * @author Juan Jose alvarez
 	 *
 	 */
-	
+
 	private ArrayList<Token> tablaSimbolos;
 	private ArrayList<ErrorSintactico> tablaErrores;
 	private int posActual;
@@ -59,20 +59,150 @@ public class AnalizadorSintactico_Daniel {
 	 * @return cuerpoClase{@link CuerpoClase}
 	 */
 	private CuerpoClase esCuerpoClase() {
+
+		Funcion funcion = esFuncion();
+		if (funcion != null) {
+			obtenerSiguienteToken();
+			CuerpoClase cuerpoClase = esCuerpoClase();
+			if (cuerpoClase != null) {
+				return new CuerpoClase(funcion, cuerpoClase);
+			} else {
+				return new CuerpoClase(funcion);
+			}
+		} else {
+			obtenerSiguienteToken();
+			DeclaracionVariable declaracionVariable = esDeclaracionVariable();
+			if (declaracionVariable != null) {
+				obtenerSiguienteToken();
+				CuerpoClase cuerpoClase1 = esCuerpoClase();
+				if (cuerpoClase1 != null) {
+					return new CuerpoClase(declaracionVariable, cuerpoClase1);
+				} else {
+					return new CuerpoClase(declaracionVariable);
+				}
+			}
+		}
 		return null;
 	}
 
 	/**
 	 * Metodo que verifica si es una funcion
 	 * 
-	 * <{@link Funcion}>::= [<{@link Visibilidad}>] <{@link TipoRetorno}> funapp
-	 * identificadorVariable parentesisIzquierdo <"Lista"{@link Parametro}>
+	 * <{@link Funcion}>::= visibilidad <{@link TipoRetorno}> funapp
+	 * identificadorFuncion parentesisIzquierdo <"Lista"{@link Parametro}>
 	 * parentesisDerecho agrupadorIzquierdo <"Lista" {@link Sentencia}>
 	 * agrupadorDerecho
 	 * 
 	 * @return funcion{@link Funcion}
 	 */
 	private Funcion esFuncion() {
+
+		if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA
+				&& (tokenActual.getLexema().equals("visible") || tokenActual.getLexema().equals("oculto"))) {
+			Token visibilidad = tokenActual;
+			obtenerSiguienteToken();
+			TipoRetorno tipoRetorno = esTipoRetorno();
+			if (tipoRetorno != null) {
+				obtenerSiguienteToken();
+				if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA
+						&& tokenActual.getLexema().equals("funapp")) {
+					Token funcion = tokenActual;
+					obtenerSiguienteToken();
+					if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR_METODO) {
+						Token idFuncion = tokenActual;
+						obtenerSiguienteToken();
+						if (tokenActual.getCategoria() == Categoria.PARENTESIS_IZQUIERDO) {
+							obtenerSiguienteToken();
+							ArrayList<Parametro> listaParametros = esListaParametros();
+							if (listaParametros != null) {
+								obtenerSiguienteToken();
+								if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+									obtenerSiguienteToken();
+									if (tokenActual.getCategoria() == Categoria.AGRUPADOR_IZQUIERDO) {
+										ArrayList<Sentencia> listaSentencias = esListaSentencias();
+										if (listaSentencias != null) {
+											obtenerSiguienteToken();
+											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
+												return new Funcion(visibilidad, tipoRetorno, idFuncion, funcion,
+														listaParametros, listaSentencias);
+											}
+										} else {
+											obtenerSiguienteToken();
+											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
+												return new Funcion(visibilidad, tipoRetorno, idFuncion, listaParametros,
+														funcion);
+											} else {
+												reportarError("Falta Agrupador Derecho", tokenActual.getFila(),
+														tokenActual.getColumna());
+											}
+										}
+									} else {
+										reportarError("Falta Agrupador Izquierdo", tokenActual.getFila(),
+												tokenActual.getColumna());
+									}
+								}
+							} else {
+								ArrayList<Sentencia> listaSentencias = esListaSentencias();
+								if (listaSentencias != null) {
+									obtenerSiguienteToken();
+									if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+										obtenerSiguienteToken();
+										if (tokenActual.getCategoria() == Categoria.AGRUPADOR_IZQUIERDO) {
+											obtenerSiguienteToken();
+											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
+												return new Funcion(visibilidad, tipoRetorno, idFuncion, funcion, listaSentencias);
+											} else {
+												reportarError("Falta Agrupador Derecho", tokenActual.getFila(),
+														tokenActual.getColumna());
+											}
+										} else {
+											reportarError("Falta Agrupador Izquierdo", tokenActual.getFila(),
+													tokenActual.getColumna());
+										}
+									} else {
+										reportarError("Falta Parentesis Derecho", tokenActual.getFila(),
+												tokenActual.getColumna());
+									}
+								} else {
+									obtenerSiguienteToken();
+									if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+										obtenerSiguienteToken();
+										if (tokenActual.getCategoria() == Categoria.AGRUPADOR_IZQUIERDO) {
+											obtenerSiguienteToken();
+											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
+												return new Funcion(visibilidad, tipoRetorno, idFuncion, funcion);
+											} else {
+												reportarError("Falta Agrupador Derecho", tokenActual.getFila(),
+														tokenActual.getColumna());
+											}
+										} else {
+											reportarError("Falta Agrupador Izquierdo", tokenActual.getFila(),
+													tokenActual.getColumna());
+										}
+									} else {
+										reportarError("Falta Parentesis Derecho", tokenActual.getFila(),
+												tokenActual.getColumna());
+									}
+								}
+							}
+						}
+
+					}
+				}
+			}
+		} else {
+
+		}
+		return null;
+	}
+
+	private ArrayList<Sentencia> esListaSentencias() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private ArrayList<Parametro> esListaParametros() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -108,7 +238,7 @@ public class AnalizadorSintactico_Daniel {
 	 * 
 	 * @return tipoDato{@link TipoDato}
 	 */
-	private TipoDato esTipoDato() {
+	private Token esTipoDato() {
 		return null;
 	}
 
@@ -298,7 +428,8 @@ public class AnalizadorSintactico_Daniel {
 	 * Metodo que verifica si es un ciclo
 	 * 
 	 * <{@link Ciclo}>::= ciclo mientras parentesisIzquierdo
-	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <"List"{@link Sentencia}> agrupadorDerecho
+	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo
+	 * <"List"{@link Sentencia}> agrupadorDerecho
 	 * 
 	 * @return ciclo{@link Ciclo}
 	 */
