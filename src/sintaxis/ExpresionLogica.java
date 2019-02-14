@@ -1,25 +1,23 @@
 package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 import lexico.Token;
 
-public class ExpresionLogica extends Expresion {
+/**
+ * Clase que representa la expresion logica
+ * 
+ * @author Daniel Beltran Gomez
+ * @author Tatiana Salazar
+ * @author Juan Jose alvarez
+ *
+ */
 
-	/**
-	 * Clase que representa la expresion logica
-	 * 
-	 * @author Daniel Beltran Gomez
-	 * @author Tatiana Salazar
-	 * @author Juan Jose alvarez
-	 *
-	 */
+public class ExpresionLogica extends Expresion {
 
 	private ExpresionRelacional expresionRelacional;
 	private Token operadorLogico;
 	private ExpresionLogica expresionLogica;
 	private Token parentesisIzquierdo;
-	private ExpresionLogica expresionLogica0;
 	private Token parentesisDerecho;
 
 	/**
@@ -52,41 +50,56 @@ public class ExpresionLogica extends Expresion {
 	 * 
 	 * @param expresionRelacional
 	 * @param parentesisIzquierdo
-	 * @param expresionLogica0
 	 * @param parentesisDerecho
 	 */
 	public ExpresionLogica(ExpresionRelacional expresionRelacional, Token parentesisIzquierdo,
-			ExpresionLogica expresionLogica0, Token parentesisDerecho) {
+			Token parentesisDerecho) {
 		super();
 		this.expresionRelacional = expresionRelacional;
 		this.parentesisIzquierdo = parentesisIzquierdo;
-		this.expresionLogica0 = expresionLogica0;
 		this.parentesisDerecho = parentesisDerecho;
 	}
 
-	@Override
-	public String toString() {
-
-		if (parentesisIzquierdo != null) {
-			if (operadorLogico != null) {
-				return "ExpresionLogica [expresionRelacional=" + expresionRelacional + ", operadorLogico="
-						+ operadorLogico + ", expresionLogica=" + expresionLogica + ", parentesisIzquierdo="
-						+ parentesisIzquierdo + ", expresionLogica0=" + expresionLogica0 + ", parentesisDerecho="
-						+ parentesisDerecho + "]";
-			} else {
-				return "ExpresionLogica [expresionRelacional=" + expresionRelacional + ", parentesisIzquierdo="
-						+ parentesisIzquierdo + ", expresionLogica0=" + expresionLogica0 + ", parentesisDerecho="
-						+ parentesisDerecho + "]";
-			}
-		} else if (operadorLogico != null) {
-			return "ExpresionLogica [expresionRelacional=" + expresionRelacional + ", operadorLogico=" + operadorLogico
-					+ ", expresionLogica=" + expresionLogica;
-		}
-		return null;
-	}
-
+	/**
+	 * Metodo del arbol grafico
+	 */
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Logica");
+
+		if (expresionRelacional != null) {
+			nodo.add(expresionRelacional.getArbolVisual());
+			if (operadorLogico != null) {
+				nodo.add(new DefaultMutableTreeNode(operadorLogico.getLexema()));
+				if (expresionLogica != null) {
+					nodo.add(expresionLogica.getArbolVisual(nodo));
+				}
+			}
+		} else {
+			if (expresionLogica != null) {
+				nodo.add(expresionLogica.getArbolVisual(nodo));
+			}
+		}
+		return nodo;
+	}
+	
+	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode node) {
+
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Logica");
+
+		if (expresionRelacional != null) {
+			nodo.add(expresionRelacional.getArbolVisual());
+			if (operadorLogico != null) {
+				nodo.add(new DefaultMutableTreeNode(operadorLogico.getLexema()));
+				if (expresionLogica != null) {
+					nodo.add(expresionLogica.getArbolVisual(node));
+				}
+			}
+		} else {
+			if (expresionLogica != null) {
+				nodo.add(expresionLogica.getArbolVisual(node));
+			}
+		}
+		return nodo;
 	}
 }

@@ -4,105 +4,116 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
 
-public class ExpresionAritmetica extends Expresion{
-	
+/**
+ * Clase que representa la expresion Aritmetica
+ * 
+ * @author Daniel Beltran Gomez
+ * @author Tatiana Salazar
+ * @author Juan Jose alvarez
+ *
+ */
+public class ExpresionAritmetica extends Expresion {
+
 	private Termino termino;
 	private Token operadorAritmetico;
-	private ExpresionAritmetica ex1, ex2;
-	
+	private Token parentesisIzq;
+	private Token parentesisDer;
+	private ExpresionAritmetica expArt;
+
+	/**
+	 * Constructor que identifica la expresion Aritmetica conformada solo por un
+	 * Termino
+	 * 
+	 * <ExpresionAritmetica>::= <Termino>
+	 * 
+	 * @param termino
+	 */
 	public ExpresionAritmetica(Termino termino) {
 		this.termino = termino;
 	}
-	
-	public ExpresionAritmetica(Termino termino, Token operadorAritmetico, ExpresionAritmetica ex1) {
+
+	/**
+	 * Constructor que identifica la expresion aritmetica conformada por un termino,
+	 * una expresion aritmetica y un operador aritmetico
+	 * 
+	 * <ExpresionAritmetica>::= <Termino> operadorAritmetico <ExpresionAritmetica>
+	 * 
+	 * @param termino
+	 * @param operadorAritmetico
+	 * @param expArt
+	 */
+	public ExpresionAritmetica(Termino termino, Token operadorAritmetico, ExpresionAritmetica expArt) {
 		this.termino = termino;
 		this.operadorAritmetico = operadorAritmetico;
-		this.ex1 = ex1;
-	}
-	
-	
-	public ExpresionAritmetica(ExpresionAritmetica ex1) {
-		this.ex1 = ex1;
-	}
-	
-	public ExpresionAritmetica(ExpresionAritmetica ex2, Token operadorAritmetico, ExpresionAritmetica ex1) {
-		this.ex1 = ex1;
-		this.operadorAritmetico = operadorAritmetico;
-		this.ex2 = ex2;
-	}
-	
-	
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "ExpresionAritmetica [termino=" + termino + ", operadorAritmetico=" + operadorAritmetico + ", ex1=" + ex1
-				+ ", ex2=" + ex2 + "]";
+		this.expArt = expArt;
 	}
 
 	/**
-	 * @return the termino
+	 * Constructor que identifica la expresion aritmetica conformada por un termino,
+	 * una expresion aritmetica y un operador aritmetico. Con diferencia a la
+	 * anterior, esta tiene el termino entre parentesis
+	 * 
+	 * <ExpresionAritmetica>::= (<Termino>) operadorAritmetico <ExpresionAritmetica>
+	 * 
+	 * @param parentesisIzq
+	 * @param termino
+	 * @param parentesisDer
+	 * @param operadorAritmetico
+	 * @param expArt
 	 */
-	public Termino getTermino() {
-		return termino;
-	}
-
-	/**
-	 * @param termino the termino to set
-	 */
-	public void setTermino(Termino termino) {
+	public ExpresionAritmetica(Token parentesisIzq, Termino termino, Token parentesisDer, ExpresionAritmetica expArt,
+			Token operadorAritmetico) {
+		this.parentesisIzq = parentesisIzq;
 		this.termino = termino;
-	}
-
-	/**
-	 * @return the operadorAritmetico
-	 */
-	public Token getOperadorAritmetico() {
-		return operadorAritmetico;
-	}
-
-	/**
-	 * @param operadorAritmetico the operadorAritmetico to set
-	 */
-	public void setOperadorAritmetico(Token operadorAritmetico) {
+		this.parentesisDer = parentesisDer;
 		this.operadorAritmetico = operadorAritmetico;
+		this.expArt = expArt;
 	}
 
 	/**
-	 * @return the ex1
+	 * Constructor que identifica la expresion aritmetica conformada por una
+	 * expresion aritmetica encerrada entre parentesis
+	 * 
+	 * <ExpresionAritmetica>::= (<ExpresionAritmetica>)
+	 * 
+	 * @param parentesisIzq
+	 * @param expArt
+	 * @param parentesisDer
 	 */
-	public ExpresionAritmetica getEx1() {
-		return ex1;
-	}
-
-	/**
-	 * @param ex1 the ex1 to set
-	 */
-	public void setEx1(ExpresionAritmetica ex1) {
-		this.ex1 = ex1;
-	}
-
-	/**
-	 * @return the ex2
-	 */
-	public ExpresionAritmetica getEx2() {
-		return ex2;
-	}
-
-	/**
-	 * @param ex2 the ex2 to set
-	 */
-	public void setEx2(ExpresionAritmetica ex2) {
-		this.ex2 = ex2;
+	public ExpresionAritmetica(Token parentesisIzq, ExpresionAritmetica expArt, Token parentesisDer) {
+		super();
+		this.parentesisIzq = parentesisIzq;
+		this.expArt = expArt;
+		this.parentesisDer = parentesisDer;
 	}
 
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Aritmetica");
+
+		nodo.add(termino.getArbolVisual());
+		if (operadorAritmetico != null) {
+			nodo.add(new DefaultMutableTreeNode(operadorAritmetico.getLexema()));
+			if (expArt != null) {
+				nodo.add(expArt.getArbolVisual(nodo));
+			}
+		}
+		return nodo;
 	}
-	
-	
+
+	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode node) {
+
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Aritmetica");
+
+		nodo.add(termino.getArbolVisual());
+		if (operadorAritmetico != null) {
+			nodo.add(new DefaultMutableTreeNode(operadorAritmetico.getLexema()));
+			if (expArt != null) {
+				nodo.add(expArt.getArbolVisual(nodo));
+			}
+		}
+		return nodo;
+	}
+
 }

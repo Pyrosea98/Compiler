@@ -1,6 +1,16 @@
 package sintaxis;
 
+import javax.swing.tree.DefaultMutableTreeNode;
 import lexico.Token;
+
+/**
+ * Clase que representa un termino
+ * 
+ * @author Daniel Beltran Gomez
+ * @author Tatiana Salazar
+ * @author Juan Jose alvarez
+ *
+ */
 
 public class Termino {
 	private Token termino;
@@ -23,5 +33,15 @@ public class Termino {
 
 	public void setTermino(Token termino) {
 		this.termino = termino;
+	}
+
+	/**
+	 * Arbol de Termino
+	 * @return nodo
+	 */
+	public DefaultMutableTreeNode getArbolVisual() {
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Termino");
+		nodo.add(new DefaultMutableTreeNode(termino.getLexema()));
+		return nodo;
 	}
 }
