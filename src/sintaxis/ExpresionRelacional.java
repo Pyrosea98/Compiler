@@ -2,6 +2,8 @@ package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import lexico.Token;
+
 /**
  * Clase que representa la sentencia
  * 
@@ -13,6 +15,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class ExpresionRelacional extends Expresion {
 
 	private ExpresionAritmetica expAritmetica;
+	private Token opRelacional;
 	private ExpresionRelacional expRelacional;
 
 	/**
@@ -32,22 +35,11 @@ public class ExpresionRelacional extends Expresion {
 	 * @param opRelacional
 	 * @param expRelacional
 	 */
-	public ExpresionRelacional(ExpresionAritmetica expAritmetica, ExpresionRelacional expRelacional) {
+	public ExpresionRelacional(ExpresionAritmetica expAritmetica, Token opRelacional,
+			ExpresionRelacional expRelacional) {
 		super();
 		this.expAritmetica = expAritmetica;
-		this.expRelacional = expRelacional;
-	}
-
-	/**
-	 * Constructor con parentesis izquierdo , parentesis derecho y expresion
-	 * relacional
-	 * 
-	 * @param parentesisIzq
-	 * @param parentesisDer
-	 * @param expRelacional
-	 */
-	public ExpresionRelacional(ExpresionRelacional expRelacional) {
-		super();
+		this.opRelacional = opRelacional;
 		this.expRelacional = expRelacional;
 	}
 
@@ -56,28 +48,69 @@ public class ExpresionRelacional extends Expresion {
 
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Relacional");
 
-		if (expAritmetica != null) {
-			nodo.add(expAritmetica.getArbolVisual());
-			if (expRelacional != null) {
-				nodo.add(expRelacional.getArbolVisual(nodo));
-			}
-		} else {
+		nodo.add(expAritmetica.getArbolVisual());
+		if (expRelacional != null) {
+			nodo.add(new DefaultMutableTreeNode(opRelacional.getLexema()));
 			nodo.add(expRelacional.getArbolVisual(nodo));
 		}
+
 		return nodo;
 	}
 
 	private DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode nodo) {
 
-		if (expAritmetica != null) {
-			nodo.add(expAritmetica.getArbolVisual());
-			if (expRelacional != null) {
-				nodo.add(expRelacional.getArbolVisual(nodo));
-			}
-		} else {
+		nodo.add(expAritmetica.getArbolVisual());
+		if (expRelacional != null) {
+			nodo.add(new DefaultMutableTreeNode(opRelacional.getLexema()));
 			nodo.add(expRelacional.getArbolVisual(nodo));
 		}
+
 		return nodo;
+	}
+
+	/**
+	 * @return the expAritmetica
+	 */
+	public ExpresionAritmetica getExpAritmetica() {
+		return expAritmetica;
+	}
+
+	/**
+	 * @param expAritmetica
+	 *            the expAritmetica to set
+	 */
+	public void setExpAritmetica(ExpresionAritmetica expAritmetica) {
+		this.expAritmetica = expAritmetica;
+	}
+
+	/**
+	 * @return the opRelacional
+	 */
+	public Token getOpRelacional() {
+		return opRelacional;
+	}
+
+	/**
+	 * @param opRelacional
+	 *            the opRelacional to set
+	 */
+	public void setOpRelacional(Token opRelacional) {
+		this.opRelacional = opRelacional;
+	}
+
+	/**
+	 * @return the expRelacional
+	 */
+	public ExpresionRelacional getExpRelacional() {
+		return expRelacional;
+	}
+
+	/**
+	 * @param expRelacional
+	 *            the expRelacional to set
+	 */
+	public void setExpRelacional(ExpresionRelacional expRelacional) {
+		this.expRelacional = expRelacional;
 	}
 
 }

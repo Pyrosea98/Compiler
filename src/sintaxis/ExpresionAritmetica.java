@@ -2,6 +2,8 @@ package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import lexico.Token;
+
 /**
  * Clase que representa la expresion Aritmetica
  * 
@@ -13,6 +15,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class ExpresionAritmetica extends Expresion {
 
 	private Termino termino;
+	private Token opAritmetico;
 	private ExpresionAritmetica expArt;
 
 	/**
@@ -37,8 +40,9 @@ public class ExpresionAritmetica extends Expresion {
 	 * @param operadorAritmetico
 	 * @param expArt
 	 */
-	public ExpresionAritmetica(Termino termino, ExpresionAritmetica expArt) {
+	public ExpresionAritmetica(Termino termino, Token opAritmetico, ExpresionAritmetica expArt) {
 		this.termino = termino;
+		this.opAritmetico = opAritmetico;
 		this.expArt = expArt;
 	}
 
@@ -52,6 +56,7 @@ public class ExpresionAritmetica extends Expresion {
 
 		nodo.add(termino.getArbolVisual());
 		if (expArt != null) {
+			nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
 			nodo.add(expArt.getArbolVisual(nodo));
 		}
 		return nodo;
@@ -61,9 +66,54 @@ public class ExpresionAritmetica extends Expresion {
 		
 		nodo.add(termino.getArbolVisual());
 		if (expArt != null) {
+			nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
 			nodo.add(expArt.getArbolVisual(nodo));
 		}
 		return nodo;
 	}
+
+	/**
+	 * @return the termino
+	 */
+	public Termino getTermino() {
+		return termino;
+	}
+
+	/**
+	 * @param termino the termino to set
+	 */
+	public void setTermino(Termino termino) {
+		this.termino = termino;
+	}
+
+	/**
+	 * @return the opAritmetico
+	 */
+	public Token getOpAritmetico() {
+		return opAritmetico;
+	}
+
+	/**
+	 * @param opAritmetico the opAritmetico to set
+	 */
+	public void setOpAritmetico(Token opAritmetico) {
+		this.opAritmetico = opAritmetico;
+	}
+
+	/**
+	 * @return the expArt
+	 */
+	public ExpresionAritmetica getExpArt() {
+		return expArt;
+	}
+
+	/**
+	 * @param expArt the expArt to set
+	 */
+	public void setExpArt(ExpresionAritmetica expArt) {
+		this.expArt = expArt;
+	}
+	
+	
 
 }

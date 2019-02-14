@@ -2,6 +2,8 @@ package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import lexico.Token;
+
 /**
  * Clase que representa la expresion logica
  * 
@@ -14,6 +16,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class ExpresionLogica extends Expresion {
 
 	private ExpresionRelacional expresionRelacional;
+	private Token opLogico;
 	private ExpresionLogica expresionLogica;
 
 	/**
@@ -33,9 +36,10 @@ public class ExpresionLogica extends Expresion {
 	 * @param operadorLogico
 	 * @param expresionLogica
 	 */
-	public ExpresionLogica(ExpresionRelacional expresionRelacional, ExpresionLogica expresionLogica) {
+	public ExpresionLogica(ExpresionRelacional expresionRelacional, Token opLogico, ExpresionLogica expresionLogica) {
 		super();
 		this.expresionRelacional = expresionRelacional;
+		this.opLogico = opLogico;
 		this.expresionLogica = expresionLogica;
 	}
 
@@ -48,6 +52,7 @@ public class ExpresionLogica extends Expresion {
 
 		nodo.add(expresionRelacional.getArbolVisual());
 		if (expresionLogica != null) {
+			nodo.add(new DefaultMutableTreeNode(opLogico.getLexema()));
 			nodo.add(expresionLogica.getArbolVisual(nodo));
 		}
 
