@@ -18,9 +18,7 @@ public class UnidadCompilacion {
 	// Variables
 	private Token palabraReservadaClase;
 	private Token identificadorClase;
-	private Token agrupadorDerecho;
 	private CuerpoClase cuerpoClase;
-	private Token agrupadorIzquierda;
 
 	/**
 	 * Constructor de la unidad de compilacion
@@ -32,14 +30,12 @@ public class UnidadCompilacion {
 	 * @param cuerpoClase
 	 * @param agrupadorIzquierda
 	 */
-	public UnidadCompilacion(Token palabraReservadaClase, Token identificadorClase, Token agrupadorDerecho,
-			CuerpoClase cuerpoClase, Token agrupadorIzquierda) {
+	public UnidadCompilacion(Token palabraReservadaClase, Token identificadorClase,
+			CuerpoClase cuerpoClase) {
 		super();
 		this.palabraReservadaClase = palabraReservadaClase;
 		this.identificadorClase = identificadorClase;
-		this.agrupadorDerecho = agrupadorDerecho;
 		this.cuerpoClase = cuerpoClase;
-		this.agrupadorIzquierda = agrupadorIzquierda;
 	}
 
 	/**
@@ -72,20 +68,6 @@ public class UnidadCompilacion {
 		this.identificadorClase = identificadorClase;
 	}
 
-	/**
-	 * @return the agrupadorDerecho
-	 */
-	public Token getAgrupadorDerecho() {
-		return agrupadorDerecho;
-	}
-
-	/**
-	 * @param agrupadorDerecho
-	 *            the agrupadorDerecho to set
-	 */
-	public void setAgrupadorDerecho(Token agrupadorDerecho) {
-		this.agrupadorDerecho = agrupadorDerecho;
-	}
 
 	/**
 	 * @return the cuerpoClase
@@ -102,21 +84,6 @@ public class UnidadCompilacion {
 		this.cuerpoClase = cuerpoClase;
 	}
 
-	/**
-	 * @return the agrupadorIzquierda
-	 */
-	public Token getAgrupadorIzquierda() {
-		return agrupadorIzquierda;
-	}
-
-	/**
-	 * @param agrupadorIzquierda
-	 *            the agrupadorIzquierda to set
-	 */
-	public void setAgrupadorIzquierda(Token agrupadorIzquierda) {
-		this.agrupadorIzquierda = agrupadorIzquierda;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -125,10 +92,8 @@ public class UnidadCompilacion {
 	@Override
 	public String toString() {
 		return "UnidadCompilacion [palabraReservadaClase=" + palabraReservadaClase + ", identificadorClase="
-				+ identificadorClase + ", agrupadorDerecho=" + agrupadorDerecho + ", cuerpoClase=" + cuerpoClase
-				+ ", agrupadorIzquierda=" + agrupadorIzquierda + "]";
+				+ identificadorClase + ", cuerpoClase=" + cuerpoClase + "]";
 	}
-
 	
 	/**
 	 * Método para retornar el nodo de un arbol visual

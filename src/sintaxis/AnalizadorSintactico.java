@@ -298,7 +298,7 @@ public class AnalizadorSintactico {
 	 * Metodo que verifica si es un ciclo
 	 * 
 	 * <{@link Ciclo}>::= ciclo mientras parentesisIzquierdo
-	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <>
+	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <"List"{@link Sentencia}>
 	 * 
 	 * @return ciclo{@link Ciclo}
 	 */
@@ -398,7 +398,7 @@ public class AnalizadorSintactico {
 	 * Metodo que identifica si es una asignacion de variable
 	 * 
 	 * <{@link AsignacionVariable}>::= identificadorVariable operadorAsignacion
-	 * <{@link ValorAsignacion}> fin
+	 * <{@link Expresion}> fin
 	 * 
 	 * @return declaracionnCampo{@link DeclaracionVariable}
 	 */
