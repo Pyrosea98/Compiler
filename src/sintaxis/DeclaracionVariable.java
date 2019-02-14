@@ -6,9 +6,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
 
-public class DeclaracionVariable extends Sentencia{
+public class DeclaracionVariable extends Sentencia {
 
-	private Token visibilidad, tipo, fin;
+	private Token visibilidad, tipo;
 	private ArrayList<Token> listaId;
 
 	/**
@@ -17,11 +17,10 @@ public class DeclaracionVariable extends Sentencia{
 	 * @param fin
 	 * @param listaId
 	 */
-	public DeclaracionVariable(Token visibilidad, Token tipo, Token fin, ArrayList<Token> listaId) {
+	public DeclaracionVariable(Token visibilidad, Token tipo, ArrayList<Token> listaId) {
 		super();
 		this.visibilidad = visibilidad;
 		this.tipo = tipo;
-		this.fin = fin;
 		this.listaId = listaId;
 	}
 
@@ -30,10 +29,9 @@ public class DeclaracionVariable extends Sentencia{
 	 * @param fin
 	 * @param listaId
 	 */
-	public DeclaracionVariable(Token tipo, Token fin, ArrayList<Token> listaId) {
+	public DeclaracionVariable(Token tipo, ArrayList<Token> listaId) {
 		super();
 		this.tipo = tipo;
-		this.fin = fin;
 		this.listaId = listaId;
 	}
 
@@ -46,11 +44,11 @@ public class DeclaracionVariable extends Sentencia{
 	public String toString() {
 
 		if (visibilidad != null) {
-			return "DeclaracionCampo [visibilidad=" + visibilidad + ", tipo=" + tipo + ", fin=" + fin + ", listaId="
-					+ listaId + "]";
+			return "DeclaracionCampo [visibilidad=" + visibilidad + ", tipo=" + tipo + ", fin=" + ", listaId=" + listaId
+					+ "]";
 
 		} else {
-			return "DeclaracionCampo [tipo=" + tipo + ", fin=" + fin + ", listaId=" + listaId + "]";
+			return "DeclaracionCampo [tipo=" + tipo + ", fin=" + ", listaId=" + listaId + "]";
 		}
 
 	}
@@ -86,21 +84,6 @@ public class DeclaracionVariable extends Sentencia{
 	}
 
 	/**
-	 * @return the fin
-	 */
-	public Token getFin() {
-		return fin;
-	}
-
-	/**
-	 * @param fin
-	 *            the fin to set
-	 */
-	public void setFin(Token fin) {
-		this.fin = fin;
-	}
-
-	/**
 	 * @return the listaId
 	 */
 	public ArrayList<Token> getListaId() {
@@ -122,16 +105,13 @@ public class DeclaracionVariable extends Sentencia{
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Declaracion variable");
 
 		if (visibilidad != null) {
-
 			nodo.add(new DefaultMutableTreeNode(visibilidad.getLexema()));
-
 		}
 
 		nodo.add(new DefaultMutableTreeNode(tipo.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(fin.getLexema()));
 
 		for (Token id : listaId) {
 			nodo.add(new DefaultMutableTreeNode(id.getLexema()));

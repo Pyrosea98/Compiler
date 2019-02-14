@@ -190,7 +190,7 @@ public class Funcion {
 		return "Funcion [tipoRetorno=" + tipoRetorno + ", identificadorFuncion=" + identificadorFuncion
 				+ ", palabraReservadaFuncion=" + palabraReservadaFuncion + "]";
 	}
-	
+
 	/**
 	 * Metodo que permite crear el arbol grafico de una funcion
 	 * 
@@ -202,43 +202,21 @@ public class Funcion {
 
 		if (visibilidad != null) {
 			nodo.add(visibilidad.getArbolVisual());
-			nodo.add(tipoRetorno.getArbolVisual());
-			nodo.add(new DefaultMutableTreeNode(identificadorFuncion.getLexema()));
-			nodo.add(new DefaultMutableTreeNode(palabraReservadaFuncion.getLexema()));
-			if (listaParametros != null) {
-				for (Parametro parametro : listaParametros) {
-					nodo.add(parametro.getArbolVisual());
-				}				
-				if (listaSentencias != null) {
-					for (Sentencia sentencia : listaSentencias) {
-						nodo.add(sentencia.getArbolVisual());
-					}
-				}
-			} else {
-				if (listaSentencias != null) {
-					for (Sentencia sentencia : listaSentencias) {
-						nodo.add(sentencia.getArbolVisual());
-					}
-				}
+		}
+		nodo.add(tipoRetorno.getArbolVisual());
+		nodo.add(new DefaultMutableTreeNode(palabraReservadaFuncion.getLexema()));
+		nodo.add(new DefaultMutableTreeNode(identificadorFuncion.getLexema()));
+		if (listaParametros != null) {
+			for (Parametro parametro : listaParametros) {
+				nodo.add(parametro.getArbolVisual());
 			}
-		} else {
-			if (listaParametros != null) {
-				for (Parametro parametro : listaParametros) {
-					nodo.add(parametro.getArbolVisual());
-				}	
-				if (listaSentencias != null) {
-					for (Sentencia sentencia : listaSentencias) {
-						nodo.add(sentencia.getArbolVisual());
-					}
-				}
-			} else {
-				if (listaSentencias != null) {
-					for (Sentencia sentencia : listaSentencias) {
-						nodo.add(sentencia.getArbolVisual());
-					}
-				}
+		}
+		if (listaSentencias != null) {
+			for (Sentencia sentencia : listaSentencias) {
+				nodo.add(sentencia.getArbolVisual());
 			}
 		}
 		return nodo;
 	}
+
 }

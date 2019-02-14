@@ -136,9 +136,7 @@ public class CuerpoClase {
 	 * @param node
 	 * @return
 	 */
-	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode node) {
-
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
+	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode nodo) {
 
 		if (funcion != null) {
 			nodo.add(funcion.getArbolVisual());
@@ -152,7 +150,7 @@ public class CuerpoClase {
 			}
 		}
 
-		return null;
+		return nodo;
 	}
 
 	/**
@@ -163,7 +161,7 @@ public class CuerpoClase {
 	 */
 	public DefaultMutableTreeNode getArbolVisual() {
 
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Cuerpo clase");
 
 		if (funcion != null) {
 			nodo.add(funcion.getArbolVisual());
@@ -177,7 +175,7 @@ public class CuerpoClase {
 			}
 		}
 
-		return null;
+		return nodo;
 	}
 
 }
