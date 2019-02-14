@@ -4,12 +4,20 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
 
+/**
+ * Clase que representa la expresion Cadena
+ * 
+ * @author Daniel Beltran Gomez
+ * @author Tatiana Salazar
+ * @author Juan Jose alvarez
+ *
+ */
 public class Lectura extends Sentencia {
 
 	private Token idVariable;
 	private Token opAsignacion;
 	private Token leer;
-	private TipoDato tipoDato;
+	private Token tipoDato;
 	private Token fin;
 
 	/**
@@ -23,7 +31,7 @@ public class Lectura extends Sentencia {
 	 * @param parentesisDer
 	 * @param fin
 	 */
-	public Lectura(Token idVariable, Token opAsignacion, Token leer, TipoDato tipoDato, Token fin) {
+	public Lectura(Token idVariable, Token opAsignacion, Token leer, Token tipoDato, Token fin) {
 		super();
 		this.idVariable = idVariable;
 		this.opAsignacion = opAsignacion;
@@ -39,11 +47,8 @@ public class Lectura extends Sentencia {
 		nodo.add(new DefaultMutableTreeNode(idVariable.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(opAsignacion.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(leer.getLexema()));
-		if (tipoDato != null) {
-			nodo.add(tipoDato.getArbolVisual());
-			nodo.add(new DefaultMutableTreeNode(fin.getLexema()));
-		}
+		nodo.add(new DefaultMutableTreeNode(tipoDato.getLexema()));
+		nodo.add(new DefaultMutableTreeNode(fin.getLexema()));
 		return nodo;
 	}
-
 }
