@@ -3,6 +3,7 @@ package sintaxis;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+
 /**
  * Clase que representa el tipo de retorno
  * 
@@ -12,47 +13,30 @@ import lexico.Token;
  *
  */
 public class TipoRetorno {
- 
-    //variables
+
 	private Token sinRetorno;
-	private TipoDato tipoDato;
+	private Token tipoDato;
 
 	/**
-	 * constructor sinRetorno
-	 * @param sinRetorno
-	 */
-	public TipoRetorno(Token sinRetorno) {
-		super();
-		this.sinRetorno = sinRetorno;
-	}
-
-	/**
-	 * Constructor con Retorno
+	 * Constructor sin retorno o con tipo de dato
+	 * 
 	 * @param tipoDato
+	 * 
 	 */
-	public TipoRetorno(TipoDato tipoDato) {
+	public TipoRetorno(Token tipoDato) {
 		super();
 		this.tipoDato = tipoDato;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		if (sinRetorno != null) {
-			return "TipoRetorno [sinRetorno=" + sinRetorno + "]";
-		} else {
-			return "TipoRetorno[tipoDato=" + tipoDato + "]";
-		}
-
-	}
-
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Tipo Retorno");
+
+		if (sinRetorno != null) {
+			nodo.add(new DefaultMutableTreeNode(sinRetorno.getLexema()));
+		} else {
+			nodo.add(new DefaultMutableTreeNode(tipoDato.getLexema()));
+		}
+		return nodo;
+	}
 }
