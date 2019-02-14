@@ -6,7 +6,7 @@ import lexico.Categoria;
 import lexico.Token;
 
 public class AnalizadorSintactico_Tatiana {
-	
+
 	/**
 	 * Clase que representa el analizador sintactico
 	 * 
@@ -15,7 +15,7 @@ public class AnalizadorSintactico_Tatiana {
 	 * @author Juan Jose alvarez
 	 *
 	 */
-	
+
 	private ArrayList<Token> tablaSimbolos;
 	private ArrayList<ErrorSintactico> tablaErrores;
 	private int posActual;
@@ -122,6 +122,31 @@ public class AnalizadorSintactico_Tatiana {
 	 * @return parametro{@link Parametro}
 	 */
 	private Parametro esParametro() {
+
+		Parametro parametro;
+		int posInicial = posActual;
+
+		if (esTipoDato()) {
+			Token tipoDato = tokenActual;
+			obtenerSiguienteToken();
+			if (tokenActual.getLexema().equals("$arr()")) {
+				Token arr = tokenActual;
+				obtenerSiguienteToken();
+
+				if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+					parametro = new Parametro(tipoDato, arr, tokenActual);
+					return parametro;
+				} else {
+					reportarError("Debe seguir identificador de variable", tokenActual.getFila(),
+							tokenActual.getColumna());
+				}
+			} else if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+				parametro = new Parametro(tipoDato, tokenActual);
+				return parametro;
+			} else {
+				hacerBactracking(posInicial);
+			}
+		}
 		return null;
 	}
 
@@ -132,12 +157,56 @@ public class AnalizadorSintactico_Tatiana {
 	 * <{@link Sentencia}>::= <{@link Condicional}> | <{@link Ciclo}> |
 	 * <{@link Retorno}> | <{@link Impresion}> | <{@link Lectura}> |
 	 * <{@link DeclaracionVariable}> | <{@link AsignacionVariable}> |
-	 * <{@link ExpresionIncremento}> | <{@link ExpresionDecremento}>|
+	 * <{@link SentenciaIncremento}> | <{@link SentenciDecremento}>|
 	 * <{@link LlamadoFuncion}>
 	 * 
 	 * @return sentencia{@link Sentencia}
 	 */
 	private Sentencia esSentencia() {
+		Sentencia sentencia;
+		sentencia = esCondicional();
+
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esCiclo();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esRetorno();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esImpresion();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esLectura();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esDeclaracionVariable();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esAsignacionVariable();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esSentenciaIncremento();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		sentencia = esSentenciaDecremento();
+		if (sentencia != null) {
+			return sentencia;
+		}
+
+		sentencia = esLlamadoFuncion();
+		if (sentencia != null) {
+			return sentencia;
+		}
+
 		return null;
 	}
 
@@ -152,6 +221,93 @@ public class AnalizadorSintactico_Tatiana {
 	 * @return condicional{@link Condicional}
 	 */
 	private Condicional esCondicional() {
+
+		Condicional condicional;
+
+		if (tokenActual.getLexema().equals("pregunta")) {
+			Token pregunta = tokenActual;
+			obtenerSiguienteToken();
+			if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
+				obtenerSiguienteToken();
+				ExpresionLogica expresionLogica = esExpresionLogica();
+
+				if (expresionLogica != null) {
+					obtenerSiguienteToken();
+
+					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+						obtenerSiguienteToken();
+
+						if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
+							obtenerSiguienteToken();
+
+							ArrayList<Sentencia> listaSentencia = esListaSentencia(); // lista sentencia
+
+							if (listaSentencia != null) {
+								obtenerSiguienteToken();
+
+								if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
+									obtenerSiguienteToken();
+
+									if (tokenActual.getLexema().equals("contrario")) {
+										Token contrario = tokenActual;
+										obtenerSiguienteToken();
+										if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
+											obtenerSiguienteToken();
+
+											ArrayList<Sentencia> listaSentencia1 = esListaSentencia(); // lista
+																										// sentencia
+
+											if (listaSentencia1 != null) {
+												obtenerSiguienteToken();
+
+												if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
+													condicional = new Condicional(pregunta, expresionLogica,
+															listaSentencia, contrario, listaSentencia1);
+													return condicional;
+												} else {
+													reportarError("Falta agrupador derecho", tokenActual.getFila(),
+															tokenActual.getColumna());
+												}
+											} else {
+												reportarError("Falta lista sentencia", tokenActual.getFila(),
+														tokenActual.getColumna());
+											}
+										} else {
+											reportarError("Falta agrupador izquierdo", tokenActual.getFila(),
+													tokenActual.getColumna());
+										}
+
+									} else {
+
+										condicional = new Condicional(pregunta, expresionLogica, listaSentencia);
+										return condicional;
+
+									}
+
+								} else {
+									reportarError("Falta agrupador derecho", tokenActual.getFila(),
+											tokenActual.getColumna());
+								}
+
+							} else {
+								reportarError("Falta lista sentencia", tokenActual.getFila(), tokenActual.getColumna());
+							}
+
+						} else {
+							reportarError("Falta agrupador izquierdo", tokenActual.getFila(), tokenActual.getColumna());
+						}
+					} else {
+						reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna());
+					}
+
+				} else {
+					reportarError("Falta expresion logica", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			} else {
+				reportarError("Falta parentesis izquierdo", tokenActual.getFila(), tokenActual.getColumna());
+			}
+		}
+
 		return null;
 	}
 
@@ -279,6 +435,13 @@ public class AnalizadorSintactico_Tatiana {
 	 * @return valorAsignacion{@link ValorAsignacion}
 	 */
 	private ValorAsignacion esValorAsignacion() {
+
+		if (tokenActual.getCategoria() == Categoria.ENTERO || tokenActual.getCategoria() == Categoria.REAL
+				|| tokenActual.getCategoria() == Categoria.CARACTER
+				|| tokenActual.getCategoria() == Categoria.CADENA_CARACTERES || tokenActual.getLexema().equals("v")
+				|| tokenActual.getLexema().equals("f")) {
+			return new ValorAsignacion(tokenActual);
+		}
 		return null;
 	}
 
@@ -298,7 +461,8 @@ public class AnalizadorSintactico_Tatiana {
 	 * Metodo que verifica si es un ciclo
 	 * 
 	 * <{@link Ciclo}>::= ciclo mientras parentesisIzquierdo
-	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <"List"{@link Sentencia}> agrupadorDerecho
+	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo
+	 * <"List"{@link Sentencia}> agrupadorDerecho
 	 * 
 	 * @return ciclo{@link Ciclo}
 	 */
@@ -338,6 +502,32 @@ public class AnalizadorSintactico_Tatiana {
 	 * @return expresionCadena{@link ExpresionCadena}
 	 */
 	private ExpresionCadena esExpresionCadena() {
+
+		Termino termino = esTermino();
+
+		if (termino != null) {
+			obtenerSiguienteToken();
+			if (tokenActual.getLexema().equals("(+)")) {
+				ExpresionCadena expresionCadena = esExpresionCadena();
+				if (expresionCadena != null) {
+					obtenerSiguienteToken();
+					if (tokenActual.getLexema().equals("fin")) {
+						return new ExpresionCadena(termino, expresionCadena);
+					} else {
+						reportarError("Falta palabra fin", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				} else {
+					reportarError("Falta expresion cadena", tokenActual.getFila(), tokenActual.getColumna());
+				}
+
+			} else if (tokenActual.getLexema().equals("fin")) {
+				return new ExpresionCadena(termino);
+			} else {
+				reportarError("Falta fin o (+)", tokenActual.getFila(), tokenActual.getColumna());
+			}
+
+		}
+
 		return null;
 	}
 
@@ -494,6 +684,23 @@ public class AnalizadorSintactico_Tatiana {
 	 * @return sentenciaIncremento {@link SentenciaIncremento}
 	 */
 	private SentenciaIncremento esSentenciaIncremento() {
+
+		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+			Token indentificadorVariable = tokenActual;
+			obtenerSiguienteToken();
+			if (tokenActual.getLexema().equals("INC")) {
+				Token incremento = tokenActual;
+				obtenerSiguienteToken();
+				if (tokenActual.getLexema().equals("fin")) {
+					return new SentenciaIncremento(indentificadorVariable, incremento);
+				} else {
+					reportarError("Falta Fin", tokenActual.getFila(), tokenActual.getFila());
+				}
+			} else {
+				reportarError("Falta incremento inc", tokenActual.getFila(), tokenActual.getFila());
+			}
+		}
+
 		return null;
 	}
 
