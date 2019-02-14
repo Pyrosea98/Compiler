@@ -31,6 +31,16 @@ public class LlamadoFuncion extends Sentencia {
 		this.identificadorFuncion = identificadorFuncion;
 		this.listaArgumentos = listaArgumentos;
 	}
+	
+	/**
+	 * Constructor que declara un llamado a funcion
+	 * 
+	 * @param identificadorFuncion
+	 */
+	public LlamadoFuncion(Token identificadorFuncion) {
+		super();
+		this.identificadorFuncion = identificadorFuncion;
+	}
 
 	@Override
 	public String toString() {

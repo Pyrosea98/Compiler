@@ -19,6 +19,18 @@ public class Termino {
 		this.setTermino(termino);
 	}
 
+	public Termino(LlamadoFuncion llamadoFuncion) {
+
+	}
+
+	public Termino(ValorAsignacion valorAsignacion) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Termino(Expresion expresion) {
+		// TODO Auto-generated constructor stub
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
