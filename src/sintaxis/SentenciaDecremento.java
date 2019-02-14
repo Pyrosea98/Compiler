@@ -53,7 +53,7 @@ public class SentenciaDecremento extends Sentencia {
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 	
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Decremento");
 		
 		nodo.add(new DefaultMutableTreeNode (identificadorVariable.getLexema()));
 		nodo.add(new DefaultMutableTreeNode (decremento.getLexema()));
