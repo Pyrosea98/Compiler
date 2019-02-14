@@ -1,6 +1,7 @@
 package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 
 import lexico.Token;
 
@@ -12,11 +13,9 @@ import lexico.Token;
  * @author Juan Jose alvarez
  *
  */
-public class ExpresionRelacional extends Expresion{
+public class ExpresionRelacional extends Expresion {
 
 	private ExpresionAritmetica expAritmetica;
-	private Token opRelacional;
-	private Token parentesisIzq, parentesisDer;
 	private ExpresionRelacional expRelacional;
 
 	/**
@@ -36,11 +35,9 @@ public class ExpresionRelacional extends Expresion{
 	 * @param opRelacional
 	 * @param expRelacional
 	 */
-	public ExpresionRelacional(ExpresionAritmetica expAritmetica, Token opRelacional,
-			ExpresionRelacional expRelacional) {
+	public ExpresionRelacional(ExpresionAritmetica expAritmetica, ExpresionRelacional expRelacional) {
 		super();
 		this.expAritmetica = expAritmetica;
-		this.opRelacional = opRelacional;
 		this.expRelacional = expRelacional;
 	}
 
@@ -52,39 +49,38 @@ public class ExpresionRelacional extends Expresion{
 	 * @param parentesisDer
 	 * @param expRelacional
 	 */
-	public ExpresionRelacional(Token parentesisIzq, Token parentesisDer, ExpresionRelacional expRelacional) {
+	public ExpresionRelacional(ExpresionRelacional expRelacional) {
 		super();
-		this.parentesisIzq = parentesisIzq;
-		this.parentesisDer = parentesisDer;
 		this.expRelacional = expRelacional;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-
-		if (expAritmetica != null) {
-			return "ExpresionRelacional [expAritmetica=" + expAritmetica + "]";
-		} else if (opRelacional != null) {
-			return "ExpresionRelacional [expAritmetica=" + expAritmetica + ", opRelacional=" + opRelacional
-					+ ", expRelacional=" + expRelacional + "]";
-		} else if (parentesisIzq != null) {
-			return "ExpresionRelacional [parentesisIzq=" + parentesisIzq + ", expRelacional=" + expRelacional
-					+ ", parentesisDer=" + parentesisDer + "]";
-		} else {
-			return null;
-		}
-
 	}
 
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Relacional");
+
+		if (expAritmetica != null) {
+			nodo.add(expAritmetica.getArbolVisual());
+			if (expRelacional != null) {
+				nodo.add(expRelacional.getArbolVisual(nodo));
+			}
+		} else {
+			nodo.add(expRelacional.getArbolVisual(nodo));
+		}
+		return nodo;
+	}
+
+	private DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode nodo) {
+
+		if (expAritmetica != null) {
+			nodo.add(expAritmetica.getArbolVisual());
+			if (expRelacional != null) {
+				nodo.add(expRelacional.getArbolVisual(nodo));
+			}
+		} else {
+			nodo.add(expRelacional.getArbolVisual(nodo));
+		}
+		return nodo;
 	}
 
 }
