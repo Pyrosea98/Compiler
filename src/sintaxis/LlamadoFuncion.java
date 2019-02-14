@@ -6,8 +6,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
 
-public class LlamadoFuncion extends Sentencia{
-	
+public class LlamadoFuncion extends Sentencia {
+
 	/**
 	 * Clase que representa el llamado a una funcion
 	 * 
@@ -16,38 +16,38 @@ public class LlamadoFuncion extends Sentencia{
 	 * @author Juan Jose alvarez
 	 *
 	 */
-	
+
 	private Token identificadorFuncion;
-	private Token parentesisIzquierdo;
 	private ArrayList<Termino> listaArgumentos;
-	private Token parentesisDerecho;
-	
+
 	/**
 	 * Constructor que declara un llamado a funcion
+	 * 
 	 * @param identificadorFuncion
-	 * @param parentesisIzquierdo
 	 * @param listaArgumentos
-	 * @param parentesisDerecho
 	 */
-	public LlamadoFuncion(Token identificadorFuncion, Token parentesisIzquierdo, ArrayList<Termino> listaArgumentos,
-			Token parentesisDerecho) {
+	public LlamadoFuncion(Token identificadorFuncion, ArrayList<Termino> listaArgumentos) {
 		super();
 		this.identificadorFuncion = identificadorFuncion;
-		this.parentesisIzquierdo = parentesisIzquierdo;
 		this.listaArgumentos = listaArgumentos;
-		this.parentesisDerecho = parentesisDerecho;
 	}
 
 	@Override
 	public String toString() {
-		return "LlamadoFuncion [identificadorFuncion=" + identificadorFuncion + ", parentesisIzquierdo="
-				+ parentesisIzquierdo + ", listaArgumentos=" + listaArgumentos + ", parentesisDerecho="
-				+ parentesisDerecho + "]";
+		return "LlamadoFuncion [identificadorFuncion=" + identificadorFuncion + ", listaArgumentos=" + listaArgumentos
+				+ "]";
 	}
 
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Llamado funcion");
+
+		nodo.add(new DefaultMutableTreeNode(identificadorFuncion.getLexema()));
+		if (listaArgumentos != null) {
+			for (Termino termino : listaArgumentos) {
+				nodo.add(termino.getArbolVisual());
+			}
+		}
+		return nodo;
 	}
 }

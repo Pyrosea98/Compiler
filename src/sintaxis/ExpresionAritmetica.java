@@ -2,8 +2,6 @@ package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import lexico.Token;
-
 /**
  * Clase que representa la expresion Aritmetica
  * 

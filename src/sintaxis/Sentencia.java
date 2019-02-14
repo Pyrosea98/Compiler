@@ -1,7 +1,6 @@
 package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 
 /**
  * Clase que representa la sentencia
