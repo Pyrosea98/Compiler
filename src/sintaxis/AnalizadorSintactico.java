@@ -34,7 +34,7 @@ public class AnalizadorSintactico {
 	 * Metodo que analiza el codigo sintacticamente
 	 */
 	public void analizar() {
-		unidadCompilacion = esUnidadDeCompilacion();
+		setUnidadCompilacion(esUnidadDeCompilacion());
 	}
 
 	/**
@@ -598,6 +598,14 @@ public class AnalizadorSintactico {
 	 */
 	public void setTablaErrores(ArrayList<ErrorSintactico> tablaErrores) {
 		this.tablaErrores = tablaErrores;
+	}
+
+	public UnidadCompilacion getUnidadCompilacion() {
+		return unidadCompilacion;
+	}
+
+	public void setUnidadCompilacion(UnidadCompilacion unidadCompilacion) {
+		this.unidadCompilacion = unidadCompilacion;
 	}
 
 }

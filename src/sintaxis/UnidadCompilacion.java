@@ -136,13 +136,11 @@ public class UnidadCompilacion {
 	 */
 	public DefaultMutableTreeNode getArbolVisual() {
 		
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("");
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Unidad de compilacion");
 		
 		nodo.add(new DefaultMutableTreeNode(palabraReservadaClase.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(identificadorClase.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(agrupadorIzquierda.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(cuerpoClase.getArbolVisual()));
-		nodo.add(new DefaultMutableTreeNode(agrupadorDerecho.getLexema()));
 	
 		return nodo;
 	}
