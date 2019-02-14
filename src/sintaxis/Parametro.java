@@ -51,10 +51,8 @@ public class Parametro {
 		nodo.add(new DefaultMutableTreeNode(tipoDato.getLexema()));
 		if (arreglo != null) {
 			nodo.add(new DefaultMutableTreeNode(arreglo.getLexema()));
-			nodo.add(new DefaultMutableTreeNode(idenVariable.getLexema()));
-		} else {
-			nodo.add(new DefaultMutableTreeNode(idenVariable.getLexema()));
 		}
+		nodo.add(new DefaultMutableTreeNode(idenVariable.getLexema()));
 		return nodo;
 	}
 
