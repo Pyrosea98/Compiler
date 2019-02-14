@@ -298,7 +298,7 @@ public class AnalizadorSintactico {
 	 * Metodo que verifica si es un ciclo
 	 * 
 	 * <{@link Ciclo}>::= ciclo mientras parentesisIzquierdo
-	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <"List"{@link Sentencia}>
+	 * <{@link ExpresionLogica}> parentesisDerecho agrupadorIzquierdo <"List"{@link Sentencia}> agrupadorDerecho
 	 * 
 	 * @return ciclo{@link Ciclo}
 	 */

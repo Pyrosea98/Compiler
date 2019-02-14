@@ -1,7 +1,6 @@
 package sintaxis;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import lexico.Token;
 
 /**
  * Clase que representa la expresion logica
@@ -15,10 +14,7 @@ import lexico.Token;
 public class ExpresionLogica extends Expresion {
 
 	private ExpresionRelacional expresionRelacional;
-	private Token operadorLogico;
 	private ExpresionLogica expresionLogica;
-	private Token parentesisIzquierdo;
-	private Token parentesisDerecho;
 
 	/**
 	 * Constructor que crea expresion logica con solo una expresion relacional
@@ -37,27 +33,10 @@ public class ExpresionLogica extends Expresion {
 	 * @param operadorLogico
 	 * @param expresionLogica
 	 */
-	public ExpresionLogica(ExpresionRelacional expresionRelacional, Token operadorLogico,
-			ExpresionLogica expresionLogica) {
+	public ExpresionLogica(ExpresionRelacional expresionRelacional, ExpresionLogica expresionLogica) {
 		super();
 		this.expresionRelacional = expresionRelacional;
-		this.operadorLogico = operadorLogico;
 		this.expresionLogica = expresionLogica;
-	}
-
-	/**
-	 * Constructor que crea expresion logica entre parentesis
-	 * 
-	 * @param expresionRelacional
-	 * @param parentesisIzquierdo
-	 * @param parentesisDerecho
-	 */
-	public ExpresionLogica(ExpresionRelacional expresionRelacional, Token parentesisIzquierdo,
-			Token parentesisDerecho) {
-		super();
-		this.expresionRelacional = expresionRelacional;
-		this.parentesisIzquierdo = parentesisIzquierdo;
-		this.parentesisDerecho = parentesisDerecho;
 	}
 
 	/**
@@ -67,39 +46,21 @@ public class ExpresionLogica extends Expresion {
 
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Logica");
 
-		if (expresionRelacional != null) {
-			nodo.add(expresionRelacional.getArbolVisual());
-			if (operadorLogico != null) {
-				nodo.add(new DefaultMutableTreeNode(operadorLogico.getLexema()));
-				if (expresionLogica != null) {
-					nodo.add(expresionLogica.getArbolVisual(nodo));
-				}
-			}
-		} else {
-			if (expresionLogica != null) {
-				nodo.add(expresionLogica.getArbolVisual(nodo));
-			}
+		nodo.add(expresionRelacional.getArbolVisual());
+		if (expresionLogica != null) {
+			nodo.add(expresionLogica.getArbolVisual(nodo));
 		}
+
 		return nodo;
 	}
-	
-	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode node) {
 
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Logica");
+	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode nodo) {
 
-		if (expresionRelacional != null) {
-			nodo.add(expresionRelacional.getArbolVisual());
-			if (operadorLogico != null) {
-				nodo.add(new DefaultMutableTreeNode(operadorLogico.getLexema()));
-				if (expresionLogica != null) {
-					nodo.add(expresionLogica.getArbolVisual(node));
-				}
-			}
-		} else {
-			if (expresionLogica != null) {
-				nodo.add(expresionLogica.getArbolVisual(node));
-			}
+		nodo.add(expresionRelacional.getArbolVisual());
+		if (expresionLogica != null) {
+			nodo.add(expresionLogica.getArbolVisual(nodo));
 		}
+
 		return nodo;
 	}
 }
