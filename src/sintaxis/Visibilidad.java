@@ -26,18 +26,12 @@ public class Visibilidad {
 		this.visibilidad = visibilidad;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Visibilidad [visibilidad=" + visibilidad + "]";
-	}
-
 	public DefaultMutableTreeNode getArbolVisual() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Visibilidad");
+		
+		nodo.add(new DefaultMutableTreeNode(visibilidad.getLexema()));
+		
+		return nodo;
 	}
 }
