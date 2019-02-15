@@ -47,27 +47,45 @@ public class ExpresionAritmetica extends Expresion {
 	}
 
 	/**
+	 * Constructor que identifica la expresion aritmetica conformadad por una
+	 * expresion aritmetica
+	 * 
+	 * @param expArt
+	 */
+	public ExpresionAritmetica(ExpresionAritmetica expArt) {
+		super();
+		this.expArt = expArt;
+	}
+
+	/**
 	 * Método para obtener el arbol visual de una expresion aritmetica
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
 
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Aritmetica");
-
-		nodo.add(termino.getArbolVisual());
-		if (expArt != null) {
-			nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
-			nodo.add(expArt.getArbolVisual(nodo));
+		if (termino != null) {
+			nodo.add(termino.getArbolVisual());
+			if (opAritmetico != null) {
+				nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
+				if (expArt!=null) {
+					nodo.add(expArt.getArbolVisual(nodo));
+				}
+			}
 		}
 		return nodo;
 	}
 
 	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode nodo) {
-		
-		nodo.add(termino.getArbolVisual());
-		if (expArt != null) {
-			nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
-			nodo.add(expArt.getArbolVisual(nodo));
+
+		if (termino != null) {
+			nodo.add(termino.getArbolVisual());
+			if (opAritmetico != null) {
+				nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
+				if (expArt!=null) {
+					nodo.add(expArt.getArbolVisual(nodo));
+				}
+			}
 		}
 		return nodo;
 	}
@@ -80,7 +98,8 @@ public class ExpresionAritmetica extends Expresion {
 	}
 
 	/**
-	 * @param termino the termino to set
+	 * @param termino
+	 *            the termino to set
 	 */
 	public void setTermino(Termino termino) {
 		this.termino = termino;
@@ -94,7 +113,8 @@ public class ExpresionAritmetica extends Expresion {
 	}
 
 	/**
-	 * @param opAritmetico the opAritmetico to set
+	 * @param opAritmetico
+	 *            the opAritmetico to set
 	 */
 	public void setOpAritmetico(Token opAritmetico) {
 		this.opAritmetico = opAritmetico;
@@ -108,12 +128,11 @@ public class ExpresionAritmetica extends Expresion {
 	}
 
 	/**
-	 * @param expArt the expArt to set
+	 * @param expArt
+	 *            the expArt to set
 	 */
 	public void setExpArt(ExpresionAritmetica expArt) {
 		this.expArt = expArt;
 	}
-	
-	
 
 }
