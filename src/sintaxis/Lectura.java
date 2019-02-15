@@ -18,7 +18,6 @@ public class Lectura extends Sentencia {
 	private Token opAsignacion;
 	private Token leer;
 	private Token tipoDato;
-	private Token fin;
 
 	/**
 	 * Constructor para leer un dato
@@ -31,13 +30,12 @@ public class Lectura extends Sentencia {
 	 * @param parentesisDer
 	 * @param fin
 	 */
-	public Lectura(Token idVariable, Token opAsignacion, Token leer, Token tipoDato, Token fin) {
+	public Lectura(Token idVariable, Token opAsignacion, Token leer, Token tipoDato) {
 		super();
 		this.idVariable = idVariable;
 		this.opAsignacion = opAsignacion;
 		this.leer = leer;
 		this.tipoDato = tipoDato;
-		this.fin = fin;
 	}
 
 	@Override
@@ -48,7 +46,6 @@ public class Lectura extends Sentencia {
 		nodo.add(new DefaultMutableTreeNode(opAsignacion.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(leer.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(tipoDato.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(fin.getLexema()));
 		return nodo;
 	}
 }

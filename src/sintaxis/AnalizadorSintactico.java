@@ -714,6 +714,64 @@ public class AnalizadorSintactico {
 	 * @return expresionAritmetica{@link ExpresionAritmetica}
 	 */
 	private ExpresionAritmetica esExpresionAritmetica() {
+
+		if (tokenActual.getCategoria() == Categoria.PARENTESIS_IZQUIERDO) {
+			obtenerSiguienteToken();
+			Termino termino = esTermino();
+			if (termino != null) {
+				obtenerSiguienteToken();
+				if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+					obtenerSiguienteToken();
+					Token opeAritmetico = tokenActual;
+					if (opeAritmetico.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
+						obtenerSiguienteToken();
+						ExpresionAritmetica expAritmetica = esExpresionAritmetica();
+						if (expAritmetica != null) {
+							return new ExpresionAritmetica(termino, opeAritmetico, expAritmetica);
+						} else {
+							reportarError("Falta Expresion Aritmetica", tokenActual.getFila(),
+									tokenActual.getColumna());
+						}
+					} else {
+						return new ExpresionAritmetica(termino);
+					}
+				} else {
+					reportarError("Falta Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			} else {
+				ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
+				if (expresionAritmetica != null) {
+					obtenerSiguienteToken();
+					if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+						return new ExpresionAritmetica(expresionAritmetica);
+					} else {
+						reportarError("Falta Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				} else {
+					reportarError("Falta Expresion Aritmetica O Termino", tokenActual.getFila(),
+							tokenActual.getColumna());
+				}
+			}
+		} else {
+			Termino termino = esTermino();
+			if (termino != null) {
+				obtenerSiguienteToken();
+				Token opArt = tokenActual;
+				if (opArt.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
+					obtenerSiguienteToken();
+					ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
+					if (expresionAritmetica != null) {
+						return new ExpresionAritmetica(termino, opArt, expresionAritmetica);
+					} else {
+						reportarError("Falta Expresion Aritmetica", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				} else {
+					return new ExpresionAritmetica(termino);
+				}
+			} else {
+				reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna());
+			}
+		}
 		return null;
 	}
 
@@ -954,12 +1012,44 @@ public class AnalizadorSintactico {
 	/**
 	 * Metodo que verifica si es una sentencia de lectura
 	 * 
-	 * <{@link Lectura}>::= leer parentesisIzquierdo <{@link TipoDato}>
-	 * parentesisDerecho fin
+	 * <{@link Lectura}>::= idVariable operadorAsignacion leer parentesisIzquierdo
+	 * <{@link TipoDato}> parentesisDerecho fin
 	 * 
 	 * @return lectura{@link Lectura}
 	 */
 	private Lectura esLectura() {
+		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+			Token idVariable = tokenActual;
+			if (tokenActual.getCategoria().equals(Categoria.OPERADOR_ASIGNACION)) {
+				Token opAsignacion = tokenActual;
+				if (tokenActual.getLexema().equals("leer")) {
+					Token leer = tokenActual;
+					obtenerSiguienteToken();
+					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
+						obtenerSiguienteToken();
+
+						Token tipoDato = esTipoDato();
+						if (tipoDato != null) {
+							obtenerSiguienteToken();
+							if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+								return new Lectura(idVariable, opAsignacion, leer, tipoDato);
+							} else {
+								reportarError("Falta parentesis derecho", tokenActual.getFila(),
+										tokenActual.getColumna());
+							}
+						} else {
+							reportarError("Falta tipo de dato", tokenActual.getFila(), tokenActual.getColumna());
+						}
+					} else {
+						reportarError("Falta parentesis izquierdo", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				} else {
+					reportarError("Falta la palabra reservada leer", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			} else {
+				reportarError("Falta operador de asignacion", tokenActual.getFila(), tokenActual.getColumna());
+			}
+		}
 		return null;
 	}
 
