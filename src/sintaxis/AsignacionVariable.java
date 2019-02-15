@@ -15,21 +15,21 @@ import lexico.Token;
 public class AsignacionVariable extends Sentencia {
 
 	private Token identificadorVariable, operadorAsignacion;
-	private Expresion ex;
+	private Termino termino;
 
 	/**
 	 * Constructor de la asignación de variable
-	 * 
 	 * @param identificadorVariable
-	 * @param ex
+	 * @param operadorAsignacion
+	 * @param termino
 	 */
-	public AsignacionVariable(Token identificadorVariable, Token operadorAsignacion, Expresion ex) {
+	public AsignacionVariable(Token identificadorVariable, Token operadorAsignacion, Termino termino) {
 		super();
 		this.identificadorVariable = identificadorVariable;
-		this.setOperadorAsignacion(operadorAsignacion);
-		this.ex = ex;
+		this.operadorAsignacion = operadorAsignacion;
+		this.termino = termino;
 	}
-
+	
 	/**
 	 * @return the identificadorVariable
 	 */
@@ -46,18 +46,17 @@ public class AsignacionVariable extends Sentencia {
 	}
 
 	/**
-	 * @return the ex
+	 * @return the termino
 	 */
-	public Expresion getEx() {
-		return ex;
+	public Termino getTermino() {
+		return termino;
 	}
 
 	/**
-	 * @param ex
-	 *            the ex to set
+	 * @param termino the termino to set
 	 */
-	public void setEx(Expresion ex) {
-		this.ex = ex;
+	public void setTermino(Termino termino) {
+		this.termino = termino;
 	}
 
 	public Token getOperadorAsignacion() {
@@ -77,7 +76,7 @@ public class AsignacionVariable extends Sentencia {
 
 		nodo.add(new DefaultMutableTreeNode(identificadorVariable.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(operadorAsignacion.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(ex.getArbolVisual()));
+		nodo.add(new DefaultMutableTreeNode(termino.getArbolVisual()));
 
 		return nodo;
 	}

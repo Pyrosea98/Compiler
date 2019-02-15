@@ -20,6 +20,16 @@ public class ExpresionLogica extends Expresion {
 	private ExpresionLogica expresionLogica;
 
 	/**
+	 * Constructor que crea expresion logica con solo una expresion logica
+	 * 
+	 * @param expresionLogica
+	 */
+	public ExpresionLogica(ExpresionLogica expresionLogica) {
+		super();
+		this.expresionLogica = expresionLogica;
+	}
+
+	/**
 	 * Constructor que crea expresion logica con solo una expresion relacional
 	 * 
 	 * @param expresionRelacional
@@ -49,10 +59,13 @@ public class ExpresionLogica extends Expresion {
 	public DefaultMutableTreeNode getArbolVisual() {
 
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Expresion Logica");
-
-		nodo.add(expresionRelacional.getArbolVisual());
+		if (expresionRelacional != null) {
+			nodo.add(expresionRelacional.getArbolVisual());
+		}
 		if (expresionLogica != null) {
-			nodo.add(new DefaultMutableTreeNode(opLogico.getLexema()));
+			if (opLogico != null) {
+				nodo.add(new DefaultMutableTreeNode(opLogico.getLexema()));
+			}
 			nodo.add(expresionLogica.getArbolVisual(nodo));
 		}
 
@@ -61,8 +74,13 @@ public class ExpresionLogica extends Expresion {
 
 	public DefaultMutableTreeNode getArbolVisual(DefaultMutableTreeNode nodo) {
 
-		nodo.add(expresionRelacional.getArbolVisual());
+		if (expresionRelacional != null) {
+			nodo.add(expresionRelacional.getArbolVisual());
+		}
 		if (expresionLogica != null) {
+			if (opLogico != null) {
+				nodo.add(new DefaultMutableTreeNode(opLogico.getLexema()));
+			}
 			nodo.add(expresionLogica.getArbolVisual(nodo));
 		}
 

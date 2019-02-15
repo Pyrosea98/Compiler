@@ -18,10 +18,9 @@ import lexico.Token;
 public class DeclaracionVariable extends Sentencia {
 
 	private Token visibilidad;
-	private Token tipo;
+	private Token tipo, arreglo;
 	private ArrayList<Token> listaId;
 
-	
 	/**
 	 * @param visibilidad
 	 * @param tipo
@@ -34,7 +33,6 @@ public class DeclaracionVariable extends Sentencia {
 		this.listaId = listaId;
 	}
 
-
 	/**
 	 * @param tipo
 	 * @param listaId
@@ -45,7 +43,31 @@ public class DeclaracionVariable extends Sentencia {
 		this.listaId = listaId;
 	}
 
-	
+	/**
+	 * @param visibilidad
+	 * @param tipo
+	 * @param arreglo
+	 * @param listaId
+	 */
+	public DeclaracionVariable(Token visibilidad, Token tipo, Token arreglo, ArrayList<Token> listaId) {
+		super();
+		this.visibilidad = visibilidad;
+		this.tipo = tipo;
+		this.arreglo = arreglo;
+		this.listaId = listaId;
+	}
+
+	/**
+	 * @param tipo
+	 * @param arreglo
+	 * @param listaId
+	 */
+	public DeclaracionVariable(Token arreglo, ArrayList<Token> listaId, Token tipo) {
+		super();
+		this.tipo = tipo;
+		this.arreglo = arreglo;
+		this.listaId = listaId;
+	}
 
 	/**
 	 * @return the visibilidad
@@ -54,14 +76,13 @@ public class DeclaracionVariable extends Sentencia {
 		return visibilidad;
 	}
 
-
 	/**
-	 * @param visibilidad the visibilidad to set
+	 * @param visibilidad
+	 *            the visibilidad to set
 	 */
 	public void setVisibilidad(Token visibilidad) {
 		this.visibilidad = visibilidad;
 	}
-
 
 	/**
 	 * @return the tipo
@@ -70,14 +91,13 @@ public class DeclaracionVariable extends Sentencia {
 		return tipo;
 	}
 
-
 	/**
-	 * @param tipo the tipo to set
+	 * @param tipo
+	 *            the tipo to set
 	 */
 	public void setTipo(Token tipo) {
 		this.tipo = tipo;
 	}
-
 
 	/**
 	 * @return the listaId
@@ -86,14 +106,13 @@ public class DeclaracionVariable extends Sentencia {
 		return listaId;
 	}
 
-
 	/**
-	 * @param listaId the listaId to set
+	 * @param listaId
+	 *            the listaId to set
 	 */
 	public void setListaId(ArrayList<Token> listaId) {
 		this.listaId = listaId;
 	}
-
 
 	/**
 	 * Método para retornar el nodo de un arbol visual
@@ -106,6 +125,10 @@ public class DeclaracionVariable extends Sentencia {
 
 		if (visibilidad != null) {
 			nodo.add(new DefaultMutableTreeNode(visibilidad.getLexema()));
+		}
+		
+		if (arreglo != null) {
+			nodo.add(new DefaultMutableTreeNode(arreglo.getLexema()));
 		}
 
 		nodo.add(new DefaultMutableTreeNode(tipo.getLexema()));

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import lexico.Categoria;
 import lexico.Token;
-import sun.reflect.annotation.ExceptionProxy;
 
 public class AnalizadorSintactico {
 
@@ -48,7 +47,6 @@ public class AnalizadorSintactico {
 	 */
 	private UnidadCompilacion esUnidadDeCompilacion() {
 		UnidadCompilacion unidadCompilacion;
-		int posInicial = posActual;
 
 		if (tokenActual.getLexema().equals("clase")) {
 			Token clase = tokenActual;
@@ -128,6 +126,12 @@ public class AnalizadorSintactico {
 	 * @return tipoRetorno{@link TipoRetorno}
 	 */
 	private TipoRetorno esTipoRetorno() {
+		Token retorno = esTipoDato();
+		if (retorno != null) {
+			return new TipoRetorno(retorno);
+		} else if (tokenActual.getLexema().equals("sr")) {
+			return new TipoRetorno(tokenActual);
+		}
 		return null;
 	}
 
@@ -138,7 +142,12 @@ public class AnalizadorSintactico {
 	 * 
 	 * @return tipoDato{@link TipoDato}
 	 */
-	private TipoDato esTipoDato() {
+	private Token esTipoDato() {
+		if (tokenActual.getLexema().equals("ltr") || tokenActual.getLexema().equals("ntr")
+				|| tokenActual.getLexema().equals("ltrarr") || tokenActual.getLexema().equals("pntdec")
+				|| tokenActual.getLexema().equals("binary")) {
+			return tokenActual;
+		}
 		return null;
 	}
 
@@ -152,6 +161,32 @@ public class AnalizadorSintactico {
 	 * @return parametro{@link Parametro}
 	 */
 	private Parametro esParametro() {
+
+		Parametro parametro;
+		int posInicial = posActual;
+
+		Token tipoDatp = esTipoDato();
+		if (tipoDatp != null) {
+			Token tipoDato = tokenActual;
+			obtenerSiguienteToken();
+			if (tokenActual.getLexema().equals("$arr()")) {
+				Token arr = tokenActual;
+				obtenerSiguienteToken();
+
+				if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+					parametro = new Parametro(tipoDato, arr, tokenActual);
+					return parametro;
+				} else {
+					reportarError("Debe seguir identificador de variable", tokenActual.getFila(),
+							tokenActual.getColumna());
+				}
+			} else if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+				parametro = new Parametro(tipoDato, tokenActual);
+				return parametro;
+			} else {
+				hacerBactracking(posInicial);
+			}
+		}
 		return null;
 	}
 
@@ -162,12 +197,81 @@ public class AnalizadorSintactico {
 	 * <{@link Sentencia}>::= <{@link Condicional}> | <{@link Ciclo}> |
 	 * <{@link Retorno}> | <{@link Impresion}> | <{@link Lectura}> |
 	 * <{@link DeclaracionVariable}> | <{@link AsignacionVariable}> |
-	 * <{@link ExpresionIncremento}> | <{@link ExpresionDecremento}>|
+	 * <{@link SentenciaIncremento}> | <{@link SentenciDecremento}>|
 	 * <{@link LlamadoFuncion}>
 	 * 
 	 * @return sentencia{@link Sentencia}
 	 */
 	private Sentencia esSentencia() {
+		int posInicial = posActual;
+		Sentencia sentencia;
+
+		sentencia = esCondicional();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esCiclo();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esRetorno();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esImpresion();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esLectura();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esDeclaracionVariable();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esAsignacionVariable();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esSentenciaIncremento();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esSentenciaDecremento();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esLlamadoFuncion();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
+		sentencia = esRetorno();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
+
 		return null;
 	}
 
@@ -182,6 +286,93 @@ public class AnalizadorSintactico {
 	 * @return condicional{@link Condicional}
 	 */
 	private Condicional esCondicional() {
+
+		Condicional condicional;
+
+		if (tokenActual.getLexema().equals("pregunta")) {
+			Token pregunta = tokenActual;
+			obtenerSiguienteToken();
+			if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
+				obtenerSiguienteToken();
+				ExpresionLogica expresionLogica = esExpresionLogica();
+
+				if (expresionLogica != null) {
+					obtenerSiguienteToken();
+
+					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+						obtenerSiguienteToken();
+
+						if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
+							obtenerSiguienteToken();
+
+							ArrayList<Sentencia> listaSentencia = esListaSentencia(); // lista sentencia
+
+							if (listaSentencia != null) {
+								obtenerSiguienteToken();
+
+								if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
+									obtenerSiguienteToken();
+
+									if (tokenActual.getLexema().equals("contrario")) {
+										Token contrario = tokenActual;
+										obtenerSiguienteToken();
+										if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
+											obtenerSiguienteToken();
+
+											ArrayList<Sentencia> listaSentencia1 = esListaSentencia(); // lista
+																										// sentencia
+
+											if (listaSentencia1 != null) {
+												obtenerSiguienteToken();
+
+												if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
+													condicional = new Condicional(pregunta, expresionLogica,
+															listaSentencia, contrario, listaSentencia1);
+													return condicional;
+												} else {
+													reportarError("Falta agrupador derecho", tokenActual.getFila(),
+															tokenActual.getColumna());
+												}
+											} else {
+												reportarError("Falta lista sentencia", tokenActual.getFila(),
+														tokenActual.getColumna());
+											}
+										} else {
+											reportarError("Falta agrupador izquierdo", tokenActual.getFila(),
+													tokenActual.getColumna());
+										}
+
+									} else {
+
+										condicional = new Condicional(pregunta, expresionLogica, listaSentencia);
+										return condicional;
+
+									}
+
+								} else {
+									reportarError("Falta agrupador derecho", tokenActual.getFila(),
+											tokenActual.getColumna());
+								}
+
+							} else {
+								reportarError("Falta lista sentencia", tokenActual.getFila(), tokenActual.getColumna());
+							}
+
+						} else {
+							reportarError("Falta agrupador izquierdo", tokenActual.getFila(), tokenActual.getColumna());
+						}
+					} else {
+						reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna());
+					}
+
+				} else {
+					reportarError("Falta expresion logica", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			} else {
+				reportarError("Falta parentesis izquierdo", tokenActual.getFila(), tokenActual.getColumna());
+			}
+		}
+
 		return null;
 	}
 
@@ -227,6 +418,42 @@ public class AnalizadorSintactico {
 	 * @return expresionLogica{@link ExpresionLogica}
 	 */
 	private ExpresionLogica esExpresionLogica() {
+
+		ExpresionRelacional expresionRelacional = esExpresionRelacional();
+		if (expresionRelacional != null) {
+			obtenerSiguienteToken();
+
+			if (tokenActual.getCategoria().equals(Categoria.OPERADOR_LOGICO)) {
+				Token opLogico = tokenActual;
+				obtenerSiguienteToken();
+
+				ExpresionLogica expresionLogica = esExpresionLogica();
+				if (expresionLogica != null) {
+					return new ExpresionLogica(expresionRelacional, opLogico, expresionLogica);
+				} else {
+					reportarError("Falta expresión lógica", tokenActual.getFila(), tokenActual.getColumna());
+				}
+
+			} else {
+				return new ExpresionLogica(expresionRelacional);
+			}
+
+		} else if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
+			obtenerSiguienteToken();
+
+			ExpresionLogica expresionLogica = esExpresionLogica();
+			if (expresionLogica != null) {
+				obtenerSiguienteToken();
+
+				if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+					return new ExpresionLogica(expresionRelacional);
+				} else {
+					reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			} else {
+				reportarError("Falta expresión lógica", tokenActual.getFila(), tokenActual.getColumna());
+			}
+		}
 		return null;
 	}
 
@@ -255,60 +482,6 @@ public class AnalizadorSintactico {
 	 * @return expresionAritmetica{@link ExpresionAritmetica}
 	 */
 	private ExpresionAritmetica esExpresionAritmetica() {
-		Termino termino = esTermino();
-
-		if (termino != null) {
-			obtenerSiguienteToken();
-
-			if (tokenActual.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
-				Token operadorAritmetico = tokenActual;
-				obtenerSiguienteToken();
-
-				ExpresionAritmetica ex = esExpresionAritmetica();
-
-				if (ex != null) {
-					return new ExpresionAritmetica(termino, operadorAritmetico, ex);
-				} else {
-					reportarError("Falta expresion aritmetica", tokenActual.getFila(), tokenActual.getColumna());
-				}
-
-			} else {
-				return new ExpresionAritmetica(termino);
-			}
-		}
-
-		else if (tokenActual.getCategoria() == Categoria.AGRUPADOR_IZQUIERDO) {
-			obtenerSiguienteToken();
-			ExpresionAritmetica ex1 = esExpresionAritmetica();
-
-			if (ex1 != null) {
-				if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
-					obtenerSiguienteToken();
-
-					if (tokenActual.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
-						Token operadorAritmetico = tokenActual;
-						obtenerSiguienteToken();
-
-						ExpresionAritmetica ex = esExpresionAritmetica();
-
-						if (ex != null) {
-							return new ExpresionAritmetica(ex1, operadorAritmetico, ex);
-						} else {
-							reportarError("Falta expresion aritmetica", tokenActual.getFila(),
-									tokenActual.getColumna());
-						}
-
-					} else {
-						return new ExpresionAritmetica(ex1);
-					}
-				} else {
-					reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna());
-				}
-			} else {
-				reportarError("Falta expresion aritmetica", tokenActual.getFila(), tokenActual.getColumna());
-			}
-		}
-
 		return null;
 	}
 
@@ -317,8 +490,7 @@ public class AnalizadorSintactico {
 	 * 
 	 * <"Lista" {@link Termino}>::= <{@link Termino}> ["|" <"Lista"
 	 * {@link Termino}>] <{@link Termino}>::= identificadorVariable |
-	 * <{@link LlamadoFuncion}> | <{@link ValorAsignacion}> |
-	 * <{@link Expresion}>
+	 * <{@link LlamadoFuncion}> | <{@link ValorAsignacion}> | <{@link Expresion}>
 	 * 
 	 * @return termino{@link Termino}
 	 */
@@ -331,14 +503,14 @@ public class AnalizadorSintactico {
 		if (llamadoFuncion != null) {
 			return new Termino(llamadoFuncion);
 		}
-		
+
 		ValorAsignacion valorAsignacion = esValorAsignacion();
-		if(valorAsignacion != null) {
+		if (valorAsignacion != null) {
 			return new Termino(valorAsignacion);
 		}
-		
-		Expresion expresion =  esExpresion()
-		if(expresion != null) {
+
+		Expresion expresion = esExpresion();
+		if (expresion != null) {
 			return new Termino(expresion);
 		}
 		return null;
@@ -352,6 +524,13 @@ public class AnalizadorSintactico {
 	 * @return valorAsignacion{@link ValorAsignacion}
 	 */
 	private ValorAsignacion esValorAsignacion() {
+
+		if (tokenActual.getCategoria() == Categoria.ENTERO || tokenActual.getCategoria() == Categoria.REAL
+				|| tokenActual.getCategoria() == Categoria.CARACTER
+				|| tokenActual.getCategoria() == Categoria.CADENA_CARACTERES || tokenActual.getLexema().equals("v")
+				|| tokenActual.getLexema().equals("f")) {
+			return new ValorAsignacion(tokenActual);
+		}
 		return null;
 	}
 
@@ -364,27 +543,24 @@ public class AnalizadorSintactico {
 	 * @return llamadoFuncion{@link LlamadoFuncion}
 	 */
 	private LlamadoFuncion esLlamadoFuncion() {
-		int posInicial = posActual;
-
-		LlamadoFuncion llamadoFuncion;
 
 		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_METODO)) {
 			Token identificadorFuncion = tokenActual;
 			obtenerSiguienteToken();
 			if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
 				obtenerSiguienteToken();
-				ArrayList<Termino> listaArgumentos = esListaTermino();
+				ArrayList<Termino> listaArgumentos = esListaArgumento();
 				if (listaArgumentos != null) {
 					obtenerSiguienteToken();
 
 					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
-						llamadoFuncion = new LlamadoFuncion(identificadorFuncion);
+						return new LlamadoFuncion(identificadorFuncion);
 					} else {
 						reportarError("Debe seguir parentesis derecho o lista de terminos", tokenActual.getFila(),
 								tokenActual.getColumna());
 					}
 				} else if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
-					llamadoFuncion = new LlamadoFuncion(identificadorFuncion, listaArgumentos);
+					return new LlamadoFuncion(identificadorFuncion, listaArgumentos);
 				} else {
 					reportarError("Debe seguir parentesis derecho o lista de terminos", tokenActual.getFila(),
 							tokenActual.getColumna());
@@ -416,40 +592,43 @@ public class AnalizadorSintactico {
 				obtenerSiguienteToken();
 				if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
 					obtenerSiguienteToken();
-					
+
 					ExpresionLogica expresionLogica = esExpresionLogica();
-					if(expresionLogica != null) {
+					if (expresionLogica != null) {
 						obtenerSiguienteToken();
-						if(tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+						if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
 							obtenerSiguienteToken();
-							
-							if(tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
+
+							if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
 								obtenerSiguienteToken();
-								
+
 								ArrayList<Sentencia> listaSentencia = esListaSentencia();
 								if (listaSentencia != null) {
 									obtenerSiguienteToken();
 									if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
 										return new Ciclo(ciclo, mientras, expresionLogica);
 									} else {
-										reportarError("Falta agrupador derecho", tokenActual.getFila(), tokenActual.getColumna());
+										reportarError("Falta agrupador derecho", tokenActual.getFila(),
+												tokenActual.getColumna());
 									}
 
 								} else {
 									if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
 
 									} else {
-										reportarError("Falta agrupador derecho", tokenActual.getFila(), tokenActual.getColumna());
+										reportarError("Falta agrupador derecho", tokenActual.getFila(),
+												tokenActual.getColumna());
 									}
 								}
-							}else {
-								reportarError("Falta agrupador izquierdo", tokenActual.getFila(), tokenActual.getColumna());
+							} else {
+								reportarError("Falta agrupador izquierdo", tokenActual.getFila(),
+										tokenActual.getColumna());
 							}
-						}else {
+						} else {
 							reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna());
 						}
-					}else {
-						
+					} else {
+
 					}
 
 				} else {
@@ -470,6 +649,23 @@ public class AnalizadorSintactico {
 	 * @return retorno {@link Retorno}
 	 */
 	private Retorno esRetorno() {
+		if (tokenActual.getLexema().equals("devolver")) {
+			Token retorno = tokenActual;
+			obtenerSiguienteToken();
+
+			Termino termino = esTermino();
+			if (termino != null) {
+				obtenerSiguienteToken();
+
+				if (tokenActual.getLexema().equals("fin")) {
+					return new Retorno(retorno, termino);
+				} else {
+					reportarError("Fala fin de sentencia", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			} else {
+				reportarError("Fala el termino a devolver", tokenActual.getFila(), tokenActual.getColumna());
+			}
+		}
 		return null;
 	}
 
@@ -494,6 +690,32 @@ public class AnalizadorSintactico {
 	 * @return expresionCadena{@link ExpresionCadena}
 	 */
 	private ExpresionCadena esExpresionCadena() {
+
+		Termino termino = esTermino();
+
+		if (termino != null) {
+			obtenerSiguienteToken();
+			if (tokenActual.getLexema().equals("(+)")) {
+				ExpresionCadena expresionCadena = esExpresionCadena();
+				if (expresionCadena != null) {
+					obtenerSiguienteToken();
+					if (tokenActual.getLexema().equals("fin")) {
+						return new ExpresionCadena(termino, expresionCadena);
+					} else {
+						reportarError("Falta palabra fin", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				} else {
+					reportarError("Falta expresion cadena", tokenActual.getFila(), tokenActual.getColumna());
+				}
+
+			} else if (tokenActual.getLexema().equals("fin")) {
+				return new ExpresionCadena(termino);
+			} else {
+				reportarError("Falta fin o (+)", tokenActual.getFila(), tokenActual.getColumna());
+			}
+
+		}
+
 		return null;
 	}
 
@@ -512,40 +734,87 @@ public class AnalizadorSintactico {
 	/**
 	 * Metodo que identifica si es una declaracion de campo
 	 * 
-	 * <{@link DeclaracionVariable}>::= [<{@link Visibilidad}>] <{@link TipoDato}>
-	 * [arreglo] identificadorVariable fin
+	 * <{@link DeclaracionVariable}>::= [<{@link Visibilidad}>] tipoDato [arreglo]
+	 * lista identificadorVariable fin
 	 * 
 	 * @return declaracionnCampo{@link DeclaracionVariable}
 	 */
 	private DeclaracionVariable esDeclaracionVariable() {
 		Token visibilidad = esVisibilidad();
+		if (visibilidad != null) {
+			obtenerSiguienteToken();
 
-		obtenerSiguienteToken();
-		if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA) {
-			Token tipo = tokenActual;
-			if (tokenActual.getLexema().equals("ntr") || tokenActual.getLexema().equals("pntdec")
-					|| tokenActual.getLexema().equals("binary") || tokenActual.getLexema().equals("ltr")
-					|| tokenActual.getLexema().equals("ltrarr")) {
+			Token tipoDato = esTipoDato();
+			if (tipoDato != null) {
 				obtenerSiguienteToken();
 
-				ArrayList<Token> listaId = esListaIdentificadores();
+				if (tokenActual.getCategoria().equals(Categoria.ARREGLO)) {
+					Token arreglo = tokenActual;
+					obtenerSiguienteToken();
 
-				if (listaId != null) {
-					if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA
-							&& tokenActual.getLexema().equals("fin")) {
-						return visibilidad != null ? new DeclaracionVariable(visibilidad, tipo, tokenActual, listaId)
-								: new DeclaracionVariable(tipo, tokenActual, listaId);
+					ArrayList<Token> listaIdentificador = esListaIdentificadores();
+					if (listaIdentificador != null) {
+
+						if (tokenActual.getLexema().equals("fin")) {
+							return new DeclaracionVariable(visibilidad, tipoDato, arreglo, listaIdentificador);
+						} else {
+							reportarError("Falta fin de sentencia", tokenActual.getFila(), tokenActual.getColumna());
+						}
 					} else {
-						reportarError("No hay final de sentencia", tokenActual.getFila(), tokenActual.getColumna());
+						reportarError("Falta algun identificador", tokenActual.getFila(), tokenActual.getColumna());
 					}
 				} else {
-					reportarError("No hay una lista de sentencias", tokenActual.getFila(), tokenActual.getColumna());
+					ArrayList<Token> listaIdentificador = esListaIdentificadores();
+					if (listaIdentificador != null) {
+
+						if (tokenActual.getLexema().equals("fin")) {
+							return new DeclaracionVariable(visibilidad, tipoDato, listaIdentificador);
+						} else {
+							reportarError("Falta fin de sentencia", tokenActual.getFila(), tokenActual.getColumna());
+						}
+					} else {
+						reportarError("Falta algun identificador", tokenActual.getFila(), tokenActual.getColumna());
+					}
 				}
 			} else {
-				reportarError("No es un tipo de dato", tokenActual.getFila(), tokenActual.getColumna());
+				reportarError("Falta el tipo de dato", tokenActual.getFila(), tokenActual.getColumna());
 			}
 		} else {
-			reportarError("No hay palabra reservada", tokenActual.getFila(), tokenActual.getColumna());
+			Token tipoDato = esTipoDato();
+			if (tipoDato != null) {
+				obtenerSiguienteToken();
+
+				if (tokenActual.getCategoria().equals(Categoria.ARREGLO)) {
+					Token arreglo = tokenActual;
+					obtenerSiguienteToken();
+
+					ArrayList<Token> listaIdentificador = esListaIdentificadores();
+					if (listaIdentificador != null) {
+
+						if (tokenActual.getLexema().equals("fin")) {
+							return new DeclaracionVariable(arreglo, listaIdentificador, tipoDato);
+						} else {
+							reportarError("Falta fin de sentencia", tokenActual.getFila(), tokenActual.getColumna());
+						}
+					} else {
+						reportarError("Falta algun identificador", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				} else {
+					ArrayList<Token> listaIdentificador = esListaIdentificadores();
+					if (listaIdentificador != null) {
+
+						if (tokenActual.getLexema().equals("fin")) {
+							return new DeclaracionVariable(tipoDato, listaIdentificador);
+						} else {
+							reportarError("Falta fin de sentencia", tokenActual.getFila(), tokenActual.getColumna());
+						}
+					} else {
+						reportarError("Falta algun identificador", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				}
+			} else {
+				reportarError("Falta el tipo de dato", tokenActual.getFila(), tokenActual.getColumna());
+			}
 		}
 		return null;
 	}
@@ -554,90 +823,32 @@ public class AnalizadorSintactico {
 	 * Metodo que identifica si es una asignacion de variable
 	 * 
 	 * <{@link AsignacionVariable}>::= identificadorVariable operadorAsignacion
-	 * <{@link Expresion}> fin
+	 * <{@link Termino}> fin
 	 * 
 	 * @return declaracionnCampo{@link DeclaracionVariable}
 	 */
 	private AsignacionVariable esAsignacionVariable() {
-		int posInicial = posActual;
-		if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA) {
-			Token tipo = tokenActual;
+		if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR_VARIABLE) {
+			Token identificador = tokenActual;
 			obtenerSiguienteToken();
 
-			if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR_VARIABLE) {
-				Token identificadorVariable = tokenActual;
+			if (tokenActual.getCategoria() == Categoria.OPERADOR_ASIGNACION) {
+				Token operadorAsignacion = tokenActual;
 				obtenerSiguienteToken();
 
-				if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA
-						&& !tokenActual.getLexema().equals("fin")) {
-					Token asignador = tokenActual;
-					obtenerSiguienteToken();
-
-					if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR
-							|| tokenActual.getCategoria() == Categoria.IDENTIFICADOR_VARIABLE
-							|| tokenActual.getCategoria() == Categoria.IDENTIFICADOR_METODO) {
-						Token identificador = tokenActual;
-						obtenerSiguienteToken();
-						if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA) {
-							return new AsignacionVariable(tipo, identificadorVariable, asignador, identificador,
-									tokenActual);
-						} else {
-							reportarError("Falta fin de setencia", tokenActual.getFila(), tokenActual.getColumna());
-						}
+				Termino termino = esTermino();
+				if (termino != null) {
+					if (tokenActual.getLexema().equals("fin")) {
+						return new AsignacionVariable(identificador, operadorAsignacion, termino);
 					} else {
-						ExpresionAritmetica ex = esExpresionAritmetica();
-						if (ex != null) {
-							if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA) {
-								return new AsignacionVariable(tipo, identificadorVariable, asignador, ex, tokenActual);
-							} else {
-								reportarError("Falta fin de setencia", tokenActual.getFila(), tokenActual.getColumna());
-							}
-						} else {
-							reportarError("Falta expresion aritmetica", tokenActual.getFila(),
-									tokenActual.getColumna());
-						}
+						reportarError("Falta fin de sentencia", tokenActual.getFila(), tokenActual.getColumna());
 					}
 				} else {
-					hacerBactracking(posInicial);
+					reportarError("Falta termino", tokenActual.getFila(), tokenActual.getColumna());
 				}
 			} else {
-				hacerBactracking(posInicial);
+				reportarError("Falta operador asignación", tokenActual.getFila(), tokenActual.getColumna());
 			}
-		} else if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR_VARIABLE) {
-			Token identificadorVariable = tokenActual;
-			obtenerSiguienteToken();
-
-			if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA && !tokenActual.getLexema().equals("fin")) {
-				Token asignador = tokenActual;
-				obtenerSiguienteToken();
-
-				if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR
-						|| tokenActual.getCategoria() == Categoria.IDENTIFICADOR_VARIABLE
-						|| tokenActual.getCategoria() == Categoria.IDENTIFICADOR_METODO) {
-					Token identificador = tokenActual;
-					obtenerSiguienteToken();
-					if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA) {
-						return new AsignacionVariable(identificadorVariable, asignador, identificador, tokenActual);
-					} else {
-						reportarError("Falta fin de setencia", tokenActual.getFila(), tokenActual.getColumna());
-					}
-				} else {
-					ExpresionAritmetica ex = esExpresionAritmetica();
-					if (ex != null) {
-						if (tokenActual.getCategoria() == Categoria.PALABRA_RESERVADA) {
-							return new AsignacionVariable(identificadorVariable, asignador, tokenActual, ex);
-						} else {
-							reportarError("Falta fin de setencia", tokenActual.getFila(), tokenActual.getColumna());
-						}
-					} else {
-						reportarError("Falta expresion aritmetica", tokenActual.getFila(), tokenActual.getColumna());
-					}
-				}
-			} else {
-				hacerBactracking(posInicial);
-			}
-		} else {
-			hacerBactracking(posInicial);
 		}
 		return null;
 	}
@@ -650,6 +861,23 @@ public class AnalizadorSintactico {
 	 * @return sentenciaIncremento {@link SentenciaIncremento}
 	 */
 	private SentenciaIncremento esSentenciaIncremento() {
+
+		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+			Token indentificadorVariable = tokenActual;
+			obtenerSiguienteToken();
+			if (tokenActual.getLexema().equals("INC")) {
+				Token incremento = tokenActual;
+				obtenerSiguienteToken();
+				if (tokenActual.getLexema().equals("fin")) {
+					return new SentenciaIncremento(indentificadorVariable, incremento);
+				} else {
+					reportarError("Falta Fin", tokenActual.getFila(), tokenActual.getFila());
+				}
+			} else {
+				reportarError("Falta incremento inc", tokenActual.getFila(), tokenActual.getFila());
+			}
+		}
+
 		return null;
 	}
 
@@ -661,6 +889,22 @@ public class AnalizadorSintactico {
 	 * @return sentenciaDecremento {@link SentenciaDecremento}
 	 */
 	private SentenciaIncremento esSentenciaDecremento() {
+		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
+			Token indentificadorVariable = tokenActual;
+			obtenerSiguienteToken();
+			if (tokenActual.getLexema().equals("DEC")) {
+				Token incremento = tokenActual;
+				obtenerSiguienteToken();
+				if (tokenActual.getLexema().equals("fin")) {
+					return new SentenciaIncremento(indentificadorVariable, incremento);
+				} else {
+					reportarError("Falta Fin", tokenActual.getFila(), tokenActual.getFila());
+				}
+			} else {
+				reportarError("Falta decremento dec", tokenActual.getFila(), tokenActual.getFila());
+			}
+		}
+
 		return null;
 	}
 
@@ -687,6 +931,82 @@ public class AnalizadorSintactico {
 			return listaId.size() > 0 ? listaId : null;
 		}
 		return null;
+	}
+
+	/**
+	 * Metodo para lista de parametros
+	 * 
+	 * @return
+	 */
+	private ArrayList<Parametro> esListaParametro() {
+		ArrayList<Parametro> listaParametro = new ArrayList<>();
+
+		Parametro parametro = esParametro();
+		if (parametro != null) {
+			listaParametro.add(parametro);
+			obtenerSiguienteToken();
+
+			while (tokenActual.getCategoria() == Categoria.SEPARADOR) {
+				obtenerSiguienteToken();
+				Parametro parametro0 = esParametro();
+				if (parametro0 != null) {
+					listaParametro.add(parametro0);
+					obtenerSiguienteToken();
+				} else {
+					reportarError("Falta parametro", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			}
+			return listaParametro.size() > 0 ? listaParametro : null;
+		}
+		return null;
+	}
+
+	/**
+	 * Metodo para lista de parametros
+	 * 
+	 * @return
+	 */
+	private ArrayList<Termino> esListaArgumento() {
+		ArrayList<Termino> listaArgumento = new ArrayList<>();
+
+		Termino termino = esTermino();
+		if (termino != null) {
+			listaArgumento.add(termino);
+			obtenerSiguienteToken();
+
+			while (tokenActual.getCategoria() == Categoria.SEPARADOR) {
+				obtenerSiguienteToken();
+				Termino termino0 = esTermino();
+				if (termino0 != null) {
+					listaArgumento.add(termino0);
+					obtenerSiguienteToken();
+				} else {
+					reportarError("Falta parametro", tokenActual.getFila(), tokenActual.getColumna());
+				}
+			}
+			return listaArgumento.size() > 0 ? listaArgumento : null;
+		}
+		return null;
+	}
+
+	/**
+	 * Método para identificar una lista de sentencias
+	 * 
+	 * @return
+	 */
+	private ArrayList<Sentencia> esListaSentencia() {
+		ArrayList<Sentencia> listaSentencia = new ArrayList<>();
+
+		while (true) {
+			Sentencia sentencia = esSentencia();
+			if (sentencia != null) {
+				listaSentencia.add(sentencia);
+				obtenerSiguienteToken();
+			} else {
+				break;
+			}
+		}
+		return listaSentencia.size() > 0 ? listaSentencia : null;
 	}
 
 	/**

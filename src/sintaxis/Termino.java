@@ -13,25 +13,35 @@ import lexico.Token;
  */
 
 public class Termino {
+	private LlamadoFuncion llamadoFuncion;
+	private ValorAsignacion valorAsignacion;
+	private Expresion expresion;
 	private Token termino;
 
+	/**
+	 * Método constructor
+	 * 
+	 * @param termino
+	 */
 	public Termino(Token termino) {
 		this.setTermino(termino);
 	}
 
 	public Termino(LlamadoFuncion llamadoFuncion) {
-
+		this.llamadoFuncion = llamadoFuncion;
 	}
 
 	public Termino(ValorAsignacion valorAsignacion) {
-		// TODO Auto-generated constructor stub
+		this.valorAsignacion = valorAsignacion;
 	}
 
 	public Termino(Expresion expresion) {
-		// TODO Auto-generated constructor stub
+		this.expresion = expresion;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -49,11 +59,28 @@ public class Termino {
 
 	/**
 	 * Arbol de Termino
+	 * 
 	 * @return nodo
 	 */
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Termino");
-		nodo.add(new DefaultMutableTreeNode(termino.getLexema()));
+
+		if (termino != null) {
+			nodo.add(new DefaultMutableTreeNode(termino.getLexema()));
+		}
+
+		if (llamadoFuncion != null) {
+			nodo.add(new DefaultMutableTreeNode(llamadoFuncion.getArbolVisual()));
+		}
+
+		if (valorAsignacion != null) {
+			nodo.add(new DefaultMutableTreeNode(valorAsignacion.getArbolVisual()));
+		}
+
+		if (expresion != null) {
+			nodo.add(new DefaultMutableTreeNode(llamadoFuncion.getArbolVisual()));
+		}
+
 		return nodo;
 	}
 }

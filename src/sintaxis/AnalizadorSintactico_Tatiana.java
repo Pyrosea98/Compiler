@@ -163,49 +163,74 @@ public class AnalizadorSintactico_Tatiana {
 	 * @return sentencia{@link Sentencia}
 	 */
 	private Sentencia esSentencia() {
+		int posInicial = posActual;
 		Sentencia sentencia;
-		sentencia = esCondicional();
 
+		sentencia = esCondicional();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esCiclo();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esRetorno();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esImpresion();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esLectura();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esDeclaracionVariable();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esAsignacionVariable();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esSentenciaIncremento();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
 		sentencia = esSentenciaDecremento();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
 
 		sentencia = esLlamadoFuncion();
 		if (sentencia != null) {
 			return sentencia;
 		}
+		hacerBactracking(posInicial);
+
+		sentencia = esRetorno();
+		if (sentencia != null) {
+			return sentencia;
+		}
+		hacerBactracking(posInicial);
 
 		return null;
 	}
