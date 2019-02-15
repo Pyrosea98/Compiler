@@ -477,10 +477,12 @@ public class AnalizadorSintactico_Daniel {
 	private ExpresionAritmetica esExpresionAritmetica() {
 
 		if (tokenActual.getCategoria() == Categoria.PARENTESIS_IZQUIERDO) {
+			obtenerSiguienteToken();
 			Termino termino = esTermino();
 			if (termino != null) {
 				obtenerSiguienteToken();
 				if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+					obtenerSiguienteToken();
 					Token opeAritmetico = tokenActual;
 					if (opeAritmetico.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
 						obtenerSiguienteToken();
@@ -488,27 +490,50 @@ public class AnalizadorSintactico_Daniel {
 						if (expAritmetica != null) {
 							return new ExpresionAritmetica(termino, opeAritmetico, expAritmetica);
 						} else {
-							reportarError("Falta expresion aritmetica", tokenActual.getFila(),
+							reportarError("Falta Expresion Aritmetica", tokenActual.getFila(),
 									tokenActual.getColumna());
 						}
-					} 
-				}else {
+					} else {
+						return new ExpresionAritmetica(termino);
+					}
+				} else {
 					reportarError("Falta Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna());
 				}
+			} else {
+				ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
+				if (expresionAritmetica != null) {
+					obtenerSiguienteToken();
+					if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+						return new ExpresionAritmetica(expresionAritmetica);
+					} else {
+						reportarError("Falta Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				} else {
+					reportarError("Falta Expresion Aritmetica O Termino", tokenActual.getFila(),
+							tokenActual.getColumna());
+				}
+			}
+		} else {
+			Termino termino = esTermino();
+			if (termino != null) {
+				obtenerSiguienteToken();
+				Token opArt = tokenActual;
+				if (opArt.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
+					obtenerSiguienteToken();
+					ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
+					if (expresionAritmetica != null) {
+						return new ExpresionAritmetica(termino, opArt, expresionAritmetica);
+					} else {
+						reportarError("Falta Expresion Aritmetica", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				}else {
+					return new ExpresionAritmetica(termino);
+				}
+			}else {
+				reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna());
 			}
 		}
-	}else
-
-	{
-		obtenerSiguienteToken();
-		if (tokenActual.getCategoria() == Categoria.PARENTESIS_IZQUIERDO) {
-			obtenerSiguienteToken();
-			ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
-			obtenerSiguienteToken();
-			if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
-				return new ExpresionAritmetica(expresionAritmetica);
-			}
-		}
+		return null;
 	}
 
 	/**
