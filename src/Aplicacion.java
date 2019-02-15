@@ -1,5 +1,4 @@
-import lexico.AnalizadorLexico;
-import sintaxis.AnalizadorSintactico;
+import gui.VentanaCompilador;
 
 /**
  * Clase que permite la ejecución del programa de compilador
@@ -12,19 +11,19 @@ public class Aplicacion {
 
     public static void main(String[] args) {
 
-//       new VentanaCompilador();
+       new VentanaCompilador();
     	
-    	String codigoFuente = "visible ntr a|b|c fin";
-    	
-    	AnalizadorLexico al = new AnalizadorLexico(codigoFuente);
-    	al.analizar();
-    	AnalizadorSintactico as = new AnalizadorSintactico(al.getTablaSimbolos());
-    	as.analizar();
-    	
+//    	String codigoFuente = "visible ntr a|b|c fin";
+//    	
+//    	AnalizadorLexico al = new AnalizadorLexico(codigoFuente);
+//    	al.analizar();
+//    	AnalizadorSintactico as = new AnalizadorSintactico(al.getTablaSimbolos());
+//    	as.analizar();
+//    	
 //    	System.out.println(al.getTablaSimbolos());
 //    	System.out.println(al.getTablaErrores());
-    	System.out.println(as.getTablaSimbolos());
-    	System.out.println(as.getTablaErrores());
+//    	System.out.println(as.getTablaSimbolos());
+//    	System.out.println(as.getTablaErrores());
     	
     }
 

@@ -656,7 +656,7 @@ public class AnalizadorLexico {
 								|| lexema.substring(lexema.length()).equals("ir")
 								|| lexema.substring(lexema.length()).equals("or")
 								|| lexema.substring(lexema.length()).equals("ur")) {
-							almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.IDENTIFICADOR_VARIABLE);
+							almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.IDENTIFICADOR_METODO);
 						} else {
 							reportarError(lexema, filaInicial, colInicial, posInicial);
 						}
@@ -699,7 +699,7 @@ public class AnalizadorLexico {
 					lexema += charActual;
 					obtenerSiguienteCaracter();
 				}
-				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.IDENTIFICADOR_VARIABLE);
+				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.IDENTIFICADOR_CLASE);
 				return true;
 			} else {
 				reportarError(lexema, filaInicial, colInicial, posInicial);

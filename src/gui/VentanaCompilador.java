@@ -24,10 +24,10 @@ import javax.swing.JTree;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 
 import controlador.ControladorVentana;
 import lexico.AnalizadorLexico;
+import sintaxis.AnalizadorSintactico;
 
 /**
  * Esta clase contiene la interfaz grafica del compilador
@@ -39,9 +39,10 @@ import lexico.AnalizadorLexico;
  */
 public class VentanaCompilador extends JFrame implements ActionListener, KeyListener {
 
-	private JPanel panelEditor, panelErrores, panelSimbolos, panel,panelArbol;
+	private JPanel panelEditor, panelErrores, panelSimbolos, panel, panelArbol;
 	private JTable errores, simbolos;
-	private JScrollPane scroll;
+	private JScrollPane scroll, scrollArbol;
+	private JTree arbolVisual;
 	private JMenu mnEjecutar, mnArchivo, mnTema;
 	private JMenuBar menuBar;
 	private JMenuItem mntmAbrir, mntmEjecutar, mntmNuevo, mntmGuardar, mntmOscuro, mntmClaro;
@@ -50,6 +51,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 	private ControladorVentana controladorVentana;
 	private GroupLayout gl_panel;
 	private AnalizadorLexico analizadorLexico;
+	private AnalizadorSintactico analizadorSintactico;
 
 	/**
 	 * 
@@ -98,14 +100,20 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		panelEditor.setBorder(new TitledBorder(null, "Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		panelArbol = new JPanel(null);
-		panelSimbolos.setBounds(0, 0, 1280, 720);
-		panelSimbolos.setBorder(new TitledBorder(null, "Arbol", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelArbol.setBounds(0, 0, 1280, 720);
+		panelArbol.setBorder(new TitledBorder(null, "Arbol", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(tabbedPane);
 		
 		tabbedPane.addTab("Compilador", null, panelEditor, null);
 		tabbedPane.addTab("Simbolos", null, panelSimbolos, null);
 		tabbedPane.addTab("Errores", null, panelErrores, null);
 		tabbedPane.addTab("Arbol", null, panelArbol, null);
+		
+		//Arbol
+		arbolVisual = new JTree(new DefaultMutableTreeNode("Arbol visual"));
+		arbolVisual.setBounds(0, 0, 1280, 720);
+		
+		panelArbol.add(arbolVisual);
 
 		// Panel editor
 		linea = new JEditorPane();
@@ -158,6 +166,10 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		scroll = new JScrollPane();
 		scroll.setBounds(2, 37, 1253, 601);
 		panelEditor.add(scroll);
+		
+		scrollArbol = new JScrollPane();
+		scrollArbol.setBounds(2, 37, 1253, 601);
+		panelArbol.add(scrollArbol);
 
 		panel = new JPanel();
 		scroll.setViewportView(panel);
@@ -189,9 +201,6 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		// Panel simbolos
 		simbolos = new JTable();
 		panelSimbolos.setLayout(new BorderLayout());
-		
-		//Panel Árbol
-		JTree arbol = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode("Árbol Visual")));
 	}
 
 	@Override
@@ -393,4 +402,35 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		this.analizadorLexico = analizadorLexico;
 	}
 
+	public AnalizadorSintactico getAnalizadorSintactico() {
+		return analizadorSintactico;
+	}
+
+	public void setAnalizadorSintactico(AnalizadorSintactico analizadorSintactico) {
+		this.analizadorSintactico = analizadorSintactico;
+	}
+
+	/**
+	 * @return the panelArbol
+	 */
+	public JPanel getPanelArbol() {
+		return panelArbol;
+	}
+
+	/**
+	 * @param panelArbol the panelArbol to set
+	 */
+	public void setPanelArbol(JPanel panelArbol) {
+		this.panelArbol = panelArbol;
+	}
+
+	public JTree getArbolVisual() {
+		return arbolVisual;
+	}
+
+	public void setArbolVisual(JTree arbolVisual) {
+		this.arbolVisual = arbolVisual;
+	}
+
+	
 }
