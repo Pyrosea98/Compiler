@@ -613,6 +613,34 @@ public class AnalizadorSintactico_Daniel {
 	 * @return impresion{@link Impresion}
 	 */
 	private Impresion esImpresion() {
+		
+		Token escribir = tokenActual;
+		if (escribir.getLexema().equals("escribir")) {
+			obtenerSiguienteToken();
+			if (tokenActual.getCategoria()==Categoria.PARENTESIS_IZQUIERDO) {
+				obtenerSiguienteToken();
+				Termino termino = esTermino();
+				if (termino!=null) {
+					obtenerSiguienteToken();
+					if (tokenActual.getCategoria()==Categoria.PARENTESIS_DERECHO) {
+						obtenerSiguienteToken();
+						if (tokenActual.getLexema().equals("fin")) {
+							return new Impresion(escribir, termino);
+						}else {
+							reportarError("Falta la sentencia Fin", tokenActual.getFila(), tokenActual.getColumna());
+						}
+					}else {
+						reportarError("Falta el Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna());
+					}
+				}else {
+					reportarError("Falta el termino",tokenActual.getFila(), tokenActual.getColumna());
+				}
+			}else {
+				reportarError("Falta el Parentesis Izquierdo", tokenActual.getFila(), tokenActual.getColumna());
+			}
+		}else {
+			reportarError("Falta la sentencia escribir", tokenActual.getFila(), tokenActual.getColumna());
+		}
 		return null;
 	}
 

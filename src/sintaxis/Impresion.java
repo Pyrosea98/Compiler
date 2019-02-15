@@ -16,7 +16,6 @@ public class Impresion extends Sentencia {
 
 	private Token escribir;
 	private Termino termino;
-	private Token fin;
 
 	/**
 	 * Constructor para imprimir un dato
@@ -25,11 +24,10 @@ public class Impresion extends Sentencia {
 	 * @param termino
 	 * @param fin
 	 */
-	public Impresion(Token escribir, Termino termino, Token fin) {
+	public Impresion(Token escribir, Termino termino) {
 		super();
 		this.escribir = escribir;
 		this.termino = termino;
-		this.fin = fin;
 	}
 
 	@Override
@@ -40,7 +38,6 @@ public class Impresion extends Sentencia {
 		nodo.add(new DefaultMutableTreeNode(escribir.getLexema()));
 		if (termino != null) {
 			nodo.add(termino.getArbolVisual());
-			nodo.add(new DefaultMutableTreeNode(fin.getLexema()));
 		}
 		return nodo;
 	}
