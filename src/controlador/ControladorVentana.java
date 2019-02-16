@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -202,7 +203,7 @@ public class ControladorVentana {
 		ventanaCompilador.setSimbolos(new JTable(modelo_simbolo));
 		ventanaCompilador.getSimbolos().setBackground(ventanaCompilador.getEditor().getBackground());
 		ventanaCompilador.getSimbolos().setForeground(ventanaCompilador.getEditor().getForeground());
-		ventanaCompilador.getPanelSimbolos().add(ventanaCompilador.getSimbolos(), BorderLayout.CENTER);
+		ventanaCompilador.getPanelSimbolos().add(new JScrollPane(ventanaCompilador.getSimbolos()), BorderLayout.CENTER);
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class ControladorVentana {
 		ventanaCompilador.setErrores(new JTable(modelo_simbolo));
 		ventanaCompilador.getErrores().setBackground(ventanaCompilador.getEditor().getBackground());
 		ventanaCompilador.getErrores().setForeground(ventanaCompilador.getEditor().getForeground());
-		ventanaCompilador.getPanelErrores().add(ventanaCompilador.getErrores(), BorderLayout.CENTER);
+		ventanaCompilador.getPanelErrores().add(new JScrollPane(ventanaCompilador.getErrores()), BorderLayout.CENTER);
 	}
 
 	/**

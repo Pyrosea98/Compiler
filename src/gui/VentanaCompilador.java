@@ -194,17 +194,19 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 
 		// Panel errores
 		errores = new JTable();
+		errores.setBounds(2, 37, 1253, 601);
 
 		// Panel simbolos
 		simbolos = new JTable();
+		errores.setBounds(2, 37, 1253, 601);
 		
-		scrollSimbolos = new JScrollPane();
-		simbolos.add(scrollSimbolos);
-		panelSimbolos.add(simbolos);
+		scrollSimbolos = new JScrollPane(simbolos);
+		scrollSimbolos.setBounds(2, 37, 1253, 601);
+		panelSimbolos.add(scrollSimbolos, BorderLayout.CENTER);
 		
-		scrollErrores = new JScrollPane();
-		errores.add(scrollErrores);
-		panelErrores.add(errores);
+		scrollErrores = new JScrollPane(errores);
+		scrollErrores.setBounds(2, 37, 1253, 601);
+		panelErrores.add(scrollErrores, BorderLayout.CENTER);
 	}
 
 	@Override

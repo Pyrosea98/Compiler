@@ -738,7 +738,7 @@ public class AnalizadorLexico {
 			if (esPalabraReservada(lexema)) {
 				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.PALABRA_RESERVADA);
 			} else {
-				almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.IDENTIFICADOR);
+				reportarError(lexema, filaInicial, colInicial, posActual);
 			}
 			return true;
 		} else {
