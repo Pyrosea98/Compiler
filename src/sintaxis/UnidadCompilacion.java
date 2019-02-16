@@ -105,7 +105,7 @@ public class UnidadCompilacion {
 		
 		nodo.add(new DefaultMutableTreeNode(palabraReservadaClase.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(identificadorClase.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(cuerpoClase.getArbolVisual()));
+		nodo.add(cuerpoClase.getArbolVisual());
 	
 		return nodo;
 	}

@@ -116,7 +116,7 @@ public class Ciclo extends Sentencia {
 
 		nodo.add(new DefaultMutableTreeNode(ciclo.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(mientras.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(expresionLogica.getArbolVisual()));
+		nodo.add(expresionLogica.getArbolVisual());
 		if (sentencias != null) {
 			for(Sentencia sentencia: sentencias) {
 				nodo.add(sentencia.getArbolVisual());

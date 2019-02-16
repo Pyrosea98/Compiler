@@ -66,7 +66,7 @@ public class ExpresionLogica extends Expresion {
 			if (opLogico != null) {
 				nodo.add(new DefaultMutableTreeNode(opLogico.getLexema()));
 			}
-			nodo.add(expresionLogica.getArbolVisual(nodo));
+			return expresionLogica.getArbolVisual(nodo);
 		}
 
 		return nodo;
@@ -81,7 +81,7 @@ public class ExpresionLogica extends Expresion {
 			if (opLogico != null) {
 				nodo.add(new DefaultMutableTreeNode(opLogico.getLexema()));
 			}
-			nodo.add(expresionLogica.getArbolVisual(nodo));
+			return expresionLogica.getArbolVisual(nodo);
 		}
 
 		return nodo;

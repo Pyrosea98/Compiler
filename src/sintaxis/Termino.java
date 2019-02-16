@@ -67,18 +67,22 @@ public class Termino {
 
 		if (termino != null) {
 			nodo.add(new DefaultMutableTreeNode(termino.getLexema()));
+			return nodo;
 		}
 
 		if (llamadoFuncion != null) {
 			nodo.add(new DefaultMutableTreeNode(llamadoFuncion.getArbolVisual()));
+			return nodo;
 		}
 
 		if (valorAsignacion != null) {
 			nodo.add(new DefaultMutableTreeNode(valorAsignacion.getArbolVisual()));
+			return nodo;
 		}
 
 		if (expresion != null) {
-			nodo.add(new DefaultMutableTreeNode(llamadoFuncion.getArbolVisual()));
+			nodo.add(expresion.getArbolVisual());
+			return nodo;
 		}
 
 		return nodo;

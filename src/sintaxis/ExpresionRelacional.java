@@ -61,11 +61,11 @@ public class ExpresionRelacional extends Expresion {
 			nodo.add(expAritmetica.getArbolVisual());
 			if (expRelacional != null) {
 				nodo.add(new DefaultMutableTreeNode(opRelacional.getLexema()));
-				nodo.add(expRelacional.getArbolVisual(nodo));
+				return expRelacional.getArbolVisual(nodo);
 			}
 		} else {
 			if (expRelacional != null) {
-				nodo.add(expRelacional.getArbolVisual(nodo));
+				return expRelacional.getArbolVisual(nodo);
 			}
 		}
 		return nodo;
@@ -77,11 +77,11 @@ public class ExpresionRelacional extends Expresion {
 			nodo.add(expAritmetica.getArbolVisual());
 			if (expRelacional != null) {
 				nodo.add(new DefaultMutableTreeNode(opRelacional.getLexema()));
-				nodo.add(expRelacional.getArbolVisual(nodo));
+				return expRelacional.getArbolVisual(nodo);
 			}
 		} else {
 			if (expRelacional != null) {
-				nodo.add(expRelacional.getArbolVisual(nodo));
+				return expRelacional.getArbolVisual(nodo);
 			}
 		}
 

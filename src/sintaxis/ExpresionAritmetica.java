@@ -69,7 +69,7 @@ public class ExpresionAritmetica extends Expresion {
 			if (opAritmetico != null) {
 				nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
 				if (expArt!=null) {
-					nodo.add(expArt.getArbolVisual(nodo));
+					return expArt.getArbolVisual(nodo);
 				}
 			}
 		}
@@ -83,7 +83,7 @@ public class ExpresionAritmetica extends Expresion {
 			if (opAritmetico != null) {
 				nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
 				if (expArt!=null) {
-					nodo.add(expArt.getArbolVisual(nodo));
+					return expArt.getArbolVisual(nodo);
 				}
 			}
 		}

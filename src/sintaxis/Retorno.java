@@ -63,7 +63,7 @@ public class Retorno extends Sentencia {
 	public DefaultMutableTreeNode getArbolVisual() {
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Retorno");
 		nodo.add(new DefaultMutableTreeNode(retorno.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(retorno.getLexema()));
+		nodo.add(termino.getArbolVisual());
 
 		return nodo;
 	}

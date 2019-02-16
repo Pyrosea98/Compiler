@@ -41,7 +41,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 
 	private JPanel panelEditor, panelErrores, panelSimbolos, panel, panelArbol;
 	private JTable errores, simbolos;
-	private JScrollPane scroll, scrollArbol;
+	private JScrollPane scroll, scrollArbol, scrollSimbolos, scrollErrores;
 	private JTree arbolVisual;
 	private JMenu mnEjecutar, mnArchivo, mnTema;
 	private JMenuBar menuBar;
@@ -85,12 +85,12 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		tabbedPane.setBorder(new TitledBorder(null, "Compilador", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(tabbedPane);
 
-		panelSimbolos = new JPanel(null);
+		panelSimbolos = new JPanel(new BorderLayout());
 		panelSimbolos.setBounds(0, 0, 1280, 720);
 		panelSimbolos.setBorder(new TitledBorder(null, "Simbolos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(tabbedPane);
 
-		panelErrores = new JPanel(null);
+		panelErrores = new JPanel(new BorderLayout());
 		panelErrores.setBounds(0, 0, 1280, 720);
 		panelErrores.setBorder(new TitledBorder(null, "Errores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(tabbedPane);
@@ -112,8 +112,6 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		//Arbol
 		arbolVisual = new JTree(new DefaultMutableTreeNode("Arbol visual"));
 		arbolVisual.setBounds(0, 0, 1280, 720);
-		
-		panelArbol.add(arbolVisual);
 
 		// Panel editor
 		linea = new JEditorPane();
@@ -167,7 +165,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		scroll.setBounds(2, 37, 1253, 601);
 		panelEditor.add(scroll);
 		
-		scrollArbol = new JScrollPane();
+		scrollArbol = new JScrollPane(arbolVisual);
 		scrollArbol.setBounds(2, 37, 1253, 601);
 		panelArbol.add(scrollArbol);
 
@@ -196,11 +194,17 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 
 		// Panel errores
 		errores = new JTable();
-		panelErrores.setLayout(new BorderLayout());
 
 		// Panel simbolos
 		simbolos = new JTable();
-		panelSimbolos.setLayout(new BorderLayout());
+		
+		scrollSimbolos = new JScrollPane();
+		simbolos.add(scrollSimbolos);
+		panelSimbolos.add(simbolos);
+		
+		scrollErrores = new JScrollPane();
+		errores.add(scrollErrores);
+		panelErrores.add(errores);
 	}
 
 	@Override
@@ -430,6 +434,34 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 
 	public void setArbolVisual(JTree arbolVisual) {
 		this.arbolVisual = arbolVisual;
+	}
+
+	/**
+	 * @return the scrollSimbolos
+	 */
+	public JScrollPane getScrollSimbolos() {
+		return scrollSimbolos;
+	}
+
+	/**
+	 * @param scrollSimbolos the scrollSimbolos to set
+	 */
+	public void setScrollSimbolos(JScrollPane scrollSimbolos) {
+		this.scrollSimbolos = scrollSimbolos;
+	}
+
+	/**
+	 * @return the scrollErrores
+	 */
+	public JScrollPane getScrollErrores() {
+		return scrollErrores;
+	}
+
+	/**
+	 * @param scrollErrores the scrollErrores to set
+	 */
+	public void setScrollErrores(JScrollPane scrollErrores) {
+		this.scrollErrores = scrollErrores;
 	}
 
 	

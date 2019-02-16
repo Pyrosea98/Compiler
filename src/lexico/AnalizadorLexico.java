@@ -38,6 +38,8 @@ public class AnalizadorLexico {
 	private void llenarPalabras() {
 		// palabra reservada para indicar una clase
 		reservedWords.add("clase");
+		//palabra para indicar un metodo
+		reservedWords.add("funapp");
 		// palabras reservadas para visibilidad
 		reservedWords.add("visible");
 		reservedWords.add("oculto");
@@ -70,7 +72,7 @@ public class AnalizadorLexico {
 		reservedWords.add("devolver");
 		// Lectura y escritura
 		reservedWords.add("leer");
-		reservedWords.add("escribir");
+		reservedWords.add("imprimir");
 	}
 
 	/**
@@ -386,8 +388,10 @@ public class AnalizadorLexico {
 						lexema += charActual;
 						obtenerSiguienteCaracter();
 						almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.OPERADOR_RELACIONAL);
+						return true;
 					} else {
 						reportarError(lexema, filaInicial, colInicial, posInicial);
+						return true;
 					}
 				}
 			case 'e':
@@ -651,14 +655,15 @@ public class AnalizadorLexico {
 							lexema += charActual;
 							obtenerSiguienteCaracter();
 						}
-						if (lexema.substring(lexema.length()).equals("ar")
+						if (lexema.substring(lexema.length()-2).equals("ar")
 								|| lexema.substring(lexema.length()).equals("er")
 								|| lexema.substring(lexema.length()).equals("ir")
 								|| lexema.substring(lexema.length()).equals("or")
 								|| lexema.substring(lexema.length()).equals("ur")) {
 							almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.IDENTIFICADOR_METODO);
 						} else {
-							reportarError(lexema, filaInicial, colInicial, posInicial);
+							hacerBacktracking(posInicial);
+							return false;
 						}
 						return true;
 					} else {
