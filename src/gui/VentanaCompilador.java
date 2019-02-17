@@ -70,6 +70,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		init();
 		controladorVentana = new ControladorVentana(this);
 		setVisible(true);
+		setLocationRelativeTo(null);
 	}
 
 	/**

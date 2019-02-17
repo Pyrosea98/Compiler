@@ -80,8 +80,10 @@ public class AnalizadorSintactico {
 				reportarError("Falta identificador de clase", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
+		} else {
+			reportarError("Falta La Palabra Reservada Clase", tokenActual.getFila(), tokenActual.getColumna(),
+					tokenActual.getColumnaReal());
 		}
-
 		return null;
 	}
 
@@ -154,12 +156,15 @@ public class AnalizadorSintactico {
 										obtenerSiguienteToken();
 										ArrayList<Sentencia> listaSentencias = esListaSentencia();
 										if (listaSentencias != null) {
+											obtenerSiguienteToken();
 											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
 												return new Funcion(visibilidad, tipoRetorno, idFuncion, funcion,
 														listaParametros, listaSentencias);
+											} else {
+												reportarError("Falta Agrupador Derecho", tokenActual.getFila(),
+														tokenActual.getColumna(), tokenActual.getColumnaReal());
 											}
 										} else {
-											obtenerSiguienteToken();
 											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
 												return new Funcion(visibilidad, tipoRetorno, idFuncion, listaParametros,
 														funcion);
@@ -187,9 +192,11 @@ public class AnalizadorSintactico {
 											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
 												return new Funcion(visibilidad, tipoRetorno, idFuncion, funcion,
 														listaParametros, listaSentencias);
+											} else {
+												reportarError("Falta Agrupador Derecho", tokenActual.getFila(),
+														tokenActual.getColumna(), tokenActual.getColumnaReal());
 											}
 										} else {
-											obtenerSiguienteToken();
 											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
 												return new Funcion(visibilidad, tipoRetorno, idFuncion, listaParametros,
 														funcion);
@@ -250,7 +257,6 @@ public class AnalizadorSintactico {
 														listaParametros, listaSentencias);
 											}
 										} else {
-											obtenerSiguienteToken();
 											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
 												return new Funcion(visibilidad, tipoRetorno, idFuncion, listaParametros,
 														funcion);
@@ -280,7 +286,6 @@ public class AnalizadorSintactico {
 														listaParametros, listaSentencias);
 											}
 										} else {
-											obtenerSiguienteToken();
 											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
 												return new Funcion(visibilidad, tipoRetorno, idFuncion, listaParametros,
 														funcion);
@@ -484,7 +489,6 @@ public class AnalizadorSintactico {
 		if (sentencia != null) {
 			return sentencia;
 		}
-
 		return null;
 	}
 
@@ -508,31 +512,24 @@ public class AnalizadorSintactico {
 			if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
 				obtenerSiguienteToken();
 				ExpresionLogica expresionLogica = esExpresionLogica();
-
 				if (expresionLogica != null) {
-
+					obtenerSiguienteToken();
 					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
 						obtenerSiguienteToken();
-
 						if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
 							obtenerSiguienteToken();
-
 							ArrayList<Sentencia> listaSentencia = esListaSentencia(); // lista sentencia
-
 							if (listaSentencia != null) {
-
+								obtenerSiguienteToken();
 								if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
 									obtenerSiguienteToken();
-
 									if (tokenActual.getLexema().equals("contrario")) {
 										Token contrario = tokenActual;
 										obtenerSiguienteToken();
 										if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
 											obtenerSiguienteToken();
-
 											ArrayList<Sentencia> listaSentencia1 = esListaSentencia(); // lista
 																										// sentencia
-
 											if (listaSentencia1 != null) {
 												obtenerSiguienteToken();
 
@@ -552,25 +549,19 @@ public class AnalizadorSintactico {
 											reportarError("Falta agrupador izquierdo", tokenActual.getFila(),
 													tokenActual.getColumna(), tokenActual.getColumnaReal());
 										}
-
 									} else {
-
 										condicional = new Condicional(pregunta, expresionLogica, listaSentencia);
 										hacerBactracking(posActual - 1);
 										return condicional;
-
 									}
-
 								} else {
 									reportarError("Falta agrupador derecho", tokenActual.getFila(),
 											tokenActual.getColumna(), tokenActual.getColumnaReal());
 								}
-
 							} else {
 								reportarError("Falta lista sentencia", tokenActual.getFila(), tokenActual.getColumna(),
 										tokenActual.getColumnaReal());
 							}
-
 						} else {
 							reportarError("Falta agrupador izquierdo", tokenActual.getFila(), tokenActual.getColumna(),
 									tokenActual.getColumnaReal());
@@ -579,7 +570,6 @@ public class AnalizadorSintactico {
 						reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna(),
 								tokenActual.getColumnaReal());
 					}
-
 				} else {
 					reportarError("Falta expresion logica", tokenActual.getFila(), tokenActual.getColumna(),
 							tokenActual.getColumnaReal());
@@ -589,7 +579,6 @@ public class AnalizadorSintactico {
 						tokenActual.getColumnaReal());
 			}
 		}
-
 		return null;
 	}
 
@@ -644,11 +633,10 @@ public class AnalizadorSintactico {
 
 		ExpresionRelacional expresionRelacional = esExpresionRelacional();
 		if (expresionRelacional != null) {
-
+			obtenerSiguienteToken();
 			if (tokenActual.getCategoria().equals(Categoria.OPERADOR_LOGICO)) {
 				Token opLogico = tokenActual;
 				obtenerSiguienteToken();
-
 				ExpresionLogica expresionLogica = esExpresionLogica();
 				if (expresionLogica != null) {
 					return new ExpresionLogica(expresionRelacional, opLogico, expresionLogica);
@@ -656,20 +644,16 @@ public class AnalizadorSintactico {
 					reportarError("Falta expresión lógica", tokenActual.getFila(), tokenActual.getColumna(),
 							tokenActual.getColumnaReal());
 				}
-
 			} else {
 				return new ExpresionLogica(expresionRelacional);
 			}
-
 		} else {
 			hacerBactracking(posInicial);
 			if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
 				obtenerSiguienteToken();
-
 				ExpresionLogica expresionLogica = esExpresionLogica();
 				if (expresionLogica != null) {
 					obtenerSiguienteToken();
-
 					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
 						return expresionLogica;
 					} else {
@@ -680,6 +664,9 @@ public class AnalizadorSintactico {
 					reportarError("Falta expresión lógica", tokenActual.getFila(), tokenActual.getColumna(),
 							tokenActual.getColumnaReal());
 				}
+			} else {
+				reportarError("Falta Parentesis Izquierdo", tokenActual.getFila(), tokenActual.getColumna(),
+						tokenActual.getColumnaReal());
 			}
 		}
 		return null;
@@ -698,6 +685,7 @@ public class AnalizadorSintactico {
 		int posInicial = posActual;
 		ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
 		if (expresionAritmetica != null) {
+			obtenerSiguienteToken();
 			if (tokenActual.getCategoria() == Categoria.OPERADOR_RELACIONAL) {
 				Token opeRelacional = tokenActual;
 				obtenerSiguienteToken();
@@ -716,12 +704,16 @@ public class AnalizadorSintactico {
 			if (tokenActual.getCategoria() == Categoria.PARENTESIS_IZQUIERDO) {
 				obtenerSiguienteToken();
 				ExpresionRelacional expRelacional = esExpresionRelacional();
-				obtenerSiguienteToken();
-				if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
-					return new ExpresionRelacional(expRelacional);
-				} else {
-					reportarError("Falta Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna(),
-							tokenActual.getColumnaReal());
+				if (expRelacional != null) {
+					obtenerSiguienteToken();
+					if (tokenActual.getCategoria() == Categoria.PARENTESIS_DERECHO) {
+						return new ExpresionRelacional(expRelacional);
+					} else {
+						reportarError("Falta Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna(),
+								tokenActual.getColumnaReal());
+					}
+				}else {
+					reportarError("Falta Expresion Relacional", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
 				}
 			} else {
 				reportarError("Falta Parentesis Izquierdo", tokenActual.getFila(), tokenActual.getColumna(),
@@ -875,7 +867,6 @@ public class AnalizadorSintactico {
 				ArrayList<Termino> listaArgumentos = esListaArgumento();
 				if (listaArgumentos != null) {
 					obtenerSiguienteToken();
-
 					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
 						return new LlamadoFuncion(identificadorFuncion);
 					} else {
@@ -892,6 +883,8 @@ public class AnalizadorSintactico {
 				reportarError("Falta parentesisIzquierdo", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
+		}else {
+			reportarError("Falta Identificador Metodo", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
 		}
 		return null;
 	}
@@ -910,21 +903,17 @@ public class AnalizadorSintactico {
 		if (tokenActual.getLexema().equals("ciclo")) {
 			Token ciclo = tokenActual;
 			obtenerSiguienteToken();
-
 			if (tokenActual.getLexema().equals("mientras")) {
 				Token mientras = tokenActual;
 				obtenerSiguienteToken();
 				if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
 					obtenerSiguienteToken();
-
 					ExpresionLogica expresionLogica = esExpresionLogica();
 					if (expresionLogica != null) {
 						if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
 							obtenerSiguienteToken();
-
 							if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
 								obtenerSiguienteToken();
-
 								ArrayList<Sentencia> listaSentencia = esListaSentencia();
 								if (listaSentencia != null) {
 									if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
@@ -933,10 +922,9 @@ public class AnalizadorSintactico {
 										reportarError("Falta agrupador derecho", tokenActual.getFila(),
 												tokenActual.getColumna(), tokenActual.getColumnaReal());
 									}
-
 								} else {
 									if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
-
+										
 									} else {
 										reportarError("Falta agrupador derecho", tokenActual.getFila(),
 												tokenActual.getColumna(), tokenActual.getColumnaReal());
@@ -974,22 +962,21 @@ public class AnalizadorSintactico {
 	 * @return retorno {@link Retorno}
 	 */
 	private Retorno esRetorno() {
+
 		if (tokenActual.getLexema().equals("devolver")) {
 			Token retorno = tokenActual;
 			obtenerSiguienteToken();
-
 			int posInicial = posActual;
 			Termino termino = esTermino();
 			if (termino != null) {
 				obtenerSiguienteToken();
-
 				if (tokenActual.getLexema().equals("fin")) {
 					return new Retorno(retorno, termino);
 				} else {
 					hacerBactracking(posInicial);
 					Expresion expresion = esExpresion();
-
 					if (expresion != null) {
+						obtenerSiguienteToken();
 						if (tokenActual.getLexema().equals("fin")) {
 							return new Retorno(retorno, new Termino(expresion));
 						} else {
@@ -1002,9 +989,11 @@ public class AnalizadorSintactico {
 					}
 				}
 			} else {
-				reportarError("Fala el termino a devolver", tokenActual.getFila(), tokenActual.getColumna(),
+				reportarError("Falta el termino a devolver", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
+		}else {
+			reportarError("Falta Palabra Clave Devolver", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
 		}
 		return null;
 
@@ -1066,10 +1055,10 @@ public class AnalizadorSintactico {
 	private ExpresionCadena esExpresionCadena() {
 
 		Termino termino = esTermino();
-
 		if (termino != null) {
 			obtenerSiguienteToken();
 			if (tokenActual.getLexema().equals("(+)")) {
+				obtenerSiguienteToken();
 				ExpresionCadena expresionCadena = esExpresionCadena();
 				if (expresionCadena != null) {
 					obtenerSiguienteToken();
@@ -1083,7 +1072,6 @@ public class AnalizadorSintactico {
 					reportarError("Falta expresion cadena", tokenActual.getFila(), tokenActual.getColumna(),
 							tokenActual.getColumnaReal());
 				}
-
 			} else if (tokenActual.getLexema().equals("fin")) {
 				return new ExpresionCadena(termino);
 			} else {
@@ -1091,6 +1079,8 @@ public class AnalizadorSintactico {
 						tokenActual.getColumnaReal());
 			}
 
+		}else {
+			reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
 		}
 
 		return null;
@@ -1105,6 +1095,7 @@ public class AnalizadorSintactico {
 	 * @return lectura{@link Lectura}
 	 */
 	private Lectura esLectura() {
+		
 		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
 			Token idVariable = tokenActual;
 			obtenerSiguienteToken();
@@ -1116,7 +1107,6 @@ public class AnalizadorSintactico {
 					obtenerSiguienteToken();
 					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_IZQUIERDO)) {
 						obtenerSiguienteToken();
-
 						Token tipoDato = esTipoDato();
 						if (tipoDato != null) {
 							obtenerSiguienteToken();
@@ -1148,6 +1138,8 @@ public class AnalizadorSintactico {
 				reportarError("Falta operador de asignacion", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
+		}else {
+			reportarError("Falta Identificador Variable", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
 		}
 		return null;
 	}
@@ -1161,21 +1153,19 @@ public class AnalizadorSintactico {
 	 * @return declaracionnCampo{@link DeclaracionVariable}
 	 */
 	private DeclaracionVariable esDeclaracionVariable() {
+		
 		Token visibilidad = esVisibilidad();
 		if (visibilidad != null) {
 			obtenerSiguienteToken();
-
 			Token tipoDato = esTipoDato();
 			if (tipoDato != null) {
 				obtenerSiguienteToken();
-
 				if (tokenActual.getCategoria().equals(Categoria.ARREGLO)) {
 					Token arreglo = tokenActual;
 					obtenerSiguienteToken();
-
 					ArrayList<Token> listaIdentificador = esListaIdentificadores();
 					if (listaIdentificador != null) {
-
+						obtenerSiguienteToken();
 						if (tokenActual.getLexema().equals("fin")) {
 							return new DeclaracionVariable(visibilidad, tipoDato, arreglo, listaIdentificador);
 						} else {
@@ -1189,7 +1179,7 @@ public class AnalizadorSintactico {
 				} else {
 					ArrayList<Token> listaIdentificador = esListaIdentificadores();
 					if (listaIdentificador != null) {
-
+						obtenerSiguienteToken();
 						if (tokenActual.getLexema().equals("fin")) {
 							return new DeclaracionVariable(visibilidad, tipoDato, listaIdentificador);
 						} else {
@@ -1209,14 +1199,12 @@ public class AnalizadorSintactico {
 			Token tipoDato = esTipoDato();
 			if (tipoDato != null) {
 				obtenerSiguienteToken();
-
 				if (tokenActual.getCategoria().equals(Categoria.ARREGLO)) {
 					Token arreglo = tokenActual;
 					obtenerSiguienteToken();
-
 					ArrayList<Token> listaIdentificador = esListaIdentificadores();
 					if (listaIdentificador != null) {
-
+						obtenerSiguienteToken();
 						if (tokenActual.getLexema().equals("fin")) {
 							return new DeclaracionVariable(arreglo, listaIdentificador, tipoDato);
 						} else {
@@ -1230,7 +1218,7 @@ public class AnalizadorSintactico {
 				} else {
 					ArrayList<Token> listaIdentificador = esListaIdentificadores();
 					if (listaIdentificador != null) {
-
+						obtenerSiguienteToken();
 						if (tokenActual.getLexema().equals("fin")) {
 							return new DeclaracionVariable(tipoDato, listaIdentificador);
 						} else {
@@ -1256,17 +1244,16 @@ public class AnalizadorSintactico {
 	 * <{@link AsignacionVariable}>::= identificadorVariable operadorAsignacion
 	 * <{@link Termino}> fin
 	 * 
-	 * @return declaracionnCampo{@link DeclaracionVariable}
+	 * @return declaracionCampo{@link DeclaracionVariable}
 	 */
 	private AsignacionVariable esAsignacionVariable() {
+		
 		if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR_VARIABLE) {
 			Token identificador = tokenActual;
 			obtenerSiguienteToken();
-
 			if (tokenActual.getCategoria() == Categoria.OPERADOR_ASIGNACION) {
 				Token operadorAsignacion = tokenActual;
 				obtenerSiguienteToken();
-
 				Termino termino = esTermino();
 				if (termino != null) {
 					obtenerSiguienteToken();
@@ -1284,6 +1271,8 @@ public class AnalizadorSintactico {
 				reportarError("Falta operador asignación", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
+		}else {
+			reportarError("Falta Identificador Variable", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
 		}
 		return null;
 	}

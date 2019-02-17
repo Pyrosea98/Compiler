@@ -61,7 +61,7 @@ public class ControladorVentana {
 	}
 
 	/**
-	 * Metodo para vargar un archivo
+	 * Metodo para cargar un archivo
 	 */
 	public void cargar() {
 		String aux = "";
@@ -107,7 +107,7 @@ public class ControladorVentana {
 
 				JOptionPane.showMessageDialog(null, "Se ha guardado correctamente");
 			} catch (IOException e1) {
-				JOptionPane.showMessageDialog(null, "No se ha guardao");
+				JOptionPane.showMessageDialog(null, "No se ha guardado");
 			} catch (NullPointerException e2) {
 				JOptionPane.showMessageDialog(null, "Se ha cancelado el guardado");
 			}
@@ -251,7 +251,7 @@ public class ControladorVentana {
 	 */
 	private void agregarArbolVisual() {
 		ventanaCompilador.getArbolVisual().setModel(new DefaultTreeModel(
-				ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion().getArbolVisual()));
+		ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion().getArbolVisual()));
 	}
 
 	/**
