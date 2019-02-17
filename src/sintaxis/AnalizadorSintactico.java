@@ -156,7 +156,6 @@ public class AnalizadorSintactico {
 										obtenerSiguienteToken();
 										ArrayList<Sentencia> listaSentencias = esListaSentencia();
 										if (listaSentencias != null) {
-											obtenerSiguienteToken();
 											if (tokenActual.getCategoria() == Categoria.AGRUPADOR_DERECHO) {
 												return new Funcion(visibilidad, tipoRetorno, idFuncion, funcion,
 														listaParametros, listaSentencias);
@@ -513,14 +512,12 @@ public class AnalizadorSintactico {
 				obtenerSiguienteToken();
 				ExpresionLogica expresionLogica = esExpresionLogica();
 				if (expresionLogica != null) {
-					obtenerSiguienteToken();
 					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
 						obtenerSiguienteToken();
 						if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_IZQUIERDO)) {
 							obtenerSiguienteToken();
 							ArrayList<Sentencia> listaSentencia = esListaSentencia(); // lista sentencia
 							if (listaSentencia != null) {
-								obtenerSiguienteToken();
 								if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
 									obtenerSiguienteToken();
 									if (tokenActual.getLexema().equals("contrario")) {
@@ -633,7 +630,6 @@ public class AnalizadorSintactico {
 
 		ExpresionRelacional expresionRelacional = esExpresionRelacional();
 		if (expresionRelacional != null) {
-			obtenerSiguienteToken();
 			if (tokenActual.getCategoria().equals(Categoria.OPERADOR_LOGICO)) {
 				Token opLogico = tokenActual;
 				obtenerSiguienteToken();
@@ -653,8 +649,8 @@ public class AnalizadorSintactico {
 				obtenerSiguienteToken();
 				ExpresionLogica expresionLogica = esExpresionLogica();
 				if (expresionLogica != null) {
-					obtenerSiguienteToken();
 					if (tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+						obtenerSiguienteToken();
 						return expresionLogica;
 					} else {
 						reportarError("Falta parentesis derecho", tokenActual.getFila(), tokenActual.getColumna(),
@@ -685,7 +681,6 @@ public class AnalizadorSintactico {
 		int posInicial = posActual;
 		ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
 		if (expresionAritmetica != null) {
-			obtenerSiguienteToken();
 			if (tokenActual.getCategoria() == Categoria.OPERADOR_RELACIONAL) {
 				Token opeRelacional = tokenActual;
 				obtenerSiguienteToken();
@@ -917,14 +912,14 @@ public class AnalizadorSintactico {
 								ArrayList<Sentencia> listaSentencia = esListaSentencia();
 								if (listaSentencia != null) {
 									if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
-										return new Ciclo(ciclo, mientras, expresionLogica);
+										return new Ciclo(ciclo, mientras, expresionLogica, listaSentencia);
 									} else {
 										reportarError("Falta agrupador derecho", tokenActual.getFila(),
 												tokenActual.getColumna(), tokenActual.getColumnaReal());
 									}
 								} else {
 									if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
-										
+										return new Ciclo(ciclo, mientras, expresionLogica);
 									} else {
 										reportarError("Falta agrupador derecho", tokenActual.getFila(),
 												tokenActual.getColumna(), tokenActual.getColumnaReal());
@@ -976,7 +971,6 @@ public class AnalizadorSintactico {
 					hacerBactracking(posInicial);
 					Expresion expresion = esExpresion();
 					if (expresion != null) {
-						obtenerSiguienteToken();
 						if (tokenActual.getLexema().equals("fin")) {
 							return new Retorno(retorno, new Termino(expresion));
 						} else {
@@ -1179,7 +1173,6 @@ public class AnalizadorSintactico {
 				} else {
 					ArrayList<Token> listaIdentificador = esListaIdentificadores();
 					if (listaIdentificador != null) {
-						obtenerSiguienteToken();
 						if (tokenActual.getLexema().equals("fin")) {
 							return new DeclaracionVariable(visibilidad, tipoDato, listaIdentificador);
 						} else {

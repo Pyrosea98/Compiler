@@ -235,7 +235,7 @@ public class ControladorVentana {
 							: new Color(255, 0, 0));
 			try {
 				ventanaCompilador.getEditor().getHighlighter().addHighlight(errorSintactico.getColumnaReal(),
-						errorSintactico.getColumnaReal(), highlightPainter);
+						errorSintactico.getColumnaReal()+1, highlightPainter);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
