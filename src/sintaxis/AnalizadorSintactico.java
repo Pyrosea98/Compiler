@@ -528,7 +528,6 @@ public class AnalizadorSintactico {
 											ArrayList<Sentencia> listaSentencia1 = esListaSentencia(); // lista
 																										// sentencia
 											if (listaSentencia1 != null) {
-												obtenerSiguienteToken();
 
 												if (tokenActual.getCategoria().equals(Categoria.AGRUPADOR_DERECHO)) {
 													condicional = new Condicional(pregunta, expresionLogica,
@@ -1273,7 +1272,7 @@ public class AnalizadorSintactico {
 	/**
 	 * Metodo que identifica si es una sentencia de incremento
 	 * 
-	 * <{@link SentenciaIncremento}>::= identificadorVariable INC fin
+	 * <{@link SentenciaIncremento}>::= identificadorVariable inc fin
 	 * 
 	 * @return sentenciaIncremento {@link SentenciaIncremento}
 	 */
@@ -1282,7 +1281,7 @@ public class AnalizadorSintactico {
 		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
 			Token indentificadorVariable = tokenActual;
 			obtenerSiguienteToken();
-			if (tokenActual.getLexema().equals("INC")) {
+			if (tokenActual.getLexema().equals("inc")) {
 				Token incremento = tokenActual;
 				obtenerSiguienteToken();
 				if (tokenActual.getLexema().equals("fin")) {
@@ -1303,7 +1302,7 @@ public class AnalizadorSintactico {
 	/**
 	 * Metodo que identifica si es una sentencia de decremento
 	 * 
-	 * <{@link SentenciaDecremento}>::= identificadorVariable DEC fin
+	 * <{@link SentenciaDecremento}>::= identificadorVariable dec fin
 	 * 
 	 * @return sentenciaDecremento {@link SentenciaDecremento}
 	 */
@@ -1311,7 +1310,7 @@ public class AnalizadorSintactico {
 		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
 			Token indentificadorVariable = tokenActual;
 			obtenerSiguienteToken();
-			if (tokenActual.getLexema().equals("DEC")) {
+			if (tokenActual.getLexema().equals("dec")) {
 				Token incremento = tokenActual;
 				obtenerSiguienteToken();
 				if (tokenActual.getLexema().equals("fin")) {

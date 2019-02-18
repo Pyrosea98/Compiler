@@ -141,12 +141,12 @@ public class CuerpoClase {
 		if (funcion != null) {
 			nodo.add(funcion.getArbolVisual());
 			if (cuerpoClase != null) {
-				nodo.add(cuerpoClase.getArbolVisual(nodo));
+				return cuerpoClase.getArbolVisual(nodo);
 			}
 		} else if (declaracionVariable != null) {
 			nodo.add(declaracionVariable.getArbolVisual());
 			if (cuerpoClase != null) {
-				nodo.add(cuerpoClase.getArbolVisual(nodo));
+				return cuerpoClase.getArbolVisual(nodo);
 			}
 		}
 
