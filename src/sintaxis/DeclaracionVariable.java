@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa la declaración de variable
@@ -126,7 +128,7 @@ public class DeclaracionVariable extends Sentencia {
 		if (visibilidad != null) {
 			nodo.add(new DefaultMutableTreeNode(visibilidad.getLexema()));
 		}
-		
+
 		if (arreglo != null) {
 			nodo.add(new DefaultMutableTreeNode(arreglo.getLexema()));
 		}
@@ -138,6 +140,19 @@ public class DeclaracionVariable extends Sentencia {
 		}
 
 		return nodo;
+	}
+
+
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
+		for (Token token : listaId) {
+			ts.agregarSimbolo(token.getLexema(), tipo.getLexema(), ambito);
+		}
+	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

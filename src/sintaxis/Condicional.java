@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 public class Condicional extends Sentencia {
 
@@ -59,20 +61,19 @@ public class Condicional extends Sentencia {
 		}
 	}
 
-	
 	/**
 	 * Metodo que permite dibujar el arbol grafico de condicional
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		
+
 		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Condicional");
 		nodo.add(new DefaultMutableTreeNode(pregunta.getLexema()));
 		nodo.add(expresionLogica.getArbolVisual());
 		for (Sentencia sentencia : listaSentencia) {
 			nodo.add(sentencia.getArbolVisual());
 		}
-		if (contrario!=null) {
+		if (contrario != null) {
 			nodo.add(new DefaultMutableTreeNode(contrario.getLexema()));
 			for (Sentencia sentencia0 : listaSentencia0) {
 				nodo.add(sentencia0.getArbolVisual());
@@ -80,4 +81,24 @@ public class Condicional extends Sentencia {
 		}
 		return nodo;
 	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		expresionLogica.analizarSemantica(errores, ts, ambito);
+		Simbolo nuevoAmbito = new Simbolo(ambito.getNombre() + "condicional", ambito.getTipo(), ambito.getTipos());
+		nuevoAmbito.setAmbitoPadre(ambito);
+		for (Sentencia sentencia : listaSentencia) {
+			sentencia.analizarSemantica(errores, ts, nuevoAmbito);
+		}
+		if (listaSentencia0 != null) {
+			for (Sentencia sentencia : listaSentencia0) {
+				sentencia.analizarSemantica(errores, ts, nuevoAmbito);
+			}
+		}
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
+	}
+
 }

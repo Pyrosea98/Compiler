@@ -1,8 +1,12 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 public class SentenciaIncremento extends Sentencia {
 
@@ -58,6 +62,44 @@ public class SentenciaIncremento extends Sentencia {
 		nodo.add(new DefaultMutableTreeNode (incremento.getLexema()));
 		
 		return nodo;
+	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		for (Simbolo simbolo : ts.getTablaSimbolos()) {
+			if (simbolo.getAmbito() != null) {
+				if (identificadorVariable.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()
+						&& simbolo.getAmbito().equals(ambito)) {
+					if (simbolo.getTipo().equals("ntr") || simbolo.getTipo().equals("pntdec")) {
+						return;
+					} else {
+						errores.add(identificadorVariable.getLexema() + " La variable no es de tipo numerica");
+						return;
+					}
+				}
+			}else {
+				if (identificadorVariable.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()) {
+					if (simbolo.getTipo().equals("ntr") || simbolo.getTipo().equals("pntdec")) {
+						return;
+					} else {
+						errores.add(identificadorVariable.getLexema() + " La variable no es de tipo numerica");
+						return;
+					}
+				}
+			}
+		}
+		if (ambito.getAmbitoPadre() != null) {
+			analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+		} else {
+			errores.add(identificadorVariable.getLexema() + " No se encontró la variable");
+			return;
+		}
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

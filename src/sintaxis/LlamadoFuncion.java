@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 public class LlamadoFuncion extends Sentencia {
 
@@ -31,7 +33,7 @@ public class LlamadoFuncion extends Sentencia {
 		this.identificadorFuncion = identificadorFuncion;
 		this.listaArgumentos = listaArgumentos;
 	}
-	
+
 	/**
 	 * Constructor que declara un llamado a funcion
 	 * 
@@ -60,4 +62,69 @@ public class LlamadoFuncion extends Sentencia {
 		}
 		return nodo;
 	}
+
+	public ArrayList<String> getTipos(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		ArrayList<String> tipos = new ArrayList<>();
+		for (Termino termino : listaArgumentos) {
+			tipos.add(termino.getTipo(errores, ts, ambito));
+		}
+		return tipos;
+	}
+
+	/**
+	 * @return the identificadorFuncion
+	 */
+	public Token getIdentificadorFuncion() {
+		return identificadorFuncion;
+	}
+
+	/**
+	 * @param identificadorFuncion
+	 *            the identificadorFuncion to set
+	 */
+	public void setIdentificadorFuncion(Token identificadorFuncion) {
+		this.identificadorFuncion = identificadorFuncion;
+	}
+
+	/**
+	 * @return the listaArgumentos
+	 */
+	public ArrayList<Termino> getListaArgumentos() {
+		return listaArgumentos;
+	}
+
+	/**
+	 * @param listaArgumentos
+	 *            the listaArgumentos to set
+	 */
+	public void setListaArgumentos(ArrayList<Termino> listaArgumentos) {
+		this.listaArgumentos = listaArgumentos;
+	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		boolean funcion = false;
+		for (Simbolo simbolo : ts.getTablaSimbolos()) {
+			if (identificadorFuncion.getLexema().equals(simbolo.getNombre()) && simbolo.isEsFuncion()) {
+				if (simbolo.getTipos().containsAll(getTipos(errores, ts, ambito))) {
+					funcion = true;
+					break;
+				}
+			}
+		}
+		if (!funcion) {
+			errores.add( identificadorFuncion.getLexema() + " No se encontró la función invocada");
+		}
+		for (Termino termino : listaArgumentos) {
+			termino.analizarSemantica(errores, ts, ambito);
+		}
+
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

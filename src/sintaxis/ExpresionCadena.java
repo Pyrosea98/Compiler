@@ -1,6 +1,11 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa la expresion Cadena
@@ -45,7 +50,7 @@ public class ExpresionCadena extends Expresion {
 
 		nodo.add(termino.getArbolVisual());
 		if (expCadena != null) {
-			nodo.add(expCadena.getArbolVisual(nodo));
+			expCadena.getArbolVisual(nodo);
 		}
 		return nodo;
 	}
@@ -54,9 +59,48 @@ public class ExpresionCadena extends Expresion {
 
 		nodo.add(termino.getArbolVisual());
 		if (expCadena != null) {
-			nodo.add(expCadena.getArbolVisual(nodo));
+			expCadena.getArbolVisual(nodo);
 		}
 		return nodo;
+	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		if (!termino.getTipo(errores, ts, ambito).equals("ltrarr")) {
+			return;
+		} else if (expCadena != null) {
+			if (expCadena.getTipo(errores, ts, ambito).equals("ltrarr")) {
+
+			} else {
+				errores.add("Falta alguna cadena para concatenar");
+				return;
+			}
+		} else {
+			errores.add("Falta alguna cadena para concatenar");
+			return;
+		}
+
+	}
+
+	public String getTipo(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		if (!termino.getTipo(errores, ts, ambito).equals("ltrarr")) {
+			return "ltrarr";
+		} else if (expCadena != null) {
+			if (expCadena.getTipo(errores, ts, ambito).equals("ltrarr")) {
+				return "ltrarr";
+			} else {
+				errores.add("Falta alguna cadena para concatenar");
+				return "sr";
+			}
+		} else {
+			return "sr";
+		}
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

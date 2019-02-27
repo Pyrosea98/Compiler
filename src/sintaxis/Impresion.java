@@ -1,8 +1,12 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa la expresion Cadena
@@ -41,4 +45,24 @@ public class Impresion extends Sentencia {
 		}
 		return nodo;
 	}
+
+	public void analizarSemantica() {
+
+	}
+
+	public void llenarTablaSimbolos() {
+
+	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		termino.analizarSemantica(errores, ts, ambito);
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -27,6 +27,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import controlador.ControladorVentana;
 import lexico.AnalizadorLexico;
+import semantico.AnalizadorSemantico;
 import sintaxis.AnalizadorSintactico;
 
 /**
@@ -39,19 +40,20 @@ import sintaxis.AnalizadorSintactico;
  */
 public class VentanaCompilador extends JFrame implements ActionListener, KeyListener {
 
-	private JPanel panelEditor, panelErrores, panelSimbolos, panel, panelArbol;
-	private JTable errores, simbolos;
-	private JScrollPane scroll, scrollArbol, scrollSimbolos, scrollErrores;
+	private JPanel panelEditor, panelErrores, panelSimbolos, panelErroresSintacticos, panelErroresSemanticos, panel, panelArbol;
+	private JTable errores, simbolos, erroresSintacticos;
+	private JScrollPane scroll, scrollArbol, scrollSimbolos, scrollErrores, scrollErroresSintacticos, scrollErroresSemanticos;
 	private JTree arbolVisual;
 	private JMenu mnEjecutar, mnArchivo, mnTema;
 	private JMenuBar menuBar;
 	private JMenuItem mntmAbrir, mntmEjecutar, mntmNuevo, mntmGuardar, mntmOscuro, mntmClaro;
-	private JTextArea textEditor;
+	private JTextArea textEditor, erroresSemanticos;
 	private JEditorPane editor, linea;
 	private ControladorVentana controladorVentana;
 	private GroupLayout gl_panel;
 	private AnalizadorLexico analizadorLexico;
 	private AnalizadorSintactico analizadorSintactico;
+	private AnalizadorSemantico analizadorSemantico;
 
 	/**
 	 * 
@@ -84,21 +86,30 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 0, 1280, 720);
 		tabbedPane.setBorder(new TitledBorder(null, "Compilador", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		getContentPane().add(tabbedPane);
+
 
 		panelSimbolos = new JPanel(new BorderLayout());
 		panelSimbolos.setBounds(0, 0, 1280, 720);
 		panelSimbolos.setBorder(new TitledBorder(null, "Simbolos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		getContentPane().add(tabbedPane);
+
+		
+		panelErroresSintacticos = new JPanel(new BorderLayout());
+		panelErroresSintacticos.setBounds(0, 0, 1280, 720);
+		panelErroresSintacticos.setBorder(new TitledBorder(null, "Errores sintacticos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+
 
 		panelErrores = new JPanel(new BorderLayout());
 		panelErrores.setBounds(0, 0, 1280, 720);
 		panelErrores.setBorder(new TitledBorder(null, "Errores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		getContentPane().add(tabbedPane);
+
 
 		panelEditor = new JPanel(null);
 		panelEditor.setBounds(0, 0, 1280, 720);
 		panelEditor.setBorder(new TitledBorder(null, "Editor", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		panelErroresSemanticos = new JPanel(null);
+		panelErroresSemanticos.setBounds(0, 0, 1280, 720);
+		panelErroresSemanticos.setBorder(new TitledBorder(null, "Errores semánticos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		panelArbol = new JPanel(null);
 		panelArbol.setBounds(0, 0, 1280, 720);
@@ -109,6 +120,8 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		tabbedPane.addTab("Simbolos", null, panelSimbolos, null);
 		tabbedPane.addTab("Errores", null, panelErrores, null);
 		tabbedPane.addTab("Arbol", null, panelArbol, null);
+		tabbedPane.addTab("Errores sintácticos", null, panelErroresSintacticos, null);
+		tabbedPane.addTab("Errores semánticos", null, panelErroresSemanticos, null);
 		
 		//Arbol
 		arbolVisual = new JTree(new DefaultMutableTreeNode("Arbol visual"));
@@ -192,7 +205,7 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		textEditor = new JTextArea();
 		textEditor.setBounds(editor.getBounds());
 		textEditor.setLineWrap(true);
-
+		
 		// Panel errores
 		errores = new JTable();
 		errores.setBounds(2, 37, 1253, 601);
@@ -201,6 +214,15 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		simbolos = new JTable();
 		errores.setBounds(2, 37, 1253, 601);
 		
+		//Panel errores sintacticos
+		erroresSintacticos = new JTable();
+		erroresSintacticos.setBounds(2, 37, 1253, 601);
+		
+		//Panel errores semánticos
+		erroresSemanticos = new JTextArea();
+		erroresSemanticos.setBounds(2, 37, 1253, 601);
+		erroresSemanticos.setLineWrap(true);
+		
 		scrollSimbolos = new JScrollPane(simbolos);
 		scrollSimbolos.setBounds(2, 37, 1253, 601);
 		panelSimbolos.add(scrollSimbolos, BorderLayout.CENTER);
@@ -208,6 +230,14 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		scrollErrores = new JScrollPane(errores);
 		scrollErrores.setBounds(2, 37, 1253, 601);
 		panelErrores.add(scrollErrores, BorderLayout.CENTER);
+		
+		scrollErroresSintacticos = new JScrollPane(erroresSintacticos);
+		scrollErroresSintacticos.setBounds(2, 37, 1253, 601);
+		panelErroresSintacticos.add(scrollErroresSintacticos, BorderLayout.CENTER);
+		
+		scrollErroresSemanticos = new JScrollPane(erroresSemanticos);
+		scrollErroresSemanticos.setBounds(2, 37, 1253, 601);
+		panelErroresSemanticos.add(erroresSemanticos);
 	}
 
 	@Override
@@ -465,6 +495,46 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 	 */
 	public void setScrollErrores(JScrollPane scrollErrores) {
 		this.scrollErrores = scrollErrores;
+	}
+
+	public AnalizadorSemantico getAnalizadorSemantico() {
+		return analizadorSemantico;
+	}
+
+	public void setAnalizadorSemantico(AnalizadorSemantico analizadorSemantico) {
+		this.analizadorSemantico = analizadorSemantico;
+	}
+
+	public JTable getErroresSintacticos() {
+		return erroresSintacticos;
+	}
+
+	public void setErroresSintacticos(JTable erroresSintacticos) {
+		this.erroresSintacticos = erroresSintacticos;
+	}
+
+	public JPanel getPanelErroresSintacticos() {
+		return panelErroresSintacticos;
+	}
+
+	public void setPanelErroresSintacticos(JPanel panelErroresSintacticos) {
+		this.panelErroresSintacticos = panelErroresSintacticos;
+	}
+
+	public JTextArea getErroresSemanticos() {
+		return erroresSemanticos;
+	}
+
+	public void setErroresSemanticos(JTextArea erroresSemanticos) {
+		this.erroresSemanticos = erroresSemanticos;
+	}
+
+	public JPanel getPanelErroresSemanticos() {
+		return panelErroresSemanticos;
+	}
+
+	public void setPanelErroresSemanticos(JPanel panelErroresSemanticos) {
+		this.panelErroresSemanticos = panelErroresSemanticos;
 	}
 
 	

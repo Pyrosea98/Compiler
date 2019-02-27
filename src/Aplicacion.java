@@ -9,22 +9,22 @@ import gui.VentanaCompilador;
  */
 public class Aplicacion {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-       new VentanaCompilador();
-    	
-//    	String codigoFuente = "visible ntr a|b|c fin";
-//    	
-//    	AnalizadorLexico al = new AnalizadorLexico(codigoFuente);
-//    	al.analizar();
-//    	AnalizadorSintactico as = new AnalizadorSintactico(al.getTablaSimbolos());
-//    	as.analizar();
-//    	
-//    	System.out.println(al.getTablaSimbolos());
-//    	System.out.println(al.getTablaErrores());
-//    	System.out.println(as.getTablaSimbolos());
-//    	System.out.println(as.getTablaErrores());
-    	
-    }
+		new VentanaCompilador();
+
+		// String codigoFuente = "visible ntr a|b|c fin";
+		//
+		// AnalizadorLexico al = new AnalizadorLexico(codigoFuente);
+		// al.analizar();
+		// AnalizadorSintactico as = new AnalizadorSintactico(al.getTablaSimbolos());
+		// as.analizar();
+		//
+		// System.out.println(al.getTablaSimbolos());
+		// System.out.println(al.getTablaErrores());
+		// System.out.println(as.getTablaSimbolos());
+		// System.out.println(as.getTablaErrores());
+
+	}
 
 }

@@ -706,8 +706,9 @@ public class AnalizadorSintactico {
 						reportarError("Falta Parentesis Derecho", tokenActual.getFila(), tokenActual.getColumna(),
 								tokenActual.getColumnaReal());
 					}
-				}else {
-					reportarError("Falta Expresion Relacional", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
+				} else {
+					reportarError("Falta Expresion Relacional", tokenActual.getFila(), tokenActual.getColumna(),
+							tokenActual.getColumnaReal());
 				}
 			} else {
 				reportarError("Falta Parentesis Izquierdo", tokenActual.getFila(), tokenActual.getColumna(),
@@ -877,8 +878,9 @@ public class AnalizadorSintactico {
 				reportarError("Falta parentesisIzquierdo", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
-		}else {
-			reportarError("Falta Identificador Metodo", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
+		} else {
+			reportarError("Falta Identificador Metodo", tokenActual.getFila(), tokenActual.getColumna(),
+					tokenActual.getColumnaReal());
 		}
 		return null;
 	}
@@ -985,8 +987,9 @@ public class AnalizadorSintactico {
 				reportarError("Falta el termino a devolver", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
-		}else {
-			reportarError("Falta Palabra Clave Devolver", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
+		} else {
+			reportarError("Falta Palabra Clave Devolver", tokenActual.getFila(), tokenActual.getColumna(),
+					tokenActual.getColumnaReal());
 		}
 		return null;
 
@@ -1072,8 +1075,9 @@ public class AnalizadorSintactico {
 						tokenActual.getColumnaReal());
 			}
 
-		}else {
-			reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
+		} else {
+			reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna(),
+					tokenActual.getColumnaReal());
 		}
 
 		return null;
@@ -1088,7 +1092,7 @@ public class AnalizadorSintactico {
 	 * @return lectura{@link Lectura}
 	 */
 	private Lectura esLectura() {
-		
+
 		if (tokenActual.getCategoria().equals(Categoria.IDENTIFICADOR_VARIABLE)) {
 			Token idVariable = tokenActual;
 			obtenerSiguienteToken();
@@ -1131,8 +1135,9 @@ public class AnalizadorSintactico {
 				reportarError("Falta operador de asignacion", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
-		}else {
-			reportarError("Falta Identificador Variable", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
+		} else {
+			reportarError("Falta Identificador Variable", tokenActual.getFila(), tokenActual.getColumna(),
+					tokenActual.getColumnaReal());
 		}
 		return null;
 	}
@@ -1146,7 +1151,7 @@ public class AnalizadorSintactico {
 	 * @return declaracionnCampo{@link DeclaracionVariable}
 	 */
 	private DeclaracionVariable esDeclaracionVariable() {
-		
+
 		Token visibilidad = esVisibilidad();
 		if (visibilidad != null) {
 			obtenerSiguienteToken();
@@ -1239,7 +1244,7 @@ public class AnalizadorSintactico {
 	 * @return declaracionCampo{@link DeclaracionVariable}
 	 */
 	private AsignacionVariable esAsignacionVariable() {
-		
+
 		if (tokenActual.getCategoria() == Categoria.IDENTIFICADOR_VARIABLE) {
 			Token identificador = tokenActual;
 			obtenerSiguienteToken();
@@ -1263,8 +1268,9 @@ public class AnalizadorSintactico {
 				reportarError("Falta operador asignación", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
-		}else {
-			reportarError("Falta Identificador Variable", tokenActual.getFila(), tokenActual.getColumna(), tokenActual.getColumnaReal());
+		} else {
+			reportarError("Falta Identificador Variable", tokenActual.getFila(), tokenActual.getColumna(),
+					tokenActual.getColumnaReal());
 		}
 		return null;
 	}

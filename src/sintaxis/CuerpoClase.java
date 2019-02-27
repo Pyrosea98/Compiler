@@ -1,6 +1,10 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa el cuerpo de la clase, (Funciones y variables)
@@ -25,6 +29,7 @@ public class CuerpoClase {
 	 */
 	public CuerpoClase(Funcion funcion, CuerpoClase cuerpoClase) {
 		super();
+		this.funcion = funcion;
 		this.funcion = funcion;
 		this.cuerpoClase = cuerpoClase;
 	}
@@ -178,4 +183,39 @@ public class CuerpoClase {
 		return nodo;
 	}
 
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts) {
+		if (funcion != null) {
+			funcion.analizarSemantica(errores, ts);
+			if (cuerpoClase != null) {
+				cuerpoClase.analizarSemantica(errores, ts);
+			}
+		} else if (declaracionVariable != null) {
+			declaracionVariable.analizarSemantica(errores, ts, null);
+			if (cuerpoClase != null) {
+				cuerpoClase.analizarSemantica(errores, ts);
+			}
+		}
+	}
+
+	public void llenarTablaSimbolos(TablaSimbolos ts) {
+		if (funcion != null) {
+			ArrayList<String> tipos = new ArrayList<>();
+			for (Parametro param : funcion.getListaParametros()) {
+				tipos.add(param.getTipoDato().getLexema());
+			}
+
+			funcion.setAmbito(ts.agregarFuncion(funcion.getIdentificadorFuncion().getLexema(),
+					funcion.getTipoRetorno().getTipoRetorno().getLexema(), tipos));
+			funcion.llenarTablaSimbolos(ts);
+
+			if (cuerpoClase != null) {
+				cuerpoClase.llenarTablaSimbolos(ts);
+			}
+		} else if (declaracionVariable != null) {
+			declaracionVariable.llenarTablaSimbolos(ts, null);
+			if (cuerpoClase != null) {
+				cuerpoClase.llenarTablaSimbolos(ts);
+			}
+		}
+	}
 }

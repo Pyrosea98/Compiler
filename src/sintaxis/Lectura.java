@@ -1,8 +1,12 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa la expresion Cadena
@@ -48,4 +52,47 @@ public class Lectura extends Sentencia {
 		nodo.add(new DefaultMutableTreeNode(tipoDato.getLexema()));
 		return nodo;
 	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		for (Simbolo simbolo : ts.getTablaSimbolos()) {
+			if (simbolo.getAmbito() != null) {
+				if (idVariable.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()
+						&& simbolo.getAmbito().equals(ambito)) {
+					if (simbolo.getTipo().equals(tipoDato.getLexema())) {
+						return;
+					} else {
+						errores.add( idVariable.getLexema() + " El tipo de dato no coinciden con la variable");
+					}
+				} else {
+					if (ambito.getAmbitoPadre() != null) {
+						analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+					} else {
+						errores.add(idVariable.getLexema() + " No se encontró la variable invocada");
+					}
+				}
+			}else {
+				if (idVariable.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()) {
+					if (simbolo.getTipo().equals(tipoDato.getLexema())) {
+						return;
+					} else {
+						errores.add(idVariable.getLexema() + " El tipo de dato no coinciden con la variable");
+					}
+				} else {
+					if (ambito.getAmbitoPadre() != null) {
+						analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+					} else {
+						errores.add(idVariable.getLexema() + " No se encontró la variable invocada");
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

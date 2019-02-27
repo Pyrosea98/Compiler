@@ -1,8 +1,12 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa una sentencia de retorno
@@ -66,6 +70,28 @@ public class Retorno extends Sentencia {
 		nodo.add(termino.getArbolVisual());
 
 		return nodo;
+	}
+
+	public void analizarSemantica() {
+
+	}
+
+	public void llenarTablaSimbolos() {
+
+	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		if (!ambito.getTipo().equals(termino.getTipo(errores, ts, ambito))) {
+			errores.add("El tipo de retorno " + ambito.getTipo() + " de la función " + ambito.getNombre()
+					+ " no coincide con el retorno " + termino.getTipo(errores, ts, ambito));
+		}
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

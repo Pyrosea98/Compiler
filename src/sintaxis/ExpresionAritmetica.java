@@ -1,8 +1,12 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa la expresion Aritmetica
@@ -68,7 +72,7 @@ public class ExpresionAritmetica extends Expresion {
 			nodo.add(termino.getArbolVisual());
 			if (opAritmetico != null) {
 				nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
-				if (expArt!=null) {
+				if (expArt != null) {
 					return expArt.getArbolVisual(nodo);
 				}
 			}
@@ -82,12 +86,22 @@ public class ExpresionAritmetica extends Expresion {
 			nodo.add(termino.getArbolVisual());
 			if (opAritmetico != null) {
 				nodo.add(new DefaultMutableTreeNode(opAritmetico.getLexema()));
-				if (expArt!=null) {
+				if (expArt != null) {
 					return expArt.getArbolVisual(nodo);
 				}
 			}
 		}
 		return nodo;
+	}
+
+	public String getTipo(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		if (termino.getTipo(errores, ts, ambito).equals("pntdec")) {
+			return "pntdec";
+		} else if (expArt.getTipo(errores, ts, ambito).equals("pntdec")) {
+			return "pntdec";
+		} else {
+			return "ntr";
+		}
 	}
 
 	/**
@@ -133,6 +147,22 @@ public class ExpresionAritmetica extends Expresion {
 	 */
 	public void setExpArt(ExpresionAritmetica expArt) {
 		this.expArt = expArt;
+	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		if (expArt != null) {
+			expArt.analizarSemantica(errores, ts, ambito);
+		}
+		if (termino != null) {
+			termino.analizarSemantica(errores, ts, ambito);
+		}
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

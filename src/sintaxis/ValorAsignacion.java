@@ -29,4 +29,21 @@ public class ValorAsignacion {
 	public DefaultMutableTreeNode getArbolVisual() {
 		return new DefaultMutableTreeNode(tipoDato.getLexema());
 	}
+
+	/**
+	 * @return the tipoDato
+	 */
+	public Token getTipoDato() {
+		return tipoDato;
+	}
+
+	/**
+	 * @param tipoDato the tipoDato to set
+	 */
+	public void setTipoDato(Token tipoDato) {
+		this.tipoDato = tipoDato;
+	}
+	
+	
+
 }

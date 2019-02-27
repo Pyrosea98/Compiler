@@ -55,5 +55,57 @@ public class Parametro {
 		nodo.add(new DefaultMutableTreeNode(idenVariable.getLexema()));
 		return nodo;
 	}
+	
+	
+
+	/**
+	 * @return the tipoDato
+	 */
+	public Token getTipoDato() {
+		return tipoDato;
+	}
+
+	/**
+	 * @param tipoDato the tipoDato to set
+	 */
+	public void setTipoDato(Token tipoDato) {
+		this.tipoDato = tipoDato;
+	}
+
+	/**
+	 * @return the arreglo
+	 */
+	public Token getArreglo() {
+		return arreglo;
+	}
+
+	/**
+	 * @param arreglo the arreglo to set
+	 */
+	public void setArreglo(Token arreglo) {
+		this.arreglo = arreglo;
+	}
+
+	/**
+	 * @return the idenVariable
+	 */
+	public Token getIdenVariable() {
+		return idenVariable;
+	}
+
+	/**
+	 * @param idenVariable the idenVariable to set
+	 */
+	public void setIdenVariable(Token idenVariable) {
+		this.idenVariable = idenVariable;
+	}
+
+	public void analizarSemantica() {
+
+	}
+
+	public void llenarTablaSimbolos() {
+
+	}
 
 }

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa una función
@@ -21,7 +23,8 @@ public class Funcion {
 	private Token palabraReservadaFuncion;
 	private ArrayList<Parametro> listaParametros;
 	private ArrayList<Sentencia> listaSentencias;
-
+	private Simbolo ambito;
+	
 	/**
 	 * Funcion con visibilidad, lista de parametros y sentencias
 	 * 
@@ -87,7 +90,7 @@ public class Funcion {
 	 * @param listaParametros
 	 */
 	public Funcion(Token visibilidad, TipoRetorno tipoRetorno, Token identificadorFuncion,
-			ArrayList<Parametro> listaParametros,Token palabraReservadaFuncion) {
+			ArrayList<Parametro> listaParametros, Token palabraReservadaFuncion) {
 		super();
 		this.visibilidad = visibilidad;
 		this.tipoRetorno = tipoRetorno;
@@ -242,5 +245,125 @@ public class Funcion {
 		}
 		return nodo;
 	}
+
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts) {
+		for (Sentencia sentencia : listaSentencias) {
+			sentencia.analizarSemantica(errores, ts, ambito);
+		}
+	}
+
+	public void llenarTablaSimbolos(TablaSimbolos ts) {
+		for (Parametro parametro : listaParametros) {
+			ts.agregarSimbolo(parametro.getIdenVariable().getLexema(), parametro.getTipoDato().getLexema(), ambito);
+		}
+		
+		for (Sentencia sentencia : listaSentencias) {
+			sentencia.llenarTablaSimbolos(ts, ambito);
+		}
+		
+		
+	}
+
+	/**
+	 * @return the visibilidad
+	 */
+	public Token getVisibilidad() {
+		return visibilidad;
+	}
+
+	/**
+	 * @param visibilidad the visibilidad to set
+	 */
+	public void setVisibilidad(Token visibilidad) {
+		this.visibilidad = visibilidad;
+	}
+
+	/**
+	 * @return the tipoRetorno
+	 */
+	public TipoRetorno getTipoRetorno() {
+		return tipoRetorno;
+	}
+
+	/**
+	 * @param tipoRetorno the tipoRetorno to set
+	 */
+	public void setTipoRetorno(TipoRetorno tipoRetorno) {
+		this.tipoRetorno = tipoRetorno;
+	}
+
+	/**
+	 * @return the identificadorFuncion
+	 */
+	public Token getIdentificadorFuncion() {
+		return identificadorFuncion;
+	}
+
+	/**
+	 * @param identificadorFuncion the identificadorFuncion to set
+	 */
+	public void setIdentificadorFuncion(Token identificadorFuncion) {
+		this.identificadorFuncion = identificadorFuncion;
+	}
+
+	/**
+	 * @return the palabraReservadaFuncion
+	 */
+	public Token getPalabraReservadaFuncion() {
+		return palabraReservadaFuncion;
+	}
+
+	/**
+	 * @param palabraReservadaFuncion the palabraReservadaFuncion to set
+	 */
+	public void setPalabraReservadaFuncion(Token palabraReservadaFuncion) {
+		this.palabraReservadaFuncion = palabraReservadaFuncion;
+	}
+
+	/**
+	 * @return the listaParametros
+	 */
+	public ArrayList<Parametro> getListaParametros() {
+		return listaParametros;
+	}
+
+	/**
+	 * @param listaParametros the listaParametros to set
+	 */
+	public void setListaParametros(ArrayList<Parametro> listaParametros) {
+		this.listaParametros = listaParametros;
+	}
+
+	/**
+	 * @return the listaSentencias
+	 */
+	public ArrayList<Sentencia> getListaSentencias() {
+		return listaSentencias;
+	}
+
+	/**
+	 * @param listaSentencias the listaSentencias to set
+	 */
+	public void setListaSentencias(ArrayList<Sentencia> listaSentencias) {
+		this.listaSentencias = listaSentencias;
+	}
+
+	/**
+	 * @return the ambito
+	 */
+	public Simbolo getAmbito() {
+		return ambito;
+	}
+
+	/**
+	 * @param ambito the ambito to set
+	 */
+	public void setAmbito(Simbolo ambito) {
+		this.ambito = ambito;
+	}
+	
+	
+	
+	
 
 }

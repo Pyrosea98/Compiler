@@ -31,4 +31,29 @@ public class TipoRetorno {
 
 		return new DefaultMutableTreeNode(tipoRetorno.getLexema());
 	}
+
+	public void analizarSemantica() {
+
+	}
+
+	public void llenarTablaSimbolos() {
+
+	}
+
+	/**
+	 * @return the tipoRetorno
+	 */
+	public Token getTipoRetorno() {
+		return tipoRetorno;
+	}
+
+	/**
+	 * @param tipoRetorno the tipoRetorno to set
+	 */
+	public void setTipoRetorno(Token tipoRetorno) {
+		this.tipoRetorno = tipoRetorno;
+	}
+	
+	
+
 }

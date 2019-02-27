@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.Simbolo;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa un cilclo
@@ -15,15 +17,14 @@ import lexico.Token;
  *
  */
 public class Ciclo extends Sentencia {
-	
+
 	private Token ciclo, mientras;
 	private ExpresionLogica expresionLogica;
 	private ArrayList<Sentencia> sentencias;
-	
-	
 
 	/**
 	 * Constructor con sintencias
+	 * 
 	 * @param ciclo
 	 * @param mientras
 	 * @param expresionLogica
@@ -39,6 +40,7 @@ public class Ciclo extends Sentencia {
 
 	/**
 	 * Constructor sin sentencias
+	 * 
 	 * @param ciclo
 	 * @param mientras
 	 * @param expresionLogica
@@ -58,7 +60,8 @@ public class Ciclo extends Sentencia {
 	}
 
 	/**
-	 * @param ciclo the ciclo to set
+	 * @param ciclo
+	 *            the ciclo to set
 	 */
 	public void setCiclo(Token ciclo) {
 		this.ciclo = ciclo;
@@ -72,7 +75,8 @@ public class Ciclo extends Sentencia {
 	}
 
 	/**
-	 * @param mientras the mientras to set
+	 * @param mientras
+	 *            the mientras to set
 	 */
 	public void setMientras(Token mientras) {
 		this.mientras = mientras;
@@ -86,7 +90,8 @@ public class Ciclo extends Sentencia {
 	}
 
 	/**
-	 * @param expresionLogica the expresionLogica to set
+	 * @param expresionLogica
+	 *            the expresionLogica to set
 	 */
 	public void setExpresionLogica(ExpresionLogica expresionLogica) {
 		this.expresionLogica = expresionLogica;
@@ -100,14 +105,15 @@ public class Ciclo extends Sentencia {
 	}
 
 	/**
-	 * @param sentencias the sentencias to set
+	 * @param sentencias
+	 *            the sentencias to set
 	 */
 	public void setSentencias(ArrayList<Sentencia> sentencias) {
 		this.sentencias = sentencias;
 	}
 
 	/**
-	 *  Método de árbol visual
+	 * Método de árbol visual
 	 * 
 	 */
 	@Override
@@ -118,11 +124,24 @@ public class Ciclo extends Sentencia {
 		nodo.add(new DefaultMutableTreeNode(mientras.getLexema()));
 		nodo.add(expresionLogica.getArbolVisual());
 		if (sentencias != null) {
-			for(Sentencia sentencia: sentencias) {
+			for (Sentencia sentencia : sentencias) {
 				nodo.add(sentencia.getArbolVisual());
 			}
-		} 
+		}
 		return nodo;
 	}
+
+	@Override
+	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
+		expresionLogica.analizarSemantica(errores, ts, ambito);
+		Simbolo nuevoAmbito = new Simbolo(ambito.getNombre() + "ciclo", ambito.getTipo(), ambito.getTipos());
+		nuevoAmbito.setAmbitoPadre(ambito);
+		for (Sentencia sentencia : sentencias) {
+			sentencia.analizarSemantica(errores, ts, nuevoAmbito);
+		}
+	}
+
+	@Override
+	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {}
 
 }

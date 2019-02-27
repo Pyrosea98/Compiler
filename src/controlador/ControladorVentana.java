@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -22,6 +23,8 @@ import javax.swing.tree.DefaultTreeModel;
 import gui.VentanaCompilador;
 import lexico.AnalizadorLexico;
 import lexico.Token;
+import semantico.AnalizadorSemantico;
+import semantico.TablaSimbolos;
 import sintaxis.AnalizadorSintactico;
 import sintaxis.ErrorSintactico;
 
@@ -166,24 +169,31 @@ public class ControladorVentana {
 			ventanaCompilador.getAnalizadorSintactico().analizar();
 			agregarErroresSintacticos();
 			agregarArbolVisual();
-		}
-
-		for (Token token : ventanaCompilador.getAnalizadorLexico().getTablaErrores()) {
-			DefaultHighlighter.DefaultHighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(
-					ventanaCompilador.getBackground().equals(Color.BLACK) ? new Color(180, 0, 0)
-							: new Color(255, 0, 0));
-			try {
-				ventanaCompilador.getEditor().getHighlighter().addHighlight(token.getColumnaReal(),
-						token.getColumnaReal() + token.getLexema().length(), highlightPainter);
-			} catch (BadLocationException e) {
-				e.printStackTrace();
+			if (ventanaCompilador.getAnalizadorSintactico().getTablaErrores().size() == 0) {
+				ArrayList<String> errores = new ArrayList<>();
+				ventanaCompilador.setAnalizadorSemantico(
+						new AnalizadorSemantico(ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion(),
+								new TablaSimbolos(errores), errores));
+				ventanaCompilador.getAnalizadorSemantico().llenarTablaSimbolos();
+				ventanaCompilador.getAnalizadorSemantico().analizarSemantica();
+				agregarErroresSemanticos();
 			}
-
 		}
+
+	}
+
+	private void agregarErroresSemanticos() {
+		String errores = "";
+		for(String string : ventanaCompilador.getAnalizadorSemantico().getErrores()) {
+			errores += string + "\n";
+		}
+
+		ventanaCompilador.getErroresSemanticos().setText(errores);
+		ventanaCompilador.getErroresSemanticos().setBackground(ventanaCompilador.getEditor().getBackground());
+		ventanaCompilador.getErroresSemanticos().setForeground(ventanaCompilador.getEditor().getForeground());
 
 		JOptionPane.showMessageDialog(null, "Compilado con "
-				+ ventanaCompilador.getAnalizadorLexico().getTablaErrores().size() + " errores lexicos");
-
+				+ ventanaCompilador.getAnalizadorSemantico().getErrores().size() + " errores semanticos");
 	}
 
 	/**
@@ -223,19 +233,48 @@ public class ControladorVentana {
 		ventanaCompilador.getErrores().setBackground(ventanaCompilador.getEditor().getBackground());
 		ventanaCompilador.getErrores().setForeground(ventanaCompilador.getEditor().getForeground());
 		ventanaCompilador.getPanelErrores().add(new JScrollPane(ventanaCompilador.getErrores()), BorderLayout.CENTER);
+
+		for (Token token : ventanaCompilador.getAnalizadorLexico().getTablaErrores()) {
+			DefaultHighlighter.DefaultHighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(
+					ventanaCompilador.getBackground().equals(Color.BLACK) ? new Color(180, 0, 0)
+							: new Color(255, 0, 0));
+			try {
+				ventanaCompilador.getEditor().getHighlighter().addHighlight(token.getColumnaReal(),
+						token.getColumnaReal() + token.getLexema().length(), highlightPainter);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		JOptionPane.showMessageDialog(null, "Compilado con "
+				+ ventanaCompilador.getAnalizadorLexico().getTablaErrores().size() + " errores lexicos");
 	}
 
 	/**
 	 * Método para señalar errores al editor
 	 */
 	private void agregarErroresSintacticos() {
+		String[] fila_error = { "Mensaje", "Columna", "Fila" };
+		DefaultTableModel modelo_simbolo = new DefaultTableModel(fila_error, 0);
+		for (ErrorSintactico errorSintactico : ventanaCompilador.getAnalizadorSintactico().getTablaErrores()) {
+			Object[] columnas = { errorSintactico.getMensaje(), errorSintactico.getColumna(), errorSintactico.getFila()};
+			modelo_simbolo.addRow(columnas);
+		}
+
+		ventanaCompilador.getPanelErroresSintacticos().removeAll();
+		ventanaCompilador.setErroresSintacticos(new JTable(modelo_simbolo));
+		ventanaCompilador.getErroresSintacticos().setBackground(ventanaCompilador.getEditor().getBackground());
+		ventanaCompilador.getErroresSintacticos().setForeground(ventanaCompilador.getEditor().getForeground());
+		ventanaCompilador.getPanelErroresSintacticos().add(new JScrollPane(ventanaCompilador.getErroresSintacticos()), BorderLayout.CENTER);
+		
 		for (ErrorSintactico errorSintactico : ventanaCompilador.getAnalizadorSintactico().getTablaErrores()) {
 			DefaultHighlighter.DefaultHighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(
 					ventanaCompilador.getBackground().equals(Color.BLACK) ? new Color(180, 0, 0)
 							: new Color(255, 0, 0));
 			try {
 				ventanaCompilador.getEditor().getHighlighter().addHighlight(errorSintactico.getColumnaReal(),
-						errorSintactico.getColumnaReal()+1, highlightPainter);
+						errorSintactico.getColumnaReal() + 4, highlightPainter);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
@@ -251,7 +290,7 @@ public class ControladorVentana {
 	 */
 	private void agregarArbolVisual() {
 		ventanaCompilador.getArbolVisual().setModel(new DefaultTreeModel(
-		ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion().getArbolVisual()));
+				ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion().getArbolVisual()));
 	}
 
 	/**

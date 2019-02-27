@@ -1,8 +1,11 @@
 package sintaxis;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import lexico.Token;
+import semantico.TablaSimbolos;
 
 /**
  * Clase que representa la unidad de compilacion, (Raiz del arbol de analisis
@@ -110,6 +113,12 @@ public class UnidadCompilacion {
 		return nodo;
 	}
 	
+	public void analizarSemantica(TablaSimbolos ts, ArrayList<String> errores) {
+		cuerpoClase.analizarSemantica(errores, ts);
+	}
 	
+	public void llenarTablaSimbolos(TablaSimbolos ts) {
+		cuerpoClase.llenarTablaSimbolos(ts);
+	}
 	
 }
