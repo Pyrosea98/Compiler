@@ -102,4 +102,12 @@ public class SentenciaIncremento extends Sentencia {
 		
 	}
 
+	@Override
+	public String traducir(String identacion) {
+		String identificador = "";
+		identificador = identificadorVariable.getLexema().replaceAll("<", "");
+		identificador = identificadorVariable.getLexema().replaceAll(">", "");
+		identificador = identificadorVariable.getLexema().replaceAll("-", "_");
+		return identacion + " " + identificador + "--";
+	}
 }

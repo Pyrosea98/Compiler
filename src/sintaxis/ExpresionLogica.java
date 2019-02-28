@@ -105,4 +105,25 @@ public class ExpresionLogica extends Expresion {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public String traducir() {
+		String operador = "";
+		if (opLogico != null) {
+			switch (opLogico.getLexema()) {
+			case "AND":
+				operador = "&&";
+				break;
+			case "OR":
+				operador = "||";
+				break;
+			case "NOT":
+				operador = "!";
+				break;
+			default:
+				break;
+			}
+		}
+		return expresionRelacional.traducir() + operador + expresionLogica != null ? expresionLogica.traducir() : "";
+	}
 }

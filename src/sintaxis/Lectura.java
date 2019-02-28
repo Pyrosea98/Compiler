@@ -62,7 +62,7 @@ public class Lectura extends Sentencia {
 					if (simbolo.getTipo().equals(tipoDato.getLexema())) {
 						return;
 					} else {
-						errores.add( idVariable.getLexema() + " El tipo de dato no coinciden con la variable");
+						errores.add(idVariable.getLexema() + " El tipo de dato no coinciden con la variable");
 					}
 				} else {
 					if (ambito.getAmbitoPadre() != null) {
@@ -71,7 +71,7 @@ public class Lectura extends Sentencia {
 						errores.add(idVariable.getLexema() + " No se encontró la variable invocada");
 					}
 				}
-			}else {
+			} else {
 				if (idVariable.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()) {
 					if (simbolo.getTipo().equals(tipoDato.getLexema())) {
 						return;
@@ -93,6 +93,54 @@ public class Lectura extends Sentencia {
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String traducir(String identacion) {
+		String asignacion = "";
+		switch (opAsignacion.getLexema()) {
+		case "es":
+			asignacion = "=";
+			break;
+		case "es(+)":
+			asignacion = "+=";
+			break;
+		case "es(-)":
+			asignacion = "-=";
+			break;
+		case "es(/)":
+			asignacion = "/=";
+			break;
+		case "es(*)":
+			asignacion = "*=";
+			break;
+		case "es(%)":
+			asignacion = "%=";
+			break;
+		default:
+			break;
+		}
+		String tipo = "";
+		switch (this.tipoDato.getLexema()) {
+		case "ltr":
+			tipo = "JOptionPane.showInputDialog(\"Ingrese valor de caracter\").charAt(0)";
+		case "ntr":
+			tipo = "Integer.parseInt(JOptionPane.showInputDialog(\"Ingrese valor entero\"))";
+		case "pntdec":
+			tipo = "Double.parseDouble(JOptionPane.showInputDialog(\"Ingrese valor decimal\"))";
+		case "ltrarr":
+			tipo = "JOptionPane.showInputDialog(\"Ingrese valor cadena\")";
+		case "binary":
+			tipo = "Boolean.parseBoolean(JOptionPane.showInputDialog(\"Ingrese valor entero\")))";
+		default:
+			tipo = "";
+		}
+
+		String identificador = "";
+		identificador = identificador.replaceAll("<", "");
+		identificador = identificador.replaceAll(">", "");
+		identificador = identificador.replaceAll("-", "_");
+		return identacion + identificador + " " + asignacion + " " + tipo + ";";
 	}
 
 }

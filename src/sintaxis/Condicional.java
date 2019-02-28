@@ -120,4 +120,17 @@ public class Condicional extends Sentencia {
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
 	}
 
+	@Override
+	public String traducir(String identacion) {
+		String sentencias = "";
+		for (Sentencia sentencia : listaSentencia) {
+			sentencias += sentencia.traducir(identacion);
+		}
+		String sentencias0 = "";
+		for (Sentencia sentencia : listaSentencia0) {
+			sentencias0 += sentencia.traducir(identacion); 
+		}
+		return  identacion + "if(" + expresionLogica.traducir() + "){\n" + sentencias + identacion + "} " + listaSentencia0!=null? "else{\n" + sentencias0 + identacion + "}" : "";
+	}
+
 }

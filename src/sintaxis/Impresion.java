@@ -62,7 +62,12 @@ public class Impresion extends Sentencia {
 	@Override
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public String traducir(String identacion) {
+		return identacion + "JOptionPane.showMessageDialog(null, " + termino + ");";
 	}
 
 }

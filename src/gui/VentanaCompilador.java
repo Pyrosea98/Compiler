@@ -174,6 +174,10 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 		mntmEjecutar = new JMenuItem("Ejecutar");
 		mntmEjecutar.addActionListener(this);
 		mnEjecutar.add(mntmEjecutar);
+		
+		mntmCompilar = new JMenuItem("Compilar");
+		mntmCompilar.addActionListener(this);
+		mnEjecutar.add(mntmCompilar);
 
 		panelEditor.add(menuBar);
 
@@ -269,8 +273,10 @@ public class VentanaCompilador extends JFrame implements ActionListener, KeyList
 			controladorVentana.cargar();
 		} else if (e.getSource() == mntmGuardar) {
 			controladorVentana.guardar();
-		} else if (e.getSource() == mntmEjecutar) {
+		} else if (e.getSource() == mntmCompilar) {
 			controladorVentana.compilar();
+		} else if (e.getSource() == mntmEjecutar) {
+			controladorVentana.ejecutar();
 		} else if (e.getSource() == mntmOscuro) {
 			controladorVentana.ponerOscuro();
 		} else if (e.getSource() == mntmNuevo) {

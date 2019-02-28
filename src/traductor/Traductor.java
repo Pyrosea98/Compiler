@@ -1,5 +1,7 @@
 package traductor;
 
+import java.io.File;
+
 import sintaxis.UnidadCompilacion;
 
 /**
@@ -26,6 +28,8 @@ public class Traductor {
 	 * @return
 	 */
 	public String traducir() {
+		File f = new File("src/bin/Principal.java");
+		
 		return unidadCompilacion.traducir();
 	}
 

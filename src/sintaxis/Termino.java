@@ -117,7 +117,8 @@ public class Termino {
 					if (ambito.getAmbitoPadre() != null) {
 						analizarSemantica(errores, ts, ambito.getAmbitoPadre());
 					} else {
-						errores.add(llamadoFuncion.getIdentificadorFuncion().getLexema() + " No se encontró la función invocada");
+						errores.add(llamadoFuncion.getIdentificadorFuncion().getLexema()
+								+ " No se encontró la función invocada");
 					}
 				}
 			}
@@ -148,7 +149,7 @@ public class Termino {
 					if (ambito.getAmbitoPadre() != null) {
 						getTipo(errores, ts, ambito.getAmbitoPadre());
 					} else {
-						errores.add( termino.getLexema() + " No se encontró la variable invocada");
+						errores.add(termino.getLexema() + " No se encontró la variable invocada");
 					}
 				}
 			}
@@ -163,7 +164,8 @@ public class Termino {
 					if (ambito.getAmbitoPadre() != null) {
 						getTipo(errores, ts, ambito.getAmbitoPadre());
 					} else {
-						errores.add( llamadoFuncion.getIdentificadorFuncion().getLexema() + " No se encontró la función invocada");
+						errores.add(llamadoFuncion.getIdentificadorFuncion().getLexema()
+								+ " No se encontró la función invocada");
 					}
 				}
 			}
@@ -203,22 +205,15 @@ public class Termino {
 	public String traducir() {
 		String termino = "";
 
-		if (termino != null) {
+		if (this.termino != null) {
 			termino = this.termino.getLexema();
-		}
-
-		else if (llamadoFuncion != null) {
+		} else if (llamadoFuncion != null) {
 			termino = llamadoFuncion.traducir("");
-		}
-
-		else if (valorAsignacion != null) {
+		} else if (valorAsignacion != null) {
 			termino = valorAsignacion.getTipoDato().getLexema();
-		}
-
-		else if (expresion != null) {
+		} else if (expresion != null) {
 			termino = expresion.traducir();
 		}
-
 		return termino;
 	}
 

@@ -162,7 +162,34 @@ public class ExpresionAritmetica extends Expresion {
 	@Override
 	public void llenarTablaSimbolos(TablaSimbolos ts) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public String traducir() {
+		String operador = "";
+		if (opAritmetico != null) {
+			switch (opAritmetico.getLexema()) {
+			case "(+)":
+				operador = "+";
+				break;
+			case "(-)":
+				operador = "-";
+				break;
+			case "(/)":
+				operador = "/";
+				break;
+			case "(*)":
+				operador = "*";
+				break;
+			case "(%)":
+				operador = "%";
+				break;
+			default:
+				break;
+			}
+		}
+		return termino.traducir() + operador + expArt != null ? expArt.traducir() : "";
 	}
 
 }

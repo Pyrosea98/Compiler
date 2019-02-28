@@ -87,11 +87,11 @@ public class Retorno extends Sentencia {
 					+ " no coincide con el retorno " + termino.getTipo(errores, ts, ambito));
 		}
 		Simbolo pivote = ambito;
-		while(pivote != null) {
+		while (pivote != null) {
 			pivote.setRetorno(true);
-			if(pivote.getNombre().contains("condicional")) {
+			if (pivote.getNombre().contains("condicional")) {
 				break;
-			}else {
+			} else {
 				pivote = pivote.getAmbitoPadre();
 			}
 		}
@@ -101,6 +101,11 @@ public class Retorno extends Sentencia {
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String traducir(String identacion) {
+		return identacion + "return " + termino.traducir();
 	}
 
 }

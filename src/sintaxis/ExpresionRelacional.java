@@ -149,6 +149,36 @@ public class ExpresionRelacional extends Expresion {
 
 	@Override
 	public void llenarTablaSimbolos(TablaSimbolos ts) {
-		
+
+	}
+
+	@Override
+	public String traducir() {
+		String operador = "";
+		if (opRelacional != null) {
+			switch (opRelacional.getLexema()) {
+			case "(>)":
+				operador = ">";
+				break;
+			case "(<)":
+				operador = "<";
+				break;
+			case "NOT(es)":
+				operador = "!=";
+				break;
+			case "(es)":
+				operador = "==";
+				break;
+			case "(>es)":
+				operador = ">=";
+				break;
+			case "(<es)":
+				operador = "<=";
+				break;
+			default:
+				break;
+			}
+		}
+		return expAritmetica.traducir() + operador + expRelacional != null ? expRelacional.traducir() : "";
 	}
 }

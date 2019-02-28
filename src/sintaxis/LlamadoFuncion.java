@@ -100,7 +100,7 @@ public class LlamadoFuncion extends Sentencia {
 	public void setListaArgumentos(ArrayList<Termino> listaArgumentos) {
 		this.listaArgumentos = listaArgumentos;
 	}
-
+	
 	@Override
 	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
 		boolean funcion = false;
@@ -120,11 +120,23 @@ public class LlamadoFuncion extends Sentencia {
 		}
 
 	}
+	
+	
 
 	@Override
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String traducir(String identacion) {
+		String arguemntos = "";
+		for (Termino termino : listaArgumentos) {
+			arguemntos += termino.traducir() + ",";
+		}
+		arguemntos.substring(0, arguemntos.length()-2);
+		return identacion + identificadorFuncion + " " + "(" + arguemntos + ");";
 	}
 
 }

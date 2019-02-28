@@ -159,6 +159,7 @@ public class ControladorVentana {
 	 * Metodo para la ejecucion del compilador
 	 */
 	public void compilar() {
+		ventanaCompilador.setCompilado(false);
 		ventanaCompilador.setAnalizadorLexico(new AnalizadorLexico(ventanaCompilador.getEditor().getText()));
 		ventanaCompilador.getAnalizadorLexico().analizar();
 		agregarSimbolos();
@@ -177,9 +178,18 @@ public class ControladorVentana {
 				ventanaCompilador.getAnalizadorSemantico().llenarTablaSimbolos();
 				ventanaCompilador.getAnalizadorSemantico().analizarSemantica();
 				agregarErroresSemanticos();
+				if(ventanaCompilador.getAnalizadorSemantico().getErrores().size() == 0) {
+					ventanaCompilador.setCompilado(true);
+				}
 			}
 		}
 
+	}
+	
+	public void ejecutar() {
+		if(ventanaCompilador.isCompilado()) {
+			
+		}
 	}
 
 	private void agregarErroresSemanticos() {
