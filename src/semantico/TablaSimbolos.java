@@ -2,6 +2,14 @@ package semantico;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que representa la tabla de simbolos almacenados dentro del código
+ * 
+ * @author Daniel Beltran Gomez
+ * @author Tatiana Salazar
+ * @author Juan Jose alvarez
+ *
+ */
 public class TablaSimbolos {
 
 	private ArrayList<Simbolo> tablaSimbolos;

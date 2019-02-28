@@ -218,4 +218,21 @@ public class CuerpoClase {
 			}
 		}
 	}
+
+	public String traducir(String identacion) {
+		String codigo = "";
+		if (funcion != null) {
+			codigo +=  funcion.traducir(identacion) + "\n";
+			if (cuerpoClase != null) {
+				codigo += cuerpoClase.traducir(identacion);
+			}
+		} else if (declaracionVariable != null) {
+			codigo += declaracionVariable.traducir(identacion) + "\n";
+			if (cuerpoClase != null) {
+				codigo += cuerpoClase.traducir(identacion);
+			}
+		}
+
+		return codigo;
+	}
 }

@@ -134,10 +134,19 @@ public class Ciclo extends Sentencia {
 	@Override
 	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
 		expresionLogica.analizarSemantica(errores, ts, ambito);
-		Simbolo nuevoAmbito = new Simbolo(ambito.getNombre() + "ciclo", ambito.getTipo(), ambito.getTipos());
+		Simbolo nuevoAmbito = new Simbolo(ambito.getNombre() + "ciclo"+ambito.getNumeroCiclo(), ambito.getTipo(), ambito.getTipos());
 		nuevoAmbito.setAmbitoPadre(ambito);
 		for (Sentencia sentencia : sentencias) {
-			sentencia.analizarSemantica(errores, ts, nuevoAmbito);
+			if (!nuevoAmbito.getRetorno()) {
+				sentencia.analizarSemantica(errores, ts, nuevoAmbito);
+				if (sentencia.getClass().equals(Ciclo.class)) {
+					nuevoAmbito.setNumeroCiclo(nuevoAmbito.getNumeroCiclo()+1);
+				}else if (sentencia.getClass().equals(Condicional.class)){
+					nuevoAmbito.setNumeroCondicional(nuevoAmbito.getNumeroCondicional()+1);
+				}
+			} else {
+				errores.add("La función " + ambito.getNombre() + " ya ha retornado y el código es inalcanzable");
+			}
 		}
 	}
 

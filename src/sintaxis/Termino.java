@@ -200,4 +200,26 @@ public class Termino {
 		return null;
 	}
 
+	public String traducir() {
+		String termino = "";
+
+		if (termino != null) {
+			termino = this.termino.getLexema();
+		}
+
+		else if (llamadoFuncion != null) {
+			termino = llamadoFuncion.traducir("");
+		}
+
+		else if (valorAsignacion != null) {
+			termino = valorAsignacion.getTipoDato().getLexema();
+		}
+
+		else if (expresion != null) {
+			termino = expresion.traducir();
+		}
+
+		return termino;
+	}
+
 }

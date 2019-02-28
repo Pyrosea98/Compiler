@@ -24,7 +24,7 @@ public class Funcion {
 	private ArrayList<Parametro> listaParametros;
 	private ArrayList<Sentencia> listaSentencias;
 	private Simbolo ambito;
-	
+
 	/**
 	 * Funcion con visibilidad, lista de parametros y sentencias
 	 * 
@@ -247,21 +247,33 @@ public class Funcion {
 	}
 
 	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts) {
+
 		for (Sentencia sentencia : listaSentencias) {
-			sentencia.analizarSemantica(errores, ts, ambito);
+			if (!ambito.getRetorno()) {
+				sentencia.analizarSemantica(errores, ts, ambito);
+				if (sentencia.getClass().equals(Ciclo.class)) {
+					ambito.setNumeroCiclo(ambito.getNumeroCiclo() + 1);
+				} else if (sentencia.getClass().equals(Condicional.class)) {
+					ambito.setNumeroCondicional(ambito.getNumeroCondicional() + 1);
+				}
+			} else {
+				errores.add("La función " + ambito.getNombre() + " ya ha retornado y el código es inalcanzable");
+			}
 		}
+		if (!ambito.getRetorno() && !tipoRetorno.getTipoRetorno().getLexema().equals("sr")) {
+			errores.add("La función no tiene algún retorno o falta otros casos de retorno");
+		}
+
 	}
 
 	public void llenarTablaSimbolos(TablaSimbolos ts) {
 		for (Parametro parametro : listaParametros) {
 			ts.agregarSimbolo(parametro.getIdenVariable().getLexema(), parametro.getTipoDato().getLexema(), ambito);
 		}
-		
 		for (Sentencia sentencia : listaSentencias) {
 			sentencia.llenarTablaSimbolos(ts, ambito);
 		}
-		
-		
+
 	}
 
 	/**
@@ -272,7 +284,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param visibilidad the visibilidad to set
+	 * @param visibilidad
+	 *            the visibilidad to set
 	 */
 	public void setVisibilidad(Token visibilidad) {
 		this.visibilidad = visibilidad;
@@ -286,7 +299,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param tipoRetorno the tipoRetorno to set
+	 * @param tipoRetorno
+	 *            the tipoRetorno to set
 	 */
 	public void setTipoRetorno(TipoRetorno tipoRetorno) {
 		this.tipoRetorno = tipoRetorno;
@@ -300,7 +314,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param identificadorFuncion the identificadorFuncion to set
+	 * @param identificadorFuncion
+	 *            the identificadorFuncion to set
 	 */
 	public void setIdentificadorFuncion(Token identificadorFuncion) {
 		this.identificadorFuncion = identificadorFuncion;
@@ -314,7 +329,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param palabraReservadaFuncion the palabraReservadaFuncion to set
+	 * @param palabraReservadaFuncion
+	 *            the palabraReservadaFuncion to set
 	 */
 	public void setPalabraReservadaFuncion(Token palabraReservadaFuncion) {
 		this.palabraReservadaFuncion = palabraReservadaFuncion;
@@ -328,7 +344,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param listaParametros the listaParametros to set
+	 * @param listaParametros
+	 *            the listaParametros to set
 	 */
 	public void setListaParametros(ArrayList<Parametro> listaParametros) {
 		this.listaParametros = listaParametros;
@@ -342,7 +359,8 @@ public class Funcion {
 	}
 
 	/**
-	 * @param listaSentencias the listaSentencias to set
+	 * @param listaSentencias
+	 *            the listaSentencias to set
 	 */
 	public void setListaSentencias(ArrayList<Sentencia> listaSentencias) {
 		this.listaSentencias = listaSentencias;
@@ -356,14 +374,53 @@ public class Funcion {
 	}
 
 	/**
-	 * @param ambito the ambito to set
+	 * @param ambito
+	 *            the ambito to set
 	 */
 	public void setAmbito(Simbolo ambito) {
 		this.ambito = ambito;
 	}
-	
-	
-	
-	
 
+	public String traducir(String identacion) {
+		String tipo = "";
+		switch (this.tipoRetorno.getTipoRetorno().getLexema()) {
+		case "ltr":
+			tipo = "char";
+		case "ntr":
+			tipo = "int";
+		case "pntdec":
+			tipo = "double";
+		case "ltrarr":
+			tipo = "String";
+		case "binary":
+			tipo = "boolean";
+		case "sr":
+			tipo = "void";
+		default:
+			tipo = "";
+		}
+		String sentencias = "";
+		if (listaSentencias != null) {
+			for (Sentencia sentencia : listaSentencias) {
+				sentencias += sentencia.traducir(identacion + "\t");
+			}
+		}
+		
+		String nombreFuncion = identificadorFuncion.getLexema();
+
+		if (nombreFuncion.equals("funmainrealizar") && tipo.equals("void")) {
+			return identacion + "public static void main(String[] args){\n" + sentencias + identacion + "\n}";
+		}
+
+		String visibilidad = this.visibilidad.getLexema().equals("visible") ? "public" : "private";
+		String variables = "";
+		if (listaParametros != null) {
+			for (Parametro parametro : listaParametros) {
+				variables = parametro.traducir() + ", ";
+			}
+			variables = variables.substring(0, variables.length() - 2);
+		}
+
+		return identacion + visibilidad + " " + tipo + " "  + nombreFuncion +  "("  + variables + ") {\n" + sentencias + identacion + "}";
+	}
 }

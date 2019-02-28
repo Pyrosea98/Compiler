@@ -142,7 +142,6 @@ public class DeclaracionVariable extends Sentencia {
 		return nodo;
 	}
 
-
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
 		for (Token token : listaId) {
 			ts.agregarSimbolo(token.getLexema(), tipo.getLexema(), ambito);
@@ -152,7 +151,39 @@ public class DeclaracionVariable extends Sentencia {
 	@Override
 	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String traducir(String identacion) {
+		String visibilidad = this.visibilidad.getLexema().equals("visible")? "public":"private";
+		String arreglo = (this.arreglo != null)? "[]" : "";
+		String variables = "";
+		for (Token token : listaId) {
+			variables = token.getLexema() + ", ";
+		}
+		variables = variables.replaceAll("<", "");
+		variables = variables.replaceAll(">", "");
+		variables = variables.replaceAll("-", "_");
+		variables = variables.substring(0, variables.length()-2);
+		variables += ";";
 		
+		String tipo = "";
+		switch (this.tipo.getLexema()) {
+		case "ltr":
+			tipo = "char";
+		case "ntr":
+			tipo = "int";
+		case "pntdec":
+			tipo = "double";
+		case "ltrarr":
+			tipo = "String";
+		case "binary":
+			tipo = "boolean";
+		default:
+			tipo = "";
+		}
+		return identacion + visibilidad + " " + tipo + arreglo + " " + variables;
 	}
 
 }

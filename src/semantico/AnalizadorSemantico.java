@@ -4,6 +4,14 @@ import java.util.ArrayList;
 
 import sintaxis.UnidadCompilacion;
 
+/**
+ * Clase que realiza el análisis semántico
+ * 
+ * @author Daniel Beltran Gomez
+ * @author Tatiana Salazar
+ * @author Juan Jose alvarez
+ *
+ */
 public class AnalizadorSemantico {
 	
 	private UnidadCompilacion unidadCompilacion;

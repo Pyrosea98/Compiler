@@ -122,7 +122,7 @@ public class AsignacionVariable extends Sentencia {
 			if (ambito.getAmbitoPadre() != null) {
 				analizarSemantica(errores, ts, ambito.getAmbitoPadre());
 			} else {
-				errores.add(identificadorVariable.getLexema() + " Los tipos de dato no coinciden o exceden memopria");
+				errores.add(identificadorVariable.getLexema() + " No se encontró la variable");
 			}
 		}
 
@@ -133,6 +133,34 @@ public class AsignacionVariable extends Sentencia {
 	@Override
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String traducir(String identacion) {
+		String asignacion = "";
+		switch (operadorAsignacion.getLexema()) {
+		case "es":
+			asignacion = "=";
+			break;
+		case "es(+)":
+			asignacion = "+=";
+			break;
+		case "es(-)":
+			asignacion = "-=";
+			break;
+		case "es(/)":
+			asignacion = "/=";
+			break;
+		case "es(*)":
+			asignacion = "*=";
+			break;
+		case "es(%)":
+			asignacion = "%=";
+			break;
+		default:
+			break;
+		}
+		return identacion + identificadorVariable.getLexema() + " " + asignacion + " " + termino.traducir() + ";";
 	}
 
 }

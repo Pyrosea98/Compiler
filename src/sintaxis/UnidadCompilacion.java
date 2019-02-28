@@ -120,5 +120,9 @@ public class UnidadCompilacion {
 	public void llenarTablaSimbolos(TablaSimbolos ts) {
 		cuerpoClase.llenarTablaSimbolos(ts);
 	}
+
+	public String traducir() {
+		return "import javax.swing.JOptionPane;\npublic class" + identificadorClase.getLexema().substring(1) + "{\n" + cuerpoClase.traducir("\t") + "}" ;
+	}
 	
 }

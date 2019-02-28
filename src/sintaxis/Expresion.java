@@ -20,5 +20,6 @@ public abstract class Expresion {
 	public abstract DefaultMutableTreeNode getArbolVisual();
 	public abstract void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito);
 	public abstract void llenarTablaSimbolos(TablaSimbolos ts);
+	public abstract String traducir();
 
 }

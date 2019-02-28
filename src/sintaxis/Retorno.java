@@ -86,6 +86,15 @@ public class Retorno extends Sentencia {
 			errores.add("El tipo de retorno " + ambito.getTipo() + " de la función " + ambito.getNombre()
 					+ " no coincide con el retorno " + termino.getTipo(errores, ts, ambito));
 		}
+		Simbolo pivote = ambito;
+		while(pivote != null) {
+			pivote.setRetorno(true);
+			if(pivote.getNombre().contains("condicional")) {
+				break;
+			}else {
+				pivote = pivote.getAmbitoPadre();
+			}
+		}
 	}
 
 	@Override

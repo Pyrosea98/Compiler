@@ -55,8 +55,6 @@ public class Parametro {
 		nodo.add(new DefaultMutableTreeNode(idenVariable.getLexema()));
 		return nodo;
 	}
-	
-	
 
 	/**
 	 * @return the tipoDato
@@ -66,7 +64,8 @@ public class Parametro {
 	}
 
 	/**
-	 * @param tipoDato the tipoDato to set
+	 * @param tipoDato
+	 *            the tipoDato to set
 	 */
 	public void setTipoDato(Token tipoDato) {
 		this.tipoDato = tipoDato;
@@ -80,7 +79,8 @@ public class Parametro {
 	}
 
 	/**
-	 * @param arreglo the arreglo to set
+	 * @param arreglo
+	 *            the arreglo to set
 	 */
 	public void setArreglo(Token arreglo) {
 		this.arreglo = arreglo;
@@ -94,7 +94,8 @@ public class Parametro {
 	}
 
 	/**
-	 * @param idenVariable the idenVariable to set
+	 * @param idenVariable
+	 *            the idenVariable to set
 	 */
 	public void setIdenVariable(Token idenVariable) {
 		this.idenVariable = idenVariable;
@@ -106,6 +107,33 @@ public class Parametro {
 
 	public void llenarTablaSimbolos() {
 
+	}
+
+	public String traducir() {
+		String arreglo = (this.arreglo != null) ? "[]" : "";
+		String variable = "";
+		variable = idenVariable.getLexema();
+
+		variable = variable.replaceAll("<", "");
+		variable = variable.replaceAll(">", "");
+		variable = variable.replaceAll("-", "_");
+
+		String tipo = "";
+		switch (this.tipoDato.getLexema()) {
+		case "ltr":
+			tipo = "char";
+		case "ntr":
+			tipo = "int";
+		case "pntdec":
+			tipo = "double";
+		case "ltrarr":
+			tipo = "String";
+		case "binary":
+			tipo = "boolean";
+		default:
+			tipo = "";
+		}
+		return tipo + arreglo + " " + variable;
 	}
 
 }
