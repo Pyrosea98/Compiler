@@ -95,14 +95,26 @@ public class Termino {
 	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
 		if (termino != null) {
 			for (Simbolo simbolo : ts.getTablaSimbolos()) {
-				if (termino.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()
-						&& simbolo.getAmbito().equals(ambito)) {
-					return;
-				} else {
-					if (ambito.getAmbitoPadre() != null) {
-						analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+				if (simbolo.getAmbito() != null) {
+					if (termino.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()
+							&& simbolo.getAmbito().equals(ambito)) {
+						return;
 					} else {
-						errores.add(termino.getLexema() + " No se encontró la variable invocada");
+						if (ambito.getAmbitoPadre() != null) {
+							analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+						} else {
+							errores.add(termino.getLexema() + " No se encontró la variable invocada");
+						}
+					}
+				}else {
+					if (termino.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()) {
+						return;
+					} else {
+						if (ambito.getAmbitoPadre() != null) {
+							analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+						} else {
+							errores.add(termino.getLexema() + " No se encontró la variable invocada");
+						}
 					}
 				}
 			}
@@ -206,7 +218,7 @@ public class Termino {
 		String termino = "";
 
 		if (this.termino != null) {
-			termino = this.termino.getLexema();
+			termino = this.termino.getLexema().replaceAll("<", "").replaceAll(">", "").replaceAll("-", "_");
 		} else if (llamadoFuncion != null) {
 			termino = llamadoFuncion.traducir("");
 		} else if (valorAsignacion != null) {

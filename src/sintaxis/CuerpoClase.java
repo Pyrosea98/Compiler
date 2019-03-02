@@ -200,8 +200,10 @@ public class CuerpoClase {
 	public void llenarTablaSimbolos(TablaSimbolos ts) {
 		if (funcion != null) {
 			ArrayList<String> tipos = new ArrayList<>();
-			for (Parametro param : funcion.getListaParametros()) {
-				tipos.add(param.getTipoDato().getLexema());
+			if (funcion.getListaParametros() != null) {
+				for (Parametro param : funcion.getListaParametros()) {
+					tipos.add(param.getTipoDato().getLexema());
+				}
 			}
 
 			funcion.setAmbito(ts.agregarFuncion(funcion.getIdentificadorFuncion().getLexema(),
@@ -222,7 +224,7 @@ public class CuerpoClase {
 	public String traducir(String identacion) {
 		String codigo = "";
 		if (funcion != null) {
-			codigo +=  funcion.traducir(identacion) + "\n";
+			codigo += funcion.traducir(identacion) + "\n";
 			if (cuerpoClase != null) {
 				codigo += cuerpoClase.traducir(identacion);
 			}

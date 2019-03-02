@@ -122,7 +122,7 @@ public class UnidadCompilacion {
 	}
 
 	public String traducir() {
-		return "import javax.swing.JOptionPane;\npublic class" + identificadorClase.getLexema().substring(1) + "{\n" + cuerpoClase.traducir("\t") + "}" ;
+		return "import javax.swing.JOptionPane;\npublic class " + identificadorClase.getLexema().substring(1) + "{\n" + cuerpoClase.traducir("\t") + "}" ;
 	}
 	
 }

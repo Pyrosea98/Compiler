@@ -1,7 +1,5 @@
 package traductor;
 
-import java.io.File;
-
 import sintaxis.UnidadCompilacion;
 
 /**
@@ -13,8 +11,18 @@ import sintaxis.UnidadCompilacion;
  *
  */
 public class Traductor {
-	
+
 	private UnidadCompilacion unidadCompilacion;
+	
+	
+
+	/**
+	 * @param unidadCompilacion
+	 */
+	public Traductor(UnidadCompilacion unidadCompilacion) {
+		super();
+		this.unidadCompilacion = unidadCompilacion;
+	}
 
 	/**
 	 * @return the unidadCompilacion
@@ -22,19 +30,19 @@ public class Traductor {
 	public UnidadCompilacion getUnidadCompilacion() {
 		return unidadCompilacion;
 	}
-	
+
 	/**
 	 * Método que traduce desde la unidad de compilación
+	 * 
 	 * @return
 	 */
 	public String traducir() {
-		File f = new File("src/bin/Principal.java");
-		
 		return unidadCompilacion.traducir();
 	}
 
 	/**
-	 * @param unidadCompilacion the unidadCompilacion to set
+	 * @param unidadCompilacion
+	 *            the unidadCompilacion to set
 	 */
 	public void setUnidadCompilacion(UnidadCompilacion unidadCompilacion) {
 		this.unidadCompilacion = unidadCompilacion;

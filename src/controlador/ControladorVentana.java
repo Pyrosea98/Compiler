@@ -27,6 +27,7 @@ import semantico.AnalizadorSemantico;
 import semantico.TablaSimbolos;
 import sintaxis.AnalizadorSintactico;
 import sintaxis.ErrorSintactico;
+import traductor.Traductor;
 
 /**
  * Esta clase se encarga de controlar la interfaz grafica y sus eventos
@@ -178,23 +179,40 @@ public class ControladorVentana {
 				ventanaCompilador.getAnalizadorSemantico().llenarTablaSimbolos();
 				ventanaCompilador.getAnalizadorSemantico().analizarSemantica();
 				agregarErroresSemanticos();
-				if(ventanaCompilador.getAnalizadorSemantico().getErrores().size() == 0) {
+				if (ventanaCompilador.getAnalizadorSemantico().getErrores().size() == 0) {
 					ventanaCompilador.setCompilado(true);
 				}
 			}
 		}
 
 	}
-	
+
 	public void ejecutar() {
-		if(ventanaCompilador.isCompilado()) {
-			
+		if (ventanaCompilador.isCompilado()) {
+			try {
+				File f = new File("src/bin/" + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
+						.getIdentificadorClase().getLexema().substring(1)+".java");
+				FileWriter fw = new FileWriter(f);
+				Traductor traducto = new Traductor(ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion());
+				fw.write(traducto.traducir());
+				fw.flush();
+				fw.close();
+				JOptionPane.showMessageDialog(null, f.getPath());
+				String comando = "C:/Program Files/Java/jdk1.8.0_152/bin/javac.exe" + " " + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
+						.getIdentificadorClase().getLexema().substring(1)+".java";
+				Runtime.getRuntime().exec(comando, null, new File("src/bin/"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "El archivo aún no ha sido compilado o tuvo errores en su compilacion",
+					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	private void agregarErroresSemanticos() {
 		String errores = "";
-		for(String string : ventanaCompilador.getAnalizadorSemantico().getErrores()) {
+		for (String string : ventanaCompilador.getAnalizadorSemantico().getErrores()) {
 			errores += string + "\n";
 		}
 
@@ -268,7 +286,8 @@ public class ControladorVentana {
 		String[] fila_error = { "Mensaje", "Columna", "Fila" };
 		DefaultTableModel modelo_simbolo = new DefaultTableModel(fila_error, 0);
 		for (ErrorSintactico errorSintactico : ventanaCompilador.getAnalizadorSintactico().getTablaErrores()) {
-			Object[] columnas = { errorSintactico.getMensaje(), errorSintactico.getColumna(), errorSintactico.getFila()};
+			Object[] columnas = { errorSintactico.getMensaje(), errorSintactico.getColumna(),
+					errorSintactico.getFila() };
 			modelo_simbolo.addRow(columnas);
 		}
 
@@ -276,8 +295,9 @@ public class ControladorVentana {
 		ventanaCompilador.setErroresSintacticos(new JTable(modelo_simbolo));
 		ventanaCompilador.getErroresSintacticos().setBackground(ventanaCompilador.getEditor().getBackground());
 		ventanaCompilador.getErroresSintacticos().setForeground(ventanaCompilador.getEditor().getForeground());
-		ventanaCompilador.getPanelErroresSintacticos().add(new JScrollPane(ventanaCompilador.getErroresSintacticos()), BorderLayout.CENTER);
-		
+		ventanaCompilador.getPanelErroresSintacticos().add(new JScrollPane(ventanaCompilador.getErroresSintacticos()),
+				BorderLayout.CENTER);
+
 		for (ErrorSintactico errorSintactico : ventanaCompilador.getAnalizadorSintactico().getTablaErrores()) {
 			DefaultHighlighter.DefaultHighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(
 					ventanaCompilador.getBackground().equals(Color.BLACK) ? new Color(180, 0, 0)

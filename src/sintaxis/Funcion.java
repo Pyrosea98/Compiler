@@ -267,11 +267,15 @@ public class Funcion {
 	}
 
 	public void llenarTablaSimbolos(TablaSimbolos ts) {
-		for (Parametro parametro : listaParametros) {
-			ts.agregarSimbolo(parametro.getIdenVariable().getLexema(), parametro.getTipoDato().getLexema(), ambito);
+		if (listaParametros != null) {
+			for (Parametro parametro : listaParametros) {
+				ts.agregarSimbolo(parametro.getIdenVariable().getLexema(), parametro.getTipoDato().getLexema(), ambito);
+			}
 		}
-		for (Sentencia sentencia : listaSentencias) {
-			sentencia.llenarTablaSimbolos(ts, ambito);
+		if (listaSentencias != null) {
+			for (Sentencia sentencia : listaSentencias) {
+				sentencia.llenarTablaSimbolos(ts, ambito);
+			}
 		}
 
 	}
@@ -386,30 +390,37 @@ public class Funcion {
 		switch (this.tipoRetorno.getTipoRetorno().getLexema()) {
 		case "ltr":
 			tipo = "char";
+			break;
 		case "ntr":
 			tipo = "int";
+			break;
 		case "pntdec":
 			tipo = "double";
+			break;
 		case "ltrarr":
 			tipo = "String";
+			break;
 		case "binary":
 			tipo = "boolean";
+			break;
 		case "sr":
 			tipo = "void";
+			break;
 		default:
 			tipo = "";
+			break;
 		}
 		String sentencias = "";
 		if (listaSentencias != null) {
 			for (Sentencia sentencia : listaSentencias) {
-				sentencias += sentencia.traducir(identacion + "\t");
+				sentencias += sentencia.traducir(identacion + "\t") + "\n";
 			}
 		}
-		
+
 		String nombreFuncion = identificadorFuncion.getLexema();
 
 		if (nombreFuncion.equals("funmainrealizar") && tipo.equals("void")) {
-			return identacion + "public static void main(String[] args){\n" + sentencias + identacion + "\n}";
+			return identacion + "public static void main(String[] args){\n" + sentencias + identacion + "}";
 		}
 
 		String visibilidad = this.visibilidad.getLexema().equals("visible") ? "public" : "private";
@@ -421,6 +432,7 @@ public class Funcion {
 			variables = variables.substring(0, variables.length() - 2);
 		}
 
-		return identacion + visibilidad + " " + tipo + " "  + nombreFuncion +  "("  + variables + ") {\n" + sentencias + identacion + "}";
+		return identacion + visibilidad + " static " + tipo + " " + nombreFuncion + "(" + variables + ") {\n" + sentencias
+				+ identacion + "}";
 	}
 }

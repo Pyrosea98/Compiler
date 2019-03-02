@@ -65,8 +65,10 @@ public class LlamadoFuncion extends Sentencia {
 
 	public ArrayList<String> getTipos(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
 		ArrayList<String> tipos = new ArrayList<>();
-		for (Termino termino : listaArgumentos) {
-			tipos.add(termino.getTipo(errores, ts, ambito));
+		if (listaArgumentos != null) {
+			for (Termino termino : listaArgumentos) {
+				tipos.add(termino.getTipo(errores, ts, ambito));
+			}
 		}
 		return tipos;
 	}
@@ -100,7 +102,7 @@ public class LlamadoFuncion extends Sentencia {
 	public void setListaArgumentos(ArrayList<Termino> listaArgumentos) {
 		this.listaArgumentos = listaArgumentos;
 	}
-	
+
 	@Override
 	public void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
 		boolean funcion = false;
@@ -113,15 +115,15 @@ public class LlamadoFuncion extends Sentencia {
 			}
 		}
 		if (!funcion) {
-			errores.add( identificadorFuncion.getLexema() + " No se encontró la función invocada");
+			errores.add(identificadorFuncion.getLexema() + " No se encontró la función invocada");
 		}
-		for (Termino termino : listaArgumentos) {
-			termino.analizarSemantica(errores, ts, ambito);
+		if (listaArgumentos != null) {
+			for (Termino termino : listaArgumentos) {
+				termino.analizarSemantica(errores, ts, ambito);
+			}
 		}
 
 	}
-	
-	
 
 	@Override
 	public void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito) {
@@ -132,11 +134,13 @@ public class LlamadoFuncion extends Sentencia {
 	@Override
 	public String traducir(String identacion) {
 		String arguemntos = "";
-		for (Termino termino : listaArgumentos) {
-			arguemntos += termino.traducir() + ",";
+		if (listaArgumentos != null) {
+			for (Termino termino : listaArgumentos) {
+				arguemntos += termino.traducir() + ",";
+			}
+			arguemntos.substring(0, arguemntos.length() - 2);
 		}
-		arguemntos.substring(0, arguemntos.length()-2);
-		return identacion + identificadorFuncion + " " + "(" + arguemntos + ");";
+		return identacion + identificadorFuncion.getLexema() + " " + "(" + arguemntos + ");";
 	}
 
 }

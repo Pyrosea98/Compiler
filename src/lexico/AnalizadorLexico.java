@@ -828,8 +828,6 @@ public class AnalizadorLexico {
 						return true;
 					}
 				} else {
-					lexema += charActual;
-					obtenerSiguienteCaracter();
 					almacenarSimbolo(lexema, filaInicial, colInicial, Categoria.OPERADOR_ASIGNACION);
 					return true;
 				}

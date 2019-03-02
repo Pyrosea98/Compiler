@@ -67,7 +67,7 @@ public class Impresion extends Sentencia {
 
 	@Override
 	public String traducir(String identacion) {
-		return identacion + "JOptionPane.showMessageDialog(null, " + termino + ");";
+		return identacion + "JOptionPane.showMessageDialog(null, " + termino.traducir() + ");";
 	}
 
 }

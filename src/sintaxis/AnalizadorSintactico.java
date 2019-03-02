@@ -771,25 +771,27 @@ public class AnalizadorSintactico {
 				}
 			}
 		} else {
-			Termino termino = esTermino();
-			if (termino != null) {
-				obtenerSiguienteToken();
-				Token opArt = tokenActual;
-				if (opArt.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
+			if (!tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+				Termino termino = esTermino();
+				if (termino != null) {
 					obtenerSiguienteToken();
-					ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
-					if (expresionAritmetica != null) {
-						return new ExpresionAritmetica(termino, opArt, expresionAritmetica);
+					Token opArt = tokenActual;
+					if (opArt.getCategoria() == Categoria.OPERADOR_ARITMETICO) {
+						obtenerSiguienteToken();
+						ExpresionAritmetica expresionAritmetica = esExpresionAritmetica();
+						if (expresionAritmetica != null) {
+							return new ExpresionAritmetica(termino, opArt, expresionAritmetica);
+						} else {
+							reportarError("Falta Expresion Aritmetica", tokenActual.getFila(), tokenActual.getColumna(),
+									tokenActual.getColumnaReal());
+						}
 					} else {
-						reportarError("Falta Expresion Aritmetica", tokenActual.getFila(), tokenActual.getColumna(),
-								tokenActual.getColumnaReal());
+						return new ExpresionAritmetica(termino);
 					}
 				} else {
-					return new ExpresionAritmetica(termino);
+					reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna(),
+							tokenActual.getColumnaReal());
 				}
-			} else {
-				reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna(),
-						tokenActual.getColumnaReal());
 			}
 		}
 		return null;
@@ -1049,35 +1051,36 @@ public class AnalizadorSintactico {
 	 * @return expresionCadena{@link ExpresionCadena}
 	 */
 	private ExpresionCadena esExpresionCadena() {
-
-		Termino termino = esTermino();
-		if (termino != null) {
-			obtenerSiguienteToken();
-			if (tokenActual.getLexema().equals("(+)")) {
+		if (!tokenActual.getCategoria().equals(Categoria.PARENTESIS_DERECHO)) {
+			Termino termino = esTermino();
+			if (termino != null) {
 				obtenerSiguienteToken();
-				ExpresionCadena expresionCadena = esExpresionCadena();
-				if (expresionCadena != null) {
+				if (tokenActual.getLexema().equals("(+)")) {
 					obtenerSiguienteToken();
-					if (tokenActual.getLexema().equals("fin")) {
-						return new ExpresionCadena(termino, expresionCadena);
+					ExpresionCadena expresionCadena = esExpresionCadena();
+					if (expresionCadena != null) {
+						obtenerSiguienteToken();
+						if (tokenActual.getLexema().equals("fin")) {
+							return new ExpresionCadena(termino, expresionCadena);
+						} else {
+							reportarError("Falta palabra fin", tokenActual.getFila(), tokenActual.getColumna(),
+									tokenActual.getColumnaReal());
+						}
 					} else {
-						reportarError("Falta palabra fin", tokenActual.getFila(), tokenActual.getColumna(),
+						reportarError("Falta expresion cadena", tokenActual.getFila(), tokenActual.getColumna(),
 								tokenActual.getColumnaReal());
 					}
+				} else if (tokenActual.getLexema().equals("fin")) {
+					return new ExpresionCadena(termino);
 				} else {
-					reportarError("Falta expresion cadena", tokenActual.getFila(), tokenActual.getColumna(),
+					reportarError("Falta fin o (+)", tokenActual.getFila(), tokenActual.getColumna(),
 							tokenActual.getColumnaReal());
 				}
-			} else if (tokenActual.getLexema().equals("fin")) {
-				return new ExpresionCadena(termino);
+
 			} else {
-				reportarError("Falta fin o (+)", tokenActual.getFila(), tokenActual.getColumna(),
+				reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna(),
 						tokenActual.getColumnaReal());
 			}
-
-		} else {
-			reportarError("Falta Termino", tokenActual.getFila(), tokenActual.getColumna(),
-					tokenActual.getColumnaReal());
 		}
 
 		return null;

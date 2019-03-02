@@ -172,18 +172,24 @@ public class DeclaracionVariable extends Sentencia {
 		switch (this.tipo.getLexema()) {
 		case "ltr":
 			tipo = "char";
+			break;
 		case "ntr":
 			tipo = "int";
+			break;
 		case "pntdec":
 			tipo = "double";
+			break;
 		case "ltrarr":
 			tipo = "String";
+			break;
 		case "binary":
 			tipo = "boolean";
+			break;
 		default:
 			tipo = "";
+			break;
 		}
-		return identacion + visibilidad + " " + tipo + arreglo + " " + variables;
+		return identacion + visibilidad + " static " + tipo + arreglo + " " + variables;
 	}
 
 }

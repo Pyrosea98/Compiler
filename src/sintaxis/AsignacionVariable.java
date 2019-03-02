@@ -137,8 +137,12 @@ public class AsignacionVariable extends Sentencia {
 
 	@Override
 	public String traducir(String identacion) {
+		String variable = identificadorVariable.getLexema();
+		variable = variable.replaceAll("<", "");
+		variable = variable.replaceAll(">", "");
+		variable = variable.replaceAll("-", "_");
 		String asignacion = "";
-		switch (operadorAsignacion.getLexema()) {
+		switch (this.operadorAsignacion.getLexema()) {
 		case "es":
 			asignacion = "=";
 			break;
@@ -158,9 +162,10 @@ public class AsignacionVariable extends Sentencia {
 			asignacion = "%=";
 			break;
 		default:
+			asignacion = "";
 			break;
 		}
-		return identacion + identificadorVariable.getLexema() + " " + asignacion + " " + termino.traducir() + ";";
+		return identacion + variable + " " + asignacion + " " + termino.traducir() + ";";
 	}
 
 }
