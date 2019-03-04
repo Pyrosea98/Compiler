@@ -222,7 +222,7 @@ public class Termino {
 		} else if (llamadoFuncion != null) {
 			termino = llamadoFuncion.traducir("");
 		} else if (valorAsignacion != null) {
-			termino = valorAsignacion.getTipoDato().getLexema();
+			termino = valorAsignacion.getTipoDato().getLexema().replaceAll("[$]", "\"").replaceAll("#", "\'").replaceAll("\'", "\\");
 		} else if (expresion != null) {
 			termino = expresion.traducir();
 		}

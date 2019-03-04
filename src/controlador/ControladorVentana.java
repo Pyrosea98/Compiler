@@ -181,6 +181,9 @@ public class ControladorVentana {
 				agregarErroresSemanticos();
 				if (ventanaCompilador.getAnalizadorSemantico().getErrores().size() == 0) {
 					ventanaCompilador.setCompilado(true);
+					File f = new File("src/bin/" + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
+							.getIdentificadorClase().getLexema().substring(1) + ".class");
+					f.delete();
 				}
 			}
 		}
@@ -191,17 +194,25 @@ public class ControladorVentana {
 		if (ventanaCompilador.isCompilado()) {
 			try {
 				File f = new File("src/bin/" + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
-						.getIdentificadorClase().getLexema().substring(1)+".java");
+						.getIdentificadorClase().getLexema().substring(1) + ".java");
 				FileWriter fw = new FileWriter(f);
 				Traductor traducto = new Traductor(ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion());
 				fw.write(traducto.traducir());
 				fw.flush();
 				fw.close();
 				JOptionPane.showMessageDialog(null, f.getPath());
-				String comando = "C:/Program Files/Java/jdk1.8.0_152/bin/javac.exe" + " " + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
-						.getIdentificadorClase().getLexema().substring(1)+".java";
-				Runtime.getRuntime().exec(comando, null, new File("src/bin/"));
+				String comando = "C:/Program Files/Java/jdk1.8.0_152/bin/javac.exe" + " "
+						+ ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion().getIdentificadorClase()
+								.getLexema().substring(1)
+						+ ".java";
+				String comando0 = "java.exe" + " " + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
+						.getIdentificadorClase().getLexema().substring(1);
+				Runtime.getRuntime().exec(comando, null, new File("src/bin/")).waitFor();
+				Runtime.getRuntime().exec(comando0, null, new File("src/bin")).waitFor();
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
