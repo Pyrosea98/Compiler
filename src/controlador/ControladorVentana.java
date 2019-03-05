@@ -200,7 +200,7 @@ public class ControladorVentana {
 				fw.write(traducto.traducir());
 				fw.flush();
 				fw.close();
-				String comando = "C:/Program Files/Java/jdk1.8.0_152/bin/javac.exe" + " "
+				String comando = "javac.exe" + " "
 						+ ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion().getIdentificadorClase()
 								.getLexema().substring(1)
 						+ ".java";
