@@ -105,7 +105,11 @@ public class ExpresionCadena extends Expresion {
 
 	@Override
 	public String traducir() {
-		return termino.traducir() + expCadena != null ? "+" + expCadena.traducir() : "";
+		if(expCadena != null) {
+			return termino.traducir() +  " + " + expCadena.traducir();
+		}else {
+			return termino.traducir();
+		}
 	}
 
 }

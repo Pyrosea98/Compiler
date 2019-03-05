@@ -75,12 +75,12 @@ public class Termino {
 		}
 
 		if (llamadoFuncion != null) {
-			nodo.add(new DefaultMutableTreeNode(llamadoFuncion.getArbolVisual()));
+			nodo.add(llamadoFuncion.getArbolVisual());
 			return nodo;
 		}
 
 		if (valorAsignacion != null) {
-			nodo.add(new DefaultMutableTreeNode(valorAsignacion.getArbolVisual()));
+			nodo.add(valorAsignacion.getArbolVisual());
 			return nodo;
 		}
 
@@ -99,24 +99,17 @@ public class Termino {
 					if (termino.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()
 							&& simbolo.getAmbito().equals(ambito)) {
 						return;
-					} else {
-						if (ambito.getAmbitoPadre() != null) {
-							analizarSemantica(errores, ts, ambito.getAmbitoPadre());
-						} else {
-							errores.add(termino.getLexema() + " No se encontró la variable invocada");
-						}
 					}
-				}else {
+				} else {
 					if (termino.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()) {
 						return;
-					} else {
-						if (ambito.getAmbitoPadre() != null) {
-							analizarSemantica(errores, ts, ambito.getAmbitoPadre());
-						} else {
-							errores.add(termino.getLexema() + " No se encontró la variable invocada");
-						}
 					}
 				}
+			}
+			if (ambito.getAmbitoPadre() != null) {
+				analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+			} else {
+				errores.add(termino.getLexema() + " No se encontró la variable invocada");
 			}
 		}
 
@@ -157,13 +150,15 @@ public class Termino {
 				if (termino.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()
 						&& simbolo.getAmbito().equals(ambito)) {
 					return simbolo.getTipo();
-				} else {
-					if (ambito.getAmbitoPadre() != null) {
-						getTipo(errores, ts, ambito.getAmbitoPadre());
-					} else {
-						errores.add(termino.getLexema() + " No se encontró la variable invocada");
-					}
 				}
+			}
+			if (ambito.getAmbitoPadre() != null) {
+				String tipo = getTipo(errores, ts, ambito.getAmbitoPadre());
+				if (tipo != null) {
+					return tipo;
+				}
+			} else {
+				errores.add(termino.getLexema() + " No se encontró la variable invocada");
 			}
 		}
 
@@ -220,9 +215,18 @@ public class Termino {
 		if (this.termino != null) {
 			termino = this.termino.getLexema().replaceAll("<", "").replaceAll(">", "").replaceAll("-", "_");
 		} else if (llamadoFuncion != null) {
-			termino = llamadoFuncion.traducir("");
+			termino = llamadoFuncion.traducir("", false);
 		} else if (valorAsignacion != null) {
-			termino = valorAsignacion.getTipoDato().getLexema().replaceAll("[$]", "\"").replaceAll("#", "\'").replaceAll("\'", "\\");
+			if (valorAsignacion.getTipoDato().getLexema().equals("v")) {
+				termino = "true";
+			} else if (valorAsignacion.getTipoDato().getLexema().equals("f")) {
+				termino = "false";
+			} else {
+				termino = valorAsignacion.getTipoDato().getLexema();
+				termino = termino.replaceAll("[$]", "\"");
+				termino = termino.replaceAll("'", "\\\\");
+				termino = termino.replaceAll("#", "'");
+			}
 		} else if (expresion != null) {
 			termino = expresion.traducir();
 		}

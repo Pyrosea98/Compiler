@@ -156,10 +156,10 @@ public class Ciclo extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
+	public String traducir(String identacion, boolean global) {
 		String sentencias = "";
 		for (Sentencia sentencia : this.sentencias) {
-			sentencias += sentencia.traducir(identacion) + "\n";
+			sentencias += sentencia.traducir(identacion, false) + ";\n";
 		}
 		return identacion + "while(" + expresionLogica.traducir() + "){\n" + sentencias + identacion + "}";
 	}

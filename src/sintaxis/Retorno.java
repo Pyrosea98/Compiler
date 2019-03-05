@@ -89,7 +89,7 @@ public class Retorno extends Sentencia {
 		Simbolo pivote = ambito;
 		while (pivote != null) {
 			pivote.setRetorno(true);
-			if (pivote.getNombre().contains("condicional")) {
+			if (pivote.getNombre().contains("condicional") && pivote.getRetorno() == false) {
 				break;
 			} else {
 				pivote = pivote.getAmbitoPadre();
@@ -104,7 +104,7 @@ public class Retorno extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
+	public String traducir(String identacion, boolean global) {
 		return identacion + "return " + termino.traducir();
 	}
 

@@ -413,7 +413,12 @@ public class Funcion {
 		String sentencias = "";
 		if (listaSentencias != null) {
 			for (Sentencia sentencia : listaSentencias) {
-				sentencias += sentencia.traducir(identacion + "\t") + "\n";
+				sentencias += sentencia.traducir(identacion + "\t", false);
+				if(sentencia.getClass().equals(Condicional.class) || sentencia.getClass().equals(Ciclo.class)) {
+					sentencias += "\n";
+				}else {
+					sentencias += ";\n";
+				}
 			}
 		}
 
@@ -427,7 +432,7 @@ public class Funcion {
 		String variables = "";
 		if (listaParametros != null) {
 			for (Parametro parametro : listaParametros) {
-				variables = parametro.traducir() + ", ";
+				variables += parametro.traducir() + ", ";
 			}
 			variables = variables.substring(0, variables.length() - 2);
 		}

@@ -179,6 +179,10 @@ public class ExpresionRelacional extends Expresion {
 				break;
 			}
 		}
-		return expAritmetica.traducir() + operador + expRelacional != null ? expRelacional.traducir() : "";
+		if(expRelacional != null) {
+			return expAritmetica.traducir() + operador + expRelacional.traducir();
+		}else {
+			return expAritmetica.traducir();
+		}
 	}
 }

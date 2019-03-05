@@ -78,11 +78,11 @@ public class AsignacionVariable extends Sentencia {
 	 */
 	@Override
 	public DefaultMutableTreeNode getArbolVisual() {
-		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Declaracion variable");
+		DefaultMutableTreeNode nodo = new DefaultMutableTreeNode("Asignación variable");
 
 		nodo.add(new DefaultMutableTreeNode(identificadorVariable.getLexema()));
 		nodo.add(new DefaultMutableTreeNode(operadorAsignacion.getLexema()));
-		nodo.add(new DefaultMutableTreeNode(termino.getArbolVisual()));
+		nodo.add(termino.getArbolVisual());
 
 		return nodo;
 	}
@@ -106,7 +106,7 @@ public class AsignacionVariable extends Sentencia {
 				}
 			} else {
 				if (identificadorVariable.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()) {
-					if (simbolo.getTipo().equals(termino.getTipo(errores, ts, ambito))) {
+					if (simbolo.getTipo().equals(termino.getTipo(errores, ts, ambito)) || (simbolo.getTipo().equals("pntdec") && termino.getTipo(errores, ts, ambito).equals("ntr"))) {
 						idEncontrado = true;
 						break;
 					} else {
@@ -136,7 +136,7 @@ public class AsignacionVariable extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
+	public String traducir(String identacion, boolean global) {
 		String variable = identificadorVariable.getLexema();
 		variable = variable.replaceAll("<", "");
 		variable = variable.replaceAll(">", "");
@@ -165,7 +165,7 @@ public class AsignacionVariable extends Sentencia {
 			asignacion = "";
 			break;
 		}
-		return identacion + variable + " " + asignacion + " " + termino.traducir() + ";";
+		return identacion + variable + " " + asignacion + " " + termino.traducir();
 	}
 
 }

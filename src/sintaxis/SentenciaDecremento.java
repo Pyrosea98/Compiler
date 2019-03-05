@@ -104,12 +104,12 @@ public class SentenciaDecremento extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
+	public String traducir(String identacion, boolean global) {
 		String identificador = "";
 		identificador = identificadorVariable.getLexema().replaceAll("<", "");
-		identificador = identificadorVariable.getLexema().replaceAll(">", "");
-		identificador = identificadorVariable.getLexema().replaceAll("-", "_");
-		return identacion + " " + identificador + "++";
+		identificador = identificador.replaceAll(">", "");
+		identificador = identificador.replaceAll("-", "_");
+		return identacion + " " + identificador + "--";
 	}
 
 }

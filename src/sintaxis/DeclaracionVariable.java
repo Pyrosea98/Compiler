@@ -155,8 +155,11 @@ public class DeclaracionVariable extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
-		String visibilidad = this.visibilidad.getLexema().equals("visible")? "public":"private";
+	public String traducir(String identacion, boolean global) {
+		String visibilidad = "";
+		if(this.visibilidad!= null) {
+			visibilidad = this.visibilidad.getLexema().equals("visible")? "public":"private";
+		}
 		String arreglo = (this.arreglo != null)? "[]" : "";
 		String variables = "";
 		for (Token token : listaId) {
@@ -189,7 +192,7 @@ public class DeclaracionVariable extends Sentencia {
 			tipo = "";
 			break;
 		}
-		return identacion + visibilidad + " static " + tipo + arreglo + " " + variables;
+		return identacion + visibilidad + (global?" static ":"") + tipo + arreglo + " " + variables;
 	}
 
 }

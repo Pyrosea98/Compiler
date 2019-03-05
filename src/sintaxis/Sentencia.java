@@ -19,6 +19,6 @@ public abstract class Sentencia {
 	public abstract DefaultMutableTreeNode getArbolVisual();
 	public abstract void analizarSemantica(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito);
 	public abstract void llenarTablaSimbolos(TablaSimbolos ts, Simbolo ambito);
-	public abstract String traducir(String identacion);
+	public abstract String traducir(String identacion, boolean global);
 
 }

@@ -132,15 +132,15 @@ public class LlamadoFuncion extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
+	public String traducir(String identacion, boolean global) {
 		String arguemntos = "";
 		if (listaArgumentos != null) {
 			for (Termino termino : listaArgumentos) {
-				arguemntos += termino.traducir() + ",";
+				arguemntos += termino.traducir() + ", ";
 			}
-			arguemntos.substring(0, arguemntos.length() - 2);
+			arguemntos = arguemntos.substring(0, arguemntos.length() - 2);
 		}
-		return identacion + identificadorFuncion.getLexema() + " " + "(" + arguemntos + ");";
+		return identacion + identificadorFuncion.getLexema() + "(" + arguemntos + ")";
 	}
 
 }

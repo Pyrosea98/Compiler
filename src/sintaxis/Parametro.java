@@ -122,16 +122,22 @@ public class Parametro {
 		switch (this.tipoDato.getLexema()) {
 		case "ltr":
 			tipo = "char";
+			break;
 		case "ntr":
 			tipo = "int";
+			break;
 		case "pntdec":
 			tipo = "double";
+			break;
 		case "ltrarr":
 			tipo = "String";
+			break;
 		case "binary":
 			tipo = "boolean";
+			break;
 		default:
 			tipo = "";
+			break;
 		}
 		return tipo + arreglo + " " + variable;
 	}

@@ -101,6 +101,7 @@ public class Condicional extends Sentencia {
 		}
 		nuevoAmbito.setNombre(nuevoAmbito.getNombre() + "contrario" + ambito.getNumeroCondicional());
 		if (listaSentencia0 != null) {
+			nuevoAmbito.setRetorno(false);
 			for (Sentencia sentencia : listaSentencia0) {
 				if (!nuevoAmbito.getRetorno()) {
 					sentencia.analizarSemantica(errores, ts, nuevoAmbito);
@@ -121,16 +122,20 @@ public class Condicional extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
+	public String traducir(String identacion, boolean global) {
 		String sentencias = "";
 		for (Sentencia sentencia : listaSentencia) {
-			sentencias += sentencia.traducir(identacion);
+			sentencias += sentencia.traducir(identacion, false) + ";\n";
 		}
 		String sentencias0 = "";
 		for (Sentencia sentencia : listaSentencia0) {
-			sentencias0 += sentencia.traducir(identacion); 
+			sentencias0 += sentencia.traducir(identacion, false) + ";\n"; 
 		}
-		return  identacion + "if(" + expresionLogica.traducir() + "){\n" + sentencias + identacion + "} " + listaSentencia0!=null? "else{\n" + sentencias0 + identacion + "}" : "";
+		if(listaSentencia0 != null) {
+			return  identacion + "if(" + expresionLogica.traducir() + "){\n" + sentencias + identacion + "} " + "else{\n" + sentencias0 + identacion + "}";
+		}else {
+			return  identacion + "if(" + expresionLogica.traducir() + "){\n" + sentencias + identacion + "}";
+		}
 	}
 
 }

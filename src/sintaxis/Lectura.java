@@ -64,12 +64,6 @@ public class Lectura extends Sentencia {
 					} else {
 						errores.add(idVariable.getLexema() + " El tipo de dato no coinciden con la variable");
 					}
-				} else {
-					if (ambito.getAmbitoPadre() != null) {
-						analizarSemantica(errores, ts, ambito.getAmbitoPadre());
-					} else {
-						errores.add(idVariable.getLexema() + " No se encontró la variable invocada");
-					}
 				}
 			} else {
 				if (idVariable.getLexema().equals(simbolo.getNombre()) && !simbolo.isEsFuncion()) {
@@ -78,15 +72,15 @@ public class Lectura extends Sentencia {
 					} else {
 						errores.add(idVariable.getLexema() + " El tipo de dato no coinciden con la variable");
 					}
-				} else {
-					if (ambito.getAmbitoPadre() != null) {
-						analizarSemantica(errores, ts, ambito.getAmbitoPadre());
-					} else {
-						errores.add(idVariable.getLexema() + " No se encontró la variable invocada");
-					}
 				}
 			}
 		}
+		if (ambito.getAmbitoPadre() != null) {
+			analizarSemantica(errores, ts, ambito.getAmbitoPadre());
+		} else {
+			errores.add(idVariable.getLexema() + " No se encontró la variable invocada");
+		}
+
 	}
 
 	@Override
@@ -96,7 +90,7 @@ public class Lectura extends Sentencia {
 	}
 
 	@Override
-	public String traducir(String identacion) {
+	public String traducir(String identacion, boolean global) {
 		String asignacion = "";
 		switch (opAsignacion.getLexema()) {
 		case "es":
@@ -124,23 +118,28 @@ public class Lectura extends Sentencia {
 		switch (this.tipoDato.getLexema()) {
 		case "ltr":
 			tipo = "JOptionPane.showInputDialog(\"Ingrese valor de caracter\").charAt(0)";
+			break;
 		case "ntr":
 			tipo = "Integer.parseInt(JOptionPane.showInputDialog(\"Ingrese valor entero\"))";
+			break;
 		case "pntdec":
 			tipo = "Double.parseDouble(JOptionPane.showInputDialog(\"Ingrese valor decimal\"))";
+			break;
 		case "ltrarr":
 			tipo = "JOptionPane.showInputDialog(\"Ingrese valor cadena\")";
+			break;
 		case "binary":
 			tipo = "Boolean.parseBoolean(JOptionPane.showInputDialog(\"Ingrese valor entero\")))";
+			break;
 		default:
 			tipo = "";
 		}
 
-		String identificador = "";
+		String identificador = this.idVariable.getLexema();
 		identificador = identificador.replaceAll("<", "");
 		identificador = identificador.replaceAll(">", "");
 		identificador = identificador.replaceAll("-", "_");
-		return identacion + identificador + " " + asignacion + " " + tipo + ";";
+		return identacion + identificador + " " + asignacion + " " + tipo;
 	}
 
 }

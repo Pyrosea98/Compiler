@@ -97,11 +97,12 @@ public class ExpresionAritmetica extends Expresion {
 	public String getTipo(ArrayList<String> errores, TablaSimbolos ts, Simbolo ambito) {
 		if (termino.getTipo(errores, ts, ambito).equals("pntdec")) {
 			return "pntdec";
-		} else if (expArt.getTipo(errores, ts, ambito).equals("pntdec")) {
-			return "pntdec";
-		} else {
-			return "ntr";
+		} else if (expArt != null) {
+			if (expArt.getTipo(errores, ts, ambito).equals("pntdec")) {
+				return "pntdec";
+			}
 		}
+		return "ntr";
 	}
 
 	/**
@@ -189,7 +190,11 @@ public class ExpresionAritmetica extends Expresion {
 				break;
 			}
 		}
-		return termino.traducir() + operador + expArt != null ? expArt.traducir() : "";
+		if(expArt != null) {
+			return termino.traducir() + operador + expArt.traducir();
+		}else{
+			return termino.traducir();
+		}
 	}
 
 }

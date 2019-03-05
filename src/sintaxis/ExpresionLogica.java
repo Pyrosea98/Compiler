@@ -124,6 +124,54 @@ public class ExpresionLogica extends Expresion {
 				break;
 			}
 		}
-		return expresionRelacional.traducir() + operador + expresionLogica != null ? expresionLogica.traducir() : "";
+		if(expresionLogica!=null) {
+			return expresionRelacional.traducir() + operador + expresionLogica.traducir();
+		}else {
+			return expresionRelacional.traducir();
+		}
 	}
+
+	/**
+	 * @return the expresionRelacional
+	 */
+	public ExpresionRelacional getExpresionRelacional() {
+		return expresionRelacional;
+	}
+
+	/**
+	 * @param expresionRelacional the expresionRelacional to set
+	 */
+	public void setExpresionRelacional(ExpresionRelacional expresionRelacional) {
+		this.expresionRelacional = expresionRelacional;
+	}
+
+	/**
+	 * @return the opLogico
+	 */
+	public Token getOpLogico() {
+		return opLogico;
+	}
+
+	/**
+	 * @param opLogico the opLogico to set
+	 */
+	public void setOpLogico(Token opLogico) {
+		this.opLogico = opLogico;
+	}
+
+	/**
+	 * @return the expresionLogica
+	 */
+	public ExpresionLogica getExpresionLogica() {
+		return expresionLogica;
+	}
+
+	/**
+	 * @param expresionLogica the expresionLogica to set
+	 */
+	public void setExpresionLogica(ExpresionLogica expresionLogica) {
+		this.expresionLogica = expresionLogica;
+	}
+	
+	
 }
