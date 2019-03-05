@@ -169,7 +169,6 @@ public class DeclaracionVariable extends Sentencia {
 		variables = variables.replaceAll(">", "");
 		variables = variables.replaceAll("-", "_");
 		variables = variables.substring(0, variables.length()-2);
-		variables += ";";
 		
 		String tipo = "";
 		switch (this.tipo.getLexema()) {

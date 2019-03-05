@@ -229,7 +229,7 @@ public class CuerpoClase {
 				codigo += cuerpoClase.traducir(identacion);
 			}
 		} else if (declaracionVariable != null) {
-			codigo += declaracionVariable.traducir(identacion, true) + "\n";
+			codigo += declaracionVariable.traducir(identacion, true) + ";\n";
 			if (cuerpoClase != null) {
 				codigo += cuerpoClase.traducir(identacion);
 			}

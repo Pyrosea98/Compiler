@@ -181,7 +181,7 @@ public class ControladorVentana {
 				agregarErroresSemanticos();
 				if (ventanaCompilador.getAnalizadorSemantico().getErrores().size() == 0) {
 					ventanaCompilador.setCompilado(true);
-					File f = new File("src/bin/" + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
+					File f = new File("src/" + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
 							.getIdentificadorClase().getLexema().substring(1) + ".class");
 					f.delete();
 				}
@@ -193,7 +193,7 @@ public class ControladorVentana {
 	public void ejecutar() {
 		if (ventanaCompilador.isCompilado()) {
 			try {
-				File f = new File("src/bin/" + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
+				File f = new File("src/" + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
 						.getIdentificadorClase().getLexema().substring(1) + ".java");
 				FileWriter fw = new FileWriter(f);
 				Traductor traducto = new Traductor(ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion());
@@ -207,8 +207,8 @@ public class ControladorVentana {
 						+ ".java";
 				String comando0 = "java.exe" + " " + ventanaCompilador.getAnalizadorSintactico().getUnidadCompilacion()
 						.getIdentificadorClase().getLexema().substring(1);
-				Runtime.getRuntime().exec(comando, null, new File("src/bin/")).waitFor();
-				Runtime.getRuntime().exec(comando0, null, new File("src/bin")).waitFor();
+				Runtime.getRuntime().exec(comando, null, new File("src/")).waitFor();
+				Runtime.getRuntime().exec(comando0, null, new File("src/")).waitFor();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {

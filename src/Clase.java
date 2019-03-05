@@ -3,8 +3,8 @@ public class Clase{
 	public static double numero;
 	public static boolean mayor;
 	public static void main(String[] args){
-		int a;;
-		int b;;
+		int a;
+		int b;
 		numero = 32;
 		a = Integer.parseInt(JOptionPane.showInputDialog("Ingrese valor entero"));
 		b = Integer.parseInt(JOptionPane.showInputDialog("Ingrese valor entero"));
@@ -15,7 +15,7 @@ public class Clase{
 		}
 	}
 	private static int funsumar(int a, int b) {
-		int suma;;
+		int suma;
 		suma = a+b;
 		while(a<b){
 		 a++;
